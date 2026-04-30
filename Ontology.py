@@ -313,6 +313,18 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.button_add_elem.setGeometry(925, 490, 100, 25)
         self.button_add_elem.clicked.connect(self.add_elem)
 
+        self.button_arrow_up = QPushButton(self)
+        self.button_arrow_up.setText("↑")
+        self.button_arrow_up.setGeometry(705, 600, 35, 45)
+        self.button_arrow_up.clicked.connect(self.arrow_up)
+        self.button_arrow_up.setFont(QFont('Arial', 16, QFont.Bold))
+
+        self.button_arrow_down = QPushButton(self)
+        self.button_arrow_down.setText("↓")
+        self.button_arrow_down.setGeometry(705, 650, 35, 45)
+        self.button_arrow_down.clicked.connect(self.arrow_down)
+        self.button_arrow_down.setFont(QFont('Arial', 16, QFont.Bold))
+
         self.sc = CanvasAbstract(self, current_node)
         self.hlayout = QHBoxLayout()
         self.vlayout1 = QVBoxLayout()
@@ -388,11 +400,31 @@ class AddElemWindowAbstract(qtw.QWidget):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
                     self.elem_one.addItem(node.name)
 
-    def load_elem(self):
-        models.abstract = models.create_abstract_class(models.abstract, "load", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText())
+    def arrow_up(self):
         cur = ""
         for pre, fill, node in RenderTree(models.abstract):
-                if self.main_elem.currentText() + "null6" in node.id:
+            if node.id != "root_relation":
+                if node.id == self.current_node and "null6" in node.parent.id:
+                    cur = node.parent.id
+        if cur != "":
+            self.current_node = cur
+        self.refresh_canvas()
+
+    def arrow_down(self):
+        cur = ""
+        for pre, fill, node in RenderTree(models.abstract):
+            if node.id != "root_relation":
+                if node.parent.id == self.current_node and "null6" in node.id:
+                    cur = node.id
+        if cur != "":
+            self.current_node = cur
+        self.refresh_canvas()
+
+    def load_elem(self):
+        models.abstract = models.create_abstract_class(models.abstract, "load", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText(), self.current_node)
+        cur = ""
+        for pre, fill, node in RenderTree(models.abstract):
+                if self.main_elem.currentText() + "null6" == node.id:
                     cur = node.id
         self.current_node = cur
         self.current_class = self.class_of_main_elem.currentText()
@@ -401,24 +433,14 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.refresh_canvas()
 
     def add_triple(self):
-        models.abstract = models.create_abstract_class(models.abstract, "add RDF triple", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText())
-        cur = ""
-        for pre, fill, node in RenderTree(models.abstract):
-                if self.main_elem.currentText() + "null6" in node.id:
-                    cur = node.id
-        self.current_node = cur
+        models.abstract = models.create_abstract_class(models.abstract, "add RDF triple", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText(), self.current_node)
         self.current_class = self.class_of_main_elem.currentText()
         self.current_elem = self.main_elem.currentText()
         self.main_elem_name.setText("You are currently working with element: " + self.current_elem)
         self.refresh_canvas()
 
     def add_elem(self):
-        models.abstract = models.create_abstract_class(models.abstract, "add element", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText())
-        cur = ""
-        for pre, fill, node in RenderTree(models.abstract):
-                if self.main_elem.currentText() + "null6" in node.id:
-                    cur = node.id
-        self.current_node = cur
+        models.abstract = models.create_abstract_class(models.abstract, "add element", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText(), self.current_node)
         self.current_class = self.class_of_main_elem.currentText()
         self.current_elem = self.main_elem.currentText()
         self.main_elem_name.setText("You are currently working with element: " + self.current_elem)

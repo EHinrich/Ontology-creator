@@ -247,7 +247,7 @@ def create_series(tree: Node, element: str, rel: str) -> Node:
                     Node(name=node2.name, id=node2.name, parent=class_parent)
     return series
 
-def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: str, second_elem: str, rel: str, one_elem: str) -> Node:
+def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: str, second_elem: str, rel: str, one_elem: str, current_node: str) -> Node:
     if mode == "load":
         """Create a new abstract class structure from ontology data."""
         if find_by_attr(abstract, "root of structure") is None:
