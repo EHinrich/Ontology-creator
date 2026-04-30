@@ -12,9 +12,6 @@ from Ontology import (
     DelElemWindow,
     AddRelClassesWindow,
     AddRelElemWindow,
-    AddValueWindow,
-    SumWindow,
-    AddNodeWindow,
 )
 
 __all__ = [
@@ -26,8 +23,4 @@ __all__ = [
     "DelElemWindow",
     "AddRelClassesWindow",
     "AddRelElemWindow",
-    "AddValueWindow",
-    "SumWindow",
-    "AddNodeWindow",
-    "WindowSchemeForSum",
 ]

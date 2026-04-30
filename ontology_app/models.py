@@ -70,23 +70,28 @@ def add_elem_list2(tmp_tree: Node, elem_name: str) -> None:
 
 def add_class(tree: Node, class_name: str, type: str) -> None:
     """Add a new class to the ontology tree."""
-    k = 0
-    parent_id = ""
     class_parent = Node(id="", name="")
+    latest_index = 0
     for pre, fill, node in RenderTree(tree):
-        if "null1" in node.id:
-            parent_id = node.id
+        if node.id == "null1":
             class_parent = node
-            k += 1
-    if k > 0:
+        elif node.id.startswith("null1_"):
+            suffix = node.id[len("null1_") :]
+            if suffix.isdigit():
+                index = int(suffix)
+                if index >= latest_index:
+                    latest_index = index
+                    class_parent = node
+    if class_parent.id:
         if find_by_attr(tree, class_name) is None:
             Node(id=class_name + type, name=class_name, parent=class_parent)
-            Node(id=parent_id + "1", name="•", parent=class_parent)
+            next_index = latest_index + 1 if class_parent.id != "null1" else 1
+            Node(id=f"null1_{next_index}", name="•", parent=class_parent)
     else:
         for pre, fill, node in RenderTree(tree):
             if " 1" == node.id:
-                parent_id = node.id
                 node1 = node
+                break
         node2 = Node(id=" 2", name="•", parent=node1)
         node3 = Node(id=" 3", name="•", parent=node1)
         node_c = Node(id="classes", name="Classes", parent=node2)
@@ -242,7 +247,7 @@ def create_series(tree: Node, element: str, rel: str) -> Node:
                     Node(name=node2.name, id=node2.name, parent=class_parent)
     return series
 
-def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: str, second_elem: str, rel: str, third_elem: str) -> Node:
+def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: str, second_elem: str, rel: str, one_elem: str) -> Node:
     if mode == "load":
         """Create a new abstract class structure from ontology data."""
         if find_by_attr(abstract, "root of structure") is None:
@@ -252,23 +257,43 @@ def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: s
     if mode == "add RDF triple":
         parent_id = ""
         class_parent = Node(id="", name="")
+        latest_node = Node(id="", name="")
         for pre, fill, node in RenderTree(abstract):
-            if element + "null6" in node.id:
+            if node.id == element + "null6":
                 parent_id = node.id
                 class_parent = node
-        Node(name="•••", id=parent_id + "6", parent=class_parent)
-        node1 = Node(name=rel, id=first_elem + rel + second_elem, parent=class_parent)
+        if parent_id:
+            latest_node = class_parent
+            next_index = 1
+            for pre, fill, node in RenderTree(abstract):
+                if node.id.startswith(parent_id + "_"):
+                    suffix = node.id[len(parent_id) + 1 :]
+                    if suffix.isdigit():
+                        next_index = max(next_index, int(suffix) + 1)
+                        latest_node = node
+            Node(name="•••", id=f"{parent_id}_{next_index}", parent=latest_node)
+        node1 = Node(name=rel, id=first_elem + rel + second_elem, parent=latest_node)
         Node(name=first_elem, id=first_elem + " in " + first_elem + rel + second_elem + " elements" + "1", parent=node1)
         Node(name=second_elem, id=second_elem + " in " + first_elem + rel + second_elem + " elements" + "2", parent=node1)
     if mode == "add element":
         parent_id = ""
         class_parent = Node(id="", name="")
+        latest_node = Node(id="", name="")
         for pre, fill, node in RenderTree(abstract):
-            if element + "null6" in node.id:
+            if node.id == element + "null6":
                 parent_id = node.id
                 class_parent = node
-        Node(name="•••", id=parent_id + "6", parent=class_parent)
-        Node(name=third_elem, id=third_elem + " elements", parent=class_parent)
+        if parent_id:
+            latest_node = class_parent
+            next_index = 1
+            for pre, fill, node in RenderTree(abstract):
+                if node.id.startswith(parent_id + "_"):
+                    suffix = node.id[len(parent_id) + 1 :]
+                    if suffix.isdigit():
+                        next_index = max(next_index, int(suffix) + 1)
+                        latest_node = node
+            Node(name="•••", id=f"{parent_id}_{next_index}", parent=latest_node)
+        Node(name=one_elem, id=one_elem + " elements", parent=latest_node)
     
     return abstract
 

@@ -211,23 +211,23 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.input_class_of_elem = QLabel(self) #Поля ввода предметного класса
         self.input_class_of_elem.setText("Object class name")
         self.input_class_of_elem.setGeometry(855, 50, 120, 20)
-        self.e2 = QComboBox(self)
-        self.e2.setGeometry(825, 70, 150, 25)
-        self.e2.setEditable(True)
+        self.class_of_main_elem = QComboBox(self)
+        self.class_of_main_elem.setGeometry(825, 70, 150, 25)
+        self.class_of_main_elem.setEditable(True)
         for pre, fill, node in RenderTree(tree):
             if (node.id!="Null"):
                 if (node.name!="•" and "null1" in node.parent.id):
-                    self.e2.addItem(node.name)
-        self.e2.setCurrentText(current_class)
+                    self.class_of_main_elem.addItem(node.name)
+        self.class_of_main_elem.setCurrentText(current_class)
 
         self.input_main_elem = QLabel(self)
         self.input_main_elem.setText("Element name")
         self.input_main_elem.setGeometry(1020, 50, 100, 20)
-        self.e3 = QComboBox(self)
-        self.e3.setGeometry(980, 70, 150, 25)
-        self.e3.setEditable(True)
-        self.e3.setCurrentText(current_elem)
-        self.e2.activated[int].connect(self.main_class_choosen)
+        self.main_elem = QComboBox(self)
+        self.main_elem.setGeometry(980, 70, 150, 25)
+        self.main_elem.setEditable(True)
+        self.main_elem.setCurrentText(current_elem)
+        self.class_of_main_elem.activated[int].connect(self.main_class_choosen)
 
         self.button_load = QPushButton(self)
         self.button_load.setText("Load")
@@ -242,46 +242,46 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.input_class_for_elem1 = QLabel(self) #Поля ввода класса
         self.input_class_for_elem1.setText("First class name")
         self.input_class_for_elem1.setGeometry(770, 200, 100, 20)
-        self.e71 = QComboBox(self)
-        self.e71.setGeometry(745, 220, 150, 25)
-        self.e71.setEditable(True)
+        self.class_for_elem1_triple = QComboBox(self)
+        self.class_for_elem1_triple.setGeometry(745, 220, 150, 25)
+        self.class_for_elem1_triple.setEditable(True)
         self.input_class_for_elem2 = QLabel(self) #Поля ввода класса
         self.input_class_for_elem2.setText("Second class name")
         self.input_class_for_elem2.setGeometry(1085, 200, 100, 20)
-        self.e91= QComboBox(self)
-        self.e91.setGeometry(1055, 220, 150, 25)
-        self.e91.setEditable(True)
+        self.class_for_elem2_triple = QComboBox(self)
+        self.class_for_elem2_triple.setGeometry(1055, 220, 150, 25)
+        self.class_for_elem2_triple.setEditable(True)
 
         self.input_elem1 = QLabel(self) #Поля ввода элемента
         self.input_elem1.setText("First element name")
         self.input_elem1.setGeometry(775, 260, 120, 20)
-        self.e7 = QComboBox(self)
-        self.e7.setGeometry(745, 280, 150, 25)
-        self.e7.setEditable(True)
-        self.rel2 = QLabel(self) #Поля ввода отношения
-        self.rel2.setText("Relationship name")
-        self.rel2.setGeometry(940, 260, 100, 20)
-        self.e8 = QLineEdit(self)
-        self.e8.setGeometry(900, 280, 150, 25)
+        self.elem1_tiple = QComboBox(self)
+        self.elem1_tiple.setGeometry(745, 280, 150, 25)
+        self.elem1_tiple.setEditable(True)
+        self.input_rel_triple = QLabel(self) #Поля ввода отношения
+        self.input_rel_triple.setText("Relationship name")
+        self.input_rel_triple.setGeometry(940, 260, 100, 20)
+        self.rel_triple = QLineEdit(self)
+        self.rel_triple.setGeometry(900, 280, 150, 25)
         self.input_elem2 = QLabel(self) #Поля ввода элемента
         self.input_elem2.setText("Second element name")
         self.input_elem2.setGeometry(1075, 260, 120, 20)
-        self.e9 = QComboBox(self)
-        self.e9.setGeometry(1055, 280, 150, 25)
-        self.e9.setEditable(True)
+        self.elem2_triple = QComboBox(self)
+        self.elem2_triple.setGeometry(1055, 280, 150, 25)
+        self.elem2_triple.setEditable(True)
         for pre, fill, node in RenderTree(tree):
             if (node.id!="Null"):
                 if (node.name!="•" and "null1" in node.parent.id):
-                    self.e71.addItem(node.name)
-                    self.e91.addItem(node.name)
+                    self.class_for_elem1_triple.addItem(node.name)
+                    self.class_for_elem2_triple.addItem(node.name)
         self.button_add_triple=QPushButton(self)
         self.button_add_triple.setText("Add triple")
         self.button_add_triple.setGeometry(925, 320, 100, 25)
         self.button_add_triple.clicked.connect(self.add_triple)
         self.space = QLabel(self)
         self.space.setGeometry(825, 360, 100, 25)
-        self.e71.activated[int].connect(self.class1_choosen)
-        self.e91.activated[int].connect(self.class2_choosen)
+        self.class_for_elem1_triple.activated[int].connect(self.class1_choosen_triple)
+        self.class_for_elem2_triple.activated[int].connect(self.class2_choosen_triple)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
         self.input_one_elem = QLabel(self)
@@ -292,21 +292,21 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.input_class_for_elem = QLabel(self) 
         self.input_class_for_elem.setText("Class name")
         self.input_class_for_elem.setGeometry(855, 430, 120, 20)
-        self.e10 = QComboBox(self)
-        self.e10.setGeometry(825, 450, 150, 25)
-        self.e10.setEditable(True)
+        self.class_for_elem_one = QComboBox(self)
+        self.class_for_elem_one.setGeometry(825, 450, 150, 25)
+        self.class_for_elem_one.setEditable(True)
         for pre, fill, node in RenderTree(tree):
             if (node.id!="Null"):
                 if (node.name!="•" and "null1" in node.parent.id):
-                    self.e10.addItem(node.name)
+                    self.class_for_elem_one.addItem(node.name)
 
         self.input_elem = QLabel(self)
         self.input_elem.setText("Element name")
         self.input_elem.setGeometry(1020, 430, 100, 20)
-        self.e11 = QComboBox(self)
-        self.e11.setGeometry(980, 450, 150, 25)
-        self.e11.setEditable(True)
-        self.e10.activated[int].connect(self.class_choosen)
+        self.elem_one = QComboBox(self)
+        self.elem_one.setGeometry(980, 450, 150, 25)
+        self.elem_one.setEditable(True)
+        self.class_for_elem_one.activated[int].connect(self.class_choosen_one)
 
         self.button_add_elem = QPushButton(self)
         self.button_add_elem.setText("Add element")
@@ -338,9 +338,9 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.widget.update()
 
     def main_class_choosen(self):
-        current_class = self.e2.currentText()
-        current_elem = self.e3.currentText()
-        self.e3.clear()
+        current_class = self.class_of_main_elem.currentText()
+        current_elem = self.main_elem.currentText()
+        self.main_elem.clear()
         node_class = Node(name = "", id ="")
         for pre, fill, node in RenderTree(tree):
             if (node.id == current_class + "null3" ):
@@ -348,12 +348,12 @@ class AddElemWindowAbstract(qtw.QWidget):
         if (node_class.id!=""):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
-                    self.e3.addItem(node.name)
-        self.e3.setCurrentText(current_elem)
+                    self.main_elem.addItem(node.name)
+        self.main_elem.setCurrentText(current_elem)
     
-    def class1_choosen(self): #Вывод списка эл первого класса
-        self.e7.clear()
-        current_class = self.e71.currentText()
+    def class1_choosen_triple(self): #Вывод списка эл первого класса
+        self.elem1_tiple.clear()
+        current_class = self.class_for_elem1_triple.currentText()
         node_class = Node(name = "", id ="")
         for pre, fill, node in RenderTree(tree):
             if (node.id == current_class + "null3"):
@@ -361,11 +361,11 @@ class AddElemWindowAbstract(qtw.QWidget):
         if (node_class.id!=""):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
-                    self.e7.addItem(node.name)
+                    self.elem1_tiple.addItem(node.name)
         
-    def class2_choosen(self): #Вывод списка элементов второго класса
-        self.e9.clear()
-        current_class = self.e91.currentText()
+    def class2_choosen_triple(self): #Вывод списка элементов второго класса
+        self.elem2_triple.clear()
+        current_class = self.class_for_elem2_triple.currentText()
         node_class = Node(name = "", id ="")
         for pre, fill, node in RenderTree(tree):
             if (node.id == current_class + "null3"):
@@ -374,11 +374,11 @@ class AddElemWindowAbstract(qtw.QWidget):
             for pre, fill, node in RenderTree(tree):
                 if (node.id != "Null"):
                     if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
-                        self.e9.addItem(node.name)
+                        self.elem2_triple.addItem(node.name)
     
-    def class_choosen(self):
-        self.e11.clear()
-        current_class = self.e10.currentText()
+    def class_choosen_one(self):
+        self.elem_one.clear()
+        current_class = self.class_for_elem_one.currentText()
         node_class = Node(name = "", id ="")
         for pre, fill, node in RenderTree(tree):
             if (node.id == current_class + "null3"):
@@ -386,41 +386,41 @@ class AddElemWindowAbstract(qtw.QWidget):
         if (node_class.id!=""):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
-                    self.e11.addItem(node.name)
+                    self.elem_one.addItem(node.name)
 
     def load_elem(self):
-        models.abstract = models.create_abstract_class(models.abstract, "load", self.e3.currentText(), self.e7.currentText(), self.e9.currentText(), self.e8.text(), self.e11.currentText())
+        models.abstract = models.create_abstract_class(models.abstract, "load", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText())
         cur = ""
         for pre, fill, node in RenderTree(models.abstract):
-                if self.e3.currentText() + "null6" in node.id:
+                if self.main_elem.currentText() + "null6" in node.id:
                     cur = node.id
         self.current_node = cur
-        self.current_class = self.e2.currentText()
-        self.current_elem = self.e3.currentText()
+        self.current_class = self.class_of_main_elem.currentText()
+        self.current_elem = self.main_elem.currentText()
         self.main_elem_name.setText("You are currently working with element: " + self.current_elem)
         self.refresh_canvas()
 
     def add_triple(self):
-        models.abstract = models.create_abstract_class(models.abstract, "add RDF triple", self.e3.currentText(), self.e7.currentText(), self.e9.currentText(), self.e8.text(), self.e11.currentText())
+        models.abstract = models.create_abstract_class(models.abstract, "add RDF triple", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText())
         cur = ""
         for pre, fill, node in RenderTree(models.abstract):
-                if self.e3.currentText() + "null6" in node.id:
+                if self.main_elem.currentText() + "null6" in node.id:
                     cur = node.id
         self.current_node = cur
-        self.current_class = self.e2.currentText()
-        self.current_elem = self.e3.currentText()
+        self.current_class = self.class_of_main_elem.currentText()
+        self.current_elem = self.main_elem.currentText()
         self.main_elem_name.setText("You are currently working with element: " + self.current_elem)
         self.refresh_canvas()
 
     def add_elem(self):
-        models.abstract = models.create_abstract_class(models.abstract, "add element", self.e3.currentText(), self.e7.currentText(), self.e9.currentText(), self.e8.text(), self.e11.currentText())
+        models.abstract = models.create_abstract_class(models.abstract, "add element", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText())
         cur = ""
         for pre, fill, node in RenderTree(models.abstract):
-                if self.e3.currentText() + "null6" in node.id:
+                if self.main_elem.currentText() + "null6" in node.id:
                     cur = node.id
         self.current_node = cur
-        self.current_class = self.e2.currentText()
-        self.current_elem = self.e3.currentText()
+        self.current_class = self.class_of_main_elem.currentText()
+        self.current_elem = self.main_elem.currentText()
         self.main_elem_name.setText("You are currently working with element: " + self.current_elem)
         self.refresh_canvas()
 
