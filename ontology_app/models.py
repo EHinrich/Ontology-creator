@@ -295,12 +295,23 @@ def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: s
             Node(name=second_elem, id=second_elem + " in " + first_elem + rel + second_elem + " elements" + "2", parent=new_rel_node)
     if mode == "add element":
         parent_id = ""
-        class_parent = Node(id="", name="")
-        latest_node = Node(id="", name="")
+        class_parent = None
+        latest_node = None
+        next_node = None
+        current_node_data = None
         for pre, fill, node in RenderTree(abstract):
             if node.id == element + "null6":
                 parent_id = node.id
                 class_parent = node
+        for pre, fill, node in RenderTree(abstract):
+            if node.id == current_node_id:
+                current_node = node
+        for pre, fill, node in RenderTree(abstract):
+            if node.id != "root_relation":
+                if node.parent.id == current_node_id and "null6" in node.id:
+                    next_node = node
+                if node.parent.id == current_node_id and "null6" not in node.id:
+                    current_node_data = node
         if parent_id:
             latest_node = class_parent
             next_index = 1
@@ -309,18 +320,16 @@ def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: s
                     suffix = node.id[len(parent_id) + 1 :]
                     if suffix.isdigit():
                         next_index = max(next_index, int(suffix) + 1)
-                        latest_node = node
-            Node(name="•••", id=f"{parent_id}_{next_index}", parent=latest_node)
-        for pre, fill, node in RenderTree(abstract):
-            if node.id == current_node_id:
-                 current_node = node
-        current_children = current_node.children
-        new_node = Node(name=rel, id=first_elem + rel + second_elem, parent=current_node)
-        new_node.children = current_children
-        Node(name=one_elem, id=one_elem + " elements", parent=current_node)
-
-    children_list = list(abstract.children)
-    children_list.insert
+                        #latest_node = node
+            if current_node_data is not None:
+                current_node_data.parent = None
+            new_node = Node(name="•••", id=f"{parent_id}_{next_index}", parent=current_node)
+            if next_node is not None:
+                next_node.parent = new_node
+                Node(name=one_elem, id=one_elem + " elements", parent=new_node)
+                current_node_data.parent = current_node
+            else:
+                Node(name=one_elem, id=one_elem + " elements", parent=current_node)
     
     return abstract
 
