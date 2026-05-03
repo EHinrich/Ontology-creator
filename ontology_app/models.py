@@ -258,16 +258,11 @@ def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: s
             #abstract = Node(id="root_relation", name="root of structure")
             #Node(id="root_" + element, name=element, parent=abstract)
             #Node(id=element+"null6", name="•••", parent=abstract)
+
     if mode == "add RDF triple":
-        parent_id = ""
-        class_parent = None
-        latest_node = None
+        parent_id = element + "null6"
         next_node = None
         current_node_data = None
-        for pre, fill, node in RenderTree(abstract):
-            if node.id == element + "null6":
-                parent_id = node.id
-                class_parent = node
         for pre, fill, node in RenderTree(abstract):
             if node.id == current_node_id:
                 current_node = node
@@ -277,36 +272,28 @@ def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: s
                     next_node = node
                 if node.parent.id == current_node_id and "null6" not in node.id:
                     current_node_data = node
-        if parent_id:
-            latest_node = class_parent
-            next_index = 1
-            for pre, fill, node in RenderTree(abstract):
-                if node.id.startswith(parent_id + "_"):
-                    suffix = node.id[len(parent_id) + 1 :]
-                    if suffix.isdigit():
-                        next_index = max(next_index, int(suffix) + 1)
-                        #latest_node = node
-            if current_node_data is not None:
-                current_node_data.parent = None
-            new_node = Node(name="•••", id=f"{parent_id}_{next_index}", parent=current_node)
-            if next_node is not None:
-                next_node.parent = new_node
-                new_rel_node = Node(name=rel, id=first_elem + rel + second_elem, parent=new_node)
-                current_node_data.parent = current_node
-            else:
-                new_rel_node = Node(name=rel, id=first_elem + rel + second_elem, parent=current_node)
-            Node(name=first_elem, id=first_elem + " in " + first_elem + rel + second_elem + " elements" + "1", parent=new_rel_node)
-            Node(name=second_elem, id=second_elem + " in " + first_elem + rel + second_elem + " elements" + "2", parent=new_rel_node)
+        next_index = 1
+        for pre, fill, node in RenderTree(abstract):
+            if node.id.startswith(parent_id + "_"):
+                suffix = node.id[len(parent_id) + 1 :]
+                if suffix.isdigit():
+                    next_index = max(next_index, int(suffix) + 1)
+        if current_node_data is not None:
+            current_node_data.parent = None
+        new_node = Node(name="•••", id=f"{parent_id}_{next_index}", parent=current_node)
+        if next_node is not None:
+            next_node.parent = new_node
+            new_rel_node = Node(name=rel, id=first_elem + rel + second_elem, parent=new_node)
+            current_node_data.parent = current_node
+        else:
+            new_rel_node = Node(name=rel, id=first_elem + rel + second_elem, parent=current_node)
+        Node(name=first_elem, id=first_elem + " in " + first_elem + rel + second_elem + " elements" + "1", parent=new_rel_node)
+        Node(name=second_elem, id=second_elem + " in " + first_elem + rel + second_elem + " elements" + "2", parent=new_rel_node)
+
     if mode == "add element":
-        parent_id = ""
-        class_parent = None
-        latest_node = None
+        parent_id = element + "null6"
         next_node = None
         current_node_data = None
-        for pre, fill, node in RenderTree(abstract):
-            if node.id == element + "null6":
-                parent_id = node.id
-                class_parent = node
         for pre, fill, node in RenderTree(abstract):
             if node.id == current_node_id:
                 current_node = node
@@ -316,24 +303,23 @@ def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: s
                     next_node = node
                 if node.parent.id == current_node_id and "null6" not in node.id:
                     current_node_data = node
-        if parent_id:
-            latest_node = class_parent
-            next_index = 1
-            for pre, fill, node in RenderTree(abstract):
-                if node.id.startswith(parent_id + "_"):
-                    suffix = node.id[len(parent_id) + 1 :]
-                    if suffix.isdigit():
-                        next_index = max(next_index, int(suffix) + 1)
-                        #latest_node = node
-            if current_node_data is not None:
-                current_node_data.parent = None
-            new_node = Node(name="•••", id=f"{parent_id}_{next_index}", parent=current_node)
-            if next_node is not None:
-                next_node.parent = new_node
-                Node(name=one_elem, id=one_elem + " elements", parent=new_node)
-                current_node_data.parent = current_node
-            else:
-                Node(name=one_elem, id=one_elem + " elements", parent=current_node)
+        next_index = 1
+        for pre, fill, node in RenderTree(abstract):
+            if node.id.startswith(parent_id + "_"):
+                suffix = node.id[len(parent_id) + 1 :]
+                if suffix.isdigit():
+                    next_index = max(next_index, int(suffix) + 1)
+                    #latest_node = node
+        if current_node_data is not None:
+            current_node_data.parent = None
+        new_node = Node(name="•••", id=f"{parent_id}_{next_index}", parent=current_node)
+        if next_node is not None:
+            next_node.parent = new_node
+            Node(name=one_elem, id=one_elem + " elements", parent=new_node)
+            current_node_data.parent = current_node
+        else:
+            Node(name=one_elem, id=one_elem + " elements", parent=current_node)
+
     if mode == "edit RDF triple":
         node_triple = None
         for pre, fill, node in RenderTree(abstract):
@@ -345,8 +331,28 @@ def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: s
         node_triple.name = rel
         Node(name=first_elem, id=first_elem + " in " + first_elem + rel + second_elem + " elements" + "1", parent=node_triple)
         Node(name=second_elem, id=second_elem + " in " + first_elem + rel + second_elem + " elements" + "2", parent=node_triple)
-                        
+
+    if mode == "edit one element":
+        node_one = None
+        for pre, fill, node in RenderTree(abstract):
+            if node.id != "root_relation":
+                if node.parent.id == current_node_id:
+                    node_one = node
+        node_one.id = one_elem + " elements"
+        node_one.name = one_elem
     
+    if mode == "delete":
+        node_to_delete = None
+        prev_node = None
+        next_node = None
+        for pre, fill, node in RenderTree(abstract):
+            if node.id == current_node_id:
+                node_to_delete = node
+                prev_node = node.parent
+                next_node = node.children[0]
+        node_to_delete.parent = None
+        prev_node.children = (next_node,) + prev_node.children
+
     return abstract
 
 __all__ = [

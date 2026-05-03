@@ -465,15 +465,31 @@ class AddElemWindowAbstract(qtw.QWidget):
                 if node.parent.id == self.current_node:
                     tmp_node = node
         count_nodes = 0
-        for pre, fill, node in RenderTree(tmp_node):
-            count_nodes += 1
+        if tmp_node is not None:
+            for pre, fill, node in RenderTree(tmp_node):
+                count_nodes += 1
         if count_nodes == 3:
             self.edit_elem_window = EditAbstractStructureTripleWindow(tmp_node, self.current_node, self)
             self.edit_elem_window.show()
+        if count_nodes == 1:
+            self.edit_elem_window = EditAbstractStructureOneElemWindow(tmp_node, self.current_node, self)
+            self.edit_elem_window.show()
 
     def del_elem(self):
-        pass
-
+        node_to_delete = None
+        for pre, fill, node in RenderTree(models.abstract):
+            if node.id == self.current_node:
+                node_to_delete = node
+        if len(node_to_delete.children) > 0:
+            tmp_current_node = self.current_node
+            cur = ""
+            for pre, fill, node in RenderTree(models.abstract):
+                if node.id != "root_relation":
+                    if node.parent.id == self.current_node and "null6" in node.id:
+                        cur = node.id
+            self.current_node = cur
+            models.abstract = models.create_abstract_class(models.abstract, "delete", self.main_elem.currentText(), "", "", "", "", tmp_current_node)
+            self.refresh_canvas()
 
 class CanvasAbstract(FigureCanvasQTAgg):
     def __init__(self, parent, current_node=None):
@@ -577,6 +593,54 @@ class EditAbstractStructureTripleWindow(qtw.QWidget):
 
     def save_triple(self):
         models.abstract = models.create_abstract_class(models.abstract, "edit RDF triple", "", self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), "", self.current_node)
+        self.close()
+        self.abstract_class_window.refresh_canvas()
+
+class EditAbstractStructureOneElemWindow(qtw.QWidget):
+    def __init__(self, tmp_node, current_node, abstract_class_window, parent=None):
+        super().__init__(parent)
+        self.current_node = current_node
+        self.abstract_class_window = abstract_class_window
+        self.input_class_for_elem = QLabel(self) 
+        self.input_class_for_elem.setText("Class name")
+        self.input_class_for_elem.setGeometry(110, 50, 100, 20)
+        self.class_for_elem_one = QComboBox(self)
+        self.class_for_elem_one.setGeometry(70, 70, 150, 25)
+        self.class_for_elem_one.setEditable(True)
+        for pre, fill, node in RenderTree(tree):
+            if (node.id!="Null"):
+                if (node.name!="•" and "null1" in node.parent.id):
+                    self.class_for_elem_one.addItem(node.name)
+        self.class_for_elem_one.setCurrentText("")
+        self.input_elem = QLabel(self)
+        self.input_elem.setText("Element name")
+        self.input_elem.setGeometry(280, 50, 100, 20)
+        self.elem_one = QComboBox(self)
+        self.elem_one.setGeometry(240, 70, 150, 25)
+        self.elem_one.setEditable(True)
+        self.elem_one.setCurrentText(tmp_node.name)
+        self.class_for_elem_one.activated[int].connect(self.class_choosen_one)
+
+        self.button_save_elem = QPushButton(self)
+        self.button_save_elem.setText("Save element")
+        self.button_save_elem.setGeometry(170, 110, 100, 25)
+        self.button_save_elem.clicked.connect(self.save_elem)
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+
+    def class_choosen_one(self):
+        self.elem_one.clear()
+        current_class = self.class_for_elem_one.currentText()
+        node_class = Node(name = "", id ="")
+        for pre, fill, node in RenderTree(tree):
+            if (node.id == current_class + "null3"):
+                node_class = node
+        if (node_class.id!=""):
+            for pre, fill, node in RenderTree(tree):
+                if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
+                    self.elem_one.addItem(node.name)
+
+    def save_elem(self):
+        models.abstract = models.create_abstract_class(models.abstract, "edit one element", "", "", "", "", self.elem_one.currentText(), self.current_node)
         self.close()
         self.abstract_class_window.refresh_canvas()
 
