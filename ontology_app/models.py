@@ -12,7 +12,7 @@ from anytree import Node, RenderTree, find_by_attr
 # root node for the ontology; initially empty
 tree = Node(id="", name="")
 series = Node(id="", name="")
-abstract = Node(id="", name="")
+abstract = None
 last_id = ""
 
 
@@ -249,11 +249,15 @@ def create_series(tree: Node, element: str, rel: str) -> Node:
 
 def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: str, second_elem: str, rel: str, one_elem: str, current_node_id: str) -> Node:
     if mode == "load":
-        """Create a new abstract class structure from ontology data."""
-        if find_by_attr(abstract, "root of structure") is None:
-            abstract = Node(id="root_relation", name="root of structure")
-            Node(id="root_" + element, name=element, parent=abstract)
-            Node(id=element+"null6", name="•••", parent=abstract)
+        abstract = None
+        abstract = Node(id="root_relation", name="root of structure")
+        Node(id="root_" + element, name=element, parent=abstract)
+        Node(id=element+"null6", name="•••", parent=abstract)
+        #"""Create a new abstract class structure from ontology data."""
+        #if find_by_attr(abstract, "root of structure") is None:
+            #abstract = Node(id="root_relation", name="root of structure")
+            #Node(id="root_" + element, name=element, parent=abstract)
+            #Node(id=element+"null6", name="•••", parent=abstract)
     if mode == "add RDF triple":
         parent_id = ""
         class_parent = None
@@ -330,6 +334,18 @@ def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: s
                 current_node_data.parent = current_node
             else:
                 Node(name=one_elem, id=one_elem + " elements", parent=current_node)
+    if mode == "edit RDF triple":
+        node_triple = None
+        for pre, fill, node in RenderTree(abstract):
+            if node.id != "root_relation":
+                if node.parent.id == current_node_id:
+                    node_triple = node
+        node_triple.children = ()
+        node_triple.id = first_elem + rel + second_elem
+        node_triple.name = rel
+        Node(name=first_elem, id=first_elem + " in " + first_elem + rel + second_elem + " elements" + "1", parent=node_triple)
+        Node(name=second_elem, id=second_elem + " in " + first_elem + rel + second_elem + " elements" + "2", parent=node_triple)
+                        
     
     return abstract
 

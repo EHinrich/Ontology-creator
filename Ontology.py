@@ -198,6 +198,7 @@ class AddElemWindowAbstract(qtw.QWidget):
     def __init__(self, abstract_class, current_class, current_elem, current_node, parent=None):
         super().__init__(parent)
         self.setGeometry(200,200,1250,700)
+        models.abstract = None
         self.abstract_class = abstract_class
         self.current_class = current_class
         self.current_elem = current_elem
@@ -325,6 +326,16 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.button_arrow_down.clicked.connect(self.arrow_down)
         self.button_arrow_down.setFont(QFont('Arial', 16, QFont.Bold))
 
+        self.edit_button = QPushButton(self)
+        self.edit_button.setText("Edit node")
+        self.edit_button.setGeometry(750, 640, 100, 25)
+        self.edit_button.clicked.connect(self.edit_elem)
+
+        self.del_button = QPushButton(self)
+        self.del_button.setText("Delete node")
+        self.del_button.setGeometry(860, 640, 100, 25)
+        self.del_button.clicked.connect(self.del_elem)
+
         self.sc = CanvasAbstract(self, current_node)
         self.hlayout = QHBoxLayout()
         self.vlayout1 = QVBoxLayout()
@@ -421,7 +432,7 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.refresh_canvas()
 
     def load_elem(self):
-        models.abstract = models.create_abstract_class(models.abstract, "load", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText(), self.current_node)
+        models.abstract = models.create_abstract_class(models.abstract, "load", self.main_elem.currentText(), "", "", "", "", self.current_node)
         cur = ""
         for pre, fill, node in RenderTree(models.abstract):
                 if self.main_elem.currentText() + "null6" == node.id:
@@ -433,7 +444,7 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.refresh_canvas()
 
     def add_triple(self):
-        models.abstract = models.create_abstract_class(models.abstract, "add RDF triple", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText(), self.current_node)
+        models.abstract = models.create_abstract_class(models.abstract, "add RDF triple", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), "", self.current_node)
         self.class_for_elem1_triple.setCurrentText("")
         self.class_for_elem2_triple.setCurrentText("")
         self.elem1_tiple.clear()
@@ -442,10 +453,26 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.refresh_canvas()
 
     def add_elem(self):
-        models.abstract = models.create_abstract_class(models.abstract, "add element", self.main_elem.currentText(), self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), self.elem_one.currentText(), self.current_node)
+        models.abstract = models.create_abstract_class(models.abstract, "add element", self.main_elem.currentText(), "", "", "", self.elem_one.currentText(), self.current_node)
         self.class_for_elem_one.setCurrentText("")
         self.elem_one.clear()
         self.refresh_canvas()
+
+    def edit_elem(self):
+        tmp_node = None
+        for pre, fill, node in RenderTree(models.abstract):
+            if node.id != "root_relation":
+                if node.parent.id == self.current_node:
+                    tmp_node = node
+        count_nodes = 0
+        for pre, fill, node in RenderTree(tmp_node):
+            count_nodes += 1
+        if count_nodes == 3:
+            self.edit_elem_window = EditAbstractStructureTripleWindow(tmp_node, self.current_node, self)
+            self.edit_elem_window.show()
+
+    def del_elem(self):
+        pass
 
 
 class CanvasAbstract(FigureCanvasQTAgg):
@@ -458,13 +485,100 @@ class CanvasAbstract(FigureCanvasQTAgg):
         super(CanvasAbstract, self).__init__(fig)
         self.setParent(parent)
         abstract = models.abstract
-        k=0
-        for pre, fill, node in RenderTree(abstract):
-            k+=1
-        if k>1:
+        if abstract is not None:
             viz.draw_abstract_class(abstract, current_node)
             plt.tight_layout()
         plt.close()
+
+class EditAbstractStructureTripleWindow(qtw.QWidget):
+    submitClicked = qtc.pyqtSignal(str) 
+    def __init__(self, tmp_node, current_node, abstract_class_window, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Edit RDF triple")
+        self.current_node = current_node
+        self.abstract_class_window = abstract_class_window
+
+        triple = []
+        for pre, fill, node in RenderTree(tmp_node):
+            triple.append(node.name)
+
+        self.input_class_for_elem1 = QLabel(self) #Поля ввода класса
+        self.input_class_for_elem1.setText("First class name")
+        self.input_class_for_elem1.setGeometry(100, 50, 100, 20)
+        self.class_for_elem1_triple = QComboBox(self)
+        self.class_for_elem1_triple.setGeometry(70, 70, 150, 25)
+        self.class_for_elem1_triple.setEditable(True)
+        self.input_class_for_elem2 = QLabel(self) #Поля ввода класса
+        self.input_class_for_elem2.setText("Second class name")
+        self.input_class_for_elem2.setGeometry(435, 50, 100, 20)
+        self.class_for_elem2_triple = QComboBox(self)
+        self.class_for_elem2_triple.setGeometry(415, 70, 150, 25)
+        self.class_for_elem2_triple.setEditable(True)
+
+        self.input_elem1 = QLabel(self) #Поля ввода элемента
+        self.input_elem1.setText("First element name")
+        self.input_elem1.setGeometry(90, 110, 120, 20)
+        self.elem1_tiple = QComboBox(self)
+        self.elem1_tiple.setGeometry(70, 130, 150, 25)
+        self.elem1_tiple.setEditable(True)
+        self.input_rel_triple = QLabel(self) #Поля ввода отношения
+        self.input_rel_triple.setText("Relationship name")
+        self.input_rel_triple.setGeometry(260, 110, 100, 20)
+        self.rel_triple = QLineEdit(self)
+        self.rel_triple.setGeometry(240, 130, 150, 25)
+        self.input_elem2 = QLabel(self) #Поля ввода элемента
+        self.input_elem2.setText("Second element name")
+        self.input_elem2.setGeometry(445, 110, 120, 20)
+        self.elem2_triple = QComboBox(self)
+        self.elem2_triple.setGeometry(415, 130, 150, 25)
+        self.elem2_triple.setEditable(True)
+        for pre, fill, node in RenderTree(tree):
+            if (node.id!="Null"):
+                if (node.name!="•" and "null1" in node.parent.id):
+                    self.class_for_elem1_triple.addItem(node.name)
+                    self.class_for_elem2_triple.addItem(node.name)
+        self.class_for_elem1_triple.setCurrentText("")
+        self.class_for_elem2_triple.setCurrentText("")
+        self.elem1_tiple.setCurrentText(triple[1])
+        self.rel_triple.setText(triple[0])
+        self.elem2_triple.setCurrentText(triple[2])
+        self.button_save=QPushButton(self)
+        self.button_save.setText("Save")
+        self.button_save.setGeometry(260, 170, 100, 25)
+        self.button_save.clicked.connect(self.save_triple)
+        self.class_for_elem1_triple.activated[int].connect(self.class1_choosen_triple)
+        self.class_for_elem2_triple.activated[int].connect(self.class2_choosen_triple)
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+
+    def class1_choosen_triple(self): #Вывод списка эл первого класса
+        self.elem1_tiple.clear()
+        current_class = self.class_for_elem1_triple.currentText()
+        node_class = Node(name = "", id ="")
+        for pre, fill, node in RenderTree(tree):
+            if (node.id == current_class + "null3"):
+                node_class = node
+        if (node_class.id!=""):
+            for pre, fill, node in RenderTree(tree):
+                if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
+                    self.elem1_tiple.addItem(node.name)
+        
+    def class2_choosen_triple(self): #Вывод списка элементов второго класса
+        self.elem2_triple.clear()
+        current_class = self.class_for_elem2_triple.currentText()
+        node_class = Node(name = "", id ="")
+        for pre, fill, node in RenderTree(tree):
+            if (node.id == current_class + "null3"):
+                node_class = node
+        if (node_class.id!=""):
+            for pre, fill, node in RenderTree(tree):
+                if (node.id != "Null"):
+                    if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
+                        self.elem2_triple.addItem(node.name)
+
+    def save_triple(self):
+        models.abstract = models.create_abstract_class(models.abstract, "edit RDF triple", "", self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), "", self.current_node)
+        self.close()
+        self.abstract_class_window.refresh_canvas()
 
 class DelElemWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
