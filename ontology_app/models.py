@@ -113,7 +113,7 @@ def del_class(tree: Node, class_name: str) -> None:
                         node.parent = None
 
     for pre, fill, node in RenderTree(tree):
-        if class_name + "symbol" == node.id:
+        if class_name + "object" == node.id or class_name + "abstract" == node.id:
             node.parent = None
             node = None
 
