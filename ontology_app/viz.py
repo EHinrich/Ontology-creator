@@ -64,7 +64,7 @@ def draw_series(tmp_series: Node) -> None:
     parsed_series = []
     id_to_str = {}
     for pre, fill, node in RenderTree(tmp_series):
-        if (node.id!="root_relation"):
+        if (node.id!="root_relation_series"):
             if ((node.parent.id,node.id) in parsed_series):
                 if (node.name=="•••"):
                     id_to_str.update({node.id:""})

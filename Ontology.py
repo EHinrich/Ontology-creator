@@ -899,7 +899,7 @@ class CreateSeriesWindow(qtw.QWidget):
         self.class_name.activated[int].connect(self.class_choosen)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         
-        self.sc = CanvasAbstract(self)
+        self.sc = CanvasSeries(self)
         self.hlayout = QHBoxLayout()
         self.vlayout1 = QVBoxLayout()
         self.toolbar = NavigationToolbar(self.sc, self)
@@ -957,10 +957,7 @@ class CanvasSeries(FigureCanvasQTAgg):
         super(CanvasSeries, self).__init__(fig)
         self.setParent(parent)
         series = models.series
-        k=0
-        for pre, fill, node in RenderTree(series):
-            k+=1
-        if k>1:
+        if series is not None:
             draw_series(series)
             fig.tight_layout()
         plt.close()

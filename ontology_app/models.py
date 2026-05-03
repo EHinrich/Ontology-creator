@@ -11,7 +11,7 @@ from anytree import Node, RenderTree, find_by_attr
 
 # root node for the ontology; initially empty
 tree = Node(id="", name="")
-series = Node(id="", name="")
+series = None
 abstract = None
 last_id = ""
 
@@ -230,7 +230,7 @@ def add_elements_rel(tree: Node, el_name1: str, rel: str, el_name2: str) -> None
 
 def create_series(tree: Node, element: str, rel: str) -> Node:
     """Create a new series structure from ontology data."""
-    series = Node(id="root_relation", name=rel)
+    series = Node(id="root_relation_series", name=rel)
     Node(id="root_" + element, name=element, parent=series)  # root node
     node1 = Node(id=element+"null5", name="•••", parent=series)
     parent_id = ""
