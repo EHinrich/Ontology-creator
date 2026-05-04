@@ -1,3 +1,4 @@
+import shutil
 import sys
 from PyQt5.QtWidgets import * 
 from PyQt5 import QtCore, QtWidgets
@@ -7,30 +8,43 @@ from PyQt5.QtCore import *
 from anytree.importer import JsonImporter
 from anytree.exporter import JsonExporter                                                                                                           
 from anytree import *
-from anytree.exporter import UniqueDotExporter
 from PyQt5 import QtCore as qtc
-import csv
 import matplotlib.pyplot as plt
 import json
 import networkx as nx
-from networkx.readwrite import json_graph
-import netgraph
 import matplotlib.pyplot as plt; plt.ion()
-import pydot
 from networkx.drawing.nx_pydot import graphviz_layout
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 from PyQt5.uic import loadUi
-import pylab
 import os
-import types
-from treelib import Node as Node_treelib, Tree
 
-from generativepy.color import Color
 from generativepy.formulas import rasterise_formula
 
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
+import graphviz
+if hasattr(sys, '_MEIPASS'):
+    # Если запущено как exe, корень — это папка с exe
+    base_dir = os.path.dirname(sys.executable)
+else:
+    # Если запуск из Python, корень — папка скрипта
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
+graphviz_bin = os.path.abspath(os.path.join(base_dir, 'vendor', 'graphviz', 'bin'))
+
+system_root = os.environ.get('SystemRoot', 'C:\\Windows')
+system32 = os.path.join(system_root, 'System32')
+
+os.environ["PATH"] = f"{graphviz_bin}{os.pathsep}{system32}{os.pathsep}{system_root}"
+
+
+# Добавляем в PATH
+os.environ["PATH"] = graphviz_bin + os.pathsep + os.environ["PATH"]
+
+neato_path = shutil.which("neato")
+print(f"neato path: {neato_path}")
+if not neato_path:
+    print("Error: 'neato' executable not found. Please ensure Graphviz is installed and 'neato' is in your system PATH.")
 
 original_stdout = sys.stdout 
 
