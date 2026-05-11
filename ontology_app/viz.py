@@ -59,12 +59,12 @@ def draw_class(tmp_tree: Node) -> None:
             bbox=dict(facecolor='pink', edgecolor='black', boxstyle='round, pad=0.3'))
     nx.draw_networkx_edge_labels(tree2graph, pos, edge_labels=nx.get_edge_attributes(tree2graph, 'title'))
 
-def draw_series(tmp_series: Node) -> None:
+def draw_series(tmp_series: Node, rel: str) -> None:
     tree2graph = nx.DiGraph()
     parsed_series = []
     id_to_str = {}
     for pre, fill, node in RenderTree(tmp_series):
-        if (node.id!="root_relation_series"):
+        if (node.id!="root_relation_series " + rel):
             if ((node.parent.id,node.id) in parsed_series):
                 if (node.name=="•••"):
                     id_to_str.update({node.id:""})

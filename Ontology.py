@@ -878,6 +878,7 @@ class CreateSeriesWindow(qtw.QWidget):
         super().__init__(parent)
         self.setGeometry(200,200,1250,700)
         self.setWindowTitle("Create series of elements")
+        models.series = None
 
         self.series_depth_1 = QLabel(self)
         self.series_depth_1.setText("Create a series of depth 1:")
@@ -963,7 +964,7 @@ class CreateSeriesWindow(qtw.QWidget):
         self.class_name_depth_2.activated[int].connect(self.class_choosen_depth_2)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         
-        self.sc = CanvasSeries(self)
+        self.sc = CanvasSeries(self, self.rel_name_1_depth_2.currentText())
         self.hlayout = QHBoxLayout()
         self.vlayout1 = QVBoxLayout()
         self.toolbar = NavigationToolbar(self.sc, self)
@@ -981,7 +982,7 @@ class CreateSeriesWindow(qtw.QWidget):
         self.sc.setParent(None)
         self.toolbar.deleteLater()
         self.sc.deleteLater()
-        self.sc = CanvasSeries(self)
+        self.sc = CanvasSeries(self, self.rel_name_depth_1.currentText(), self.rel_name_1_depth_2.currentText())
         self.toolbar = NavigationToolbar(self.sc, self)
         self.vlayout1.addWidget(self.toolbar)
         self.vlayout1.addWidget(self.sc)
@@ -1020,15 +1021,15 @@ class CreateSeriesWindow(qtw.QWidget):
                 print("%s%s" % (pre, node.name))   
             
     def create_depth_1(self):
-        models.series = create_series(tree, "1", self.elem_name_depth_1.currentText(), self.rel_name_depth_1.currentText(), self.rel_name_2_depth_2.currentText())
+        models.series = create_series(tree, models.series, "1", self.elem_name_depth_1.currentText(), self.rel_name_depth_1.currentText(), "")
         self.refresh_canvas()
     
     def create_depth_2(self):
-        models.series = create_series(tree, "2", self.elem_name_depth_2.currentText(), self.rel_name_1_depth_2.currentText(), self.rel_name_2_depth_2.currentText())
+        models.series = create_series(tree, models.series, "2", self.elem_name_depth_2.currentText(), self.rel_name_1_depth_2.currentText(), self.rel_name_2_depth_2.currentText())
         self.refresh_canvas()
 
 class CanvasSeries(FigureCanvasQTAgg):
-    def __init__(self, parent):
+    def __init__(self, parent, rel="", rel_2=""):
         fig, self.ax = plt.subplots(figsize=(7, 7))
         self.ax.get_xaxis().set_visible(False)
         self.ax.get_yaxis().set_visible(False)
@@ -1038,8 +1039,11 @@ class CanvasSeries(FigureCanvasQTAgg):
         self.setParent(parent)
         series = models.series
         if series is not None:
-            draw_series(series)
-            fig.tight_layout()
+            if rel_2 =="":
+                draw_series(series, rel)
+        if rel == "":  
+            draw_series(series, rel_2) 
+        fig.tight_layout()
         plt.close()
 
 class Canvas(FigureCanvasQTAgg):
@@ -1623,13 +1627,13 @@ def add_elements_rel(tree, el_name1, rel, el_name2): #Функция добав�
     # relocated to models
     return models.add_elements_rel(tree, el_name1, rel, el_name2)
 
-def create_series(tree, depth, element, rel, rel_2):
+def create_series(tree, series, depth, element, rel, rel_2):
     # relocated to models
-    return models.create_series(tree, depth, element, rel, rel_2)
+    return models.create_series(tree, series, depth, element, rel, rel_2)
 
-def draw_series(series):
+def draw_series(series, rel):
     # relocated to viz
-    return viz.draw_series(series)
+    return viz.draw_series(series, rel)
 
 
 def main():

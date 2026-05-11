@@ -228,10 +228,28 @@ def add_elements_rel(tree: Node, el_name1: str, rel: str, el_name2: str) -> None
         Node(name=el_name2, id=el_name2 + "in" + el_name1 + rel + el_name2 + "elements" + "2", parent=node3)
 
 
-def create_series(tree: Node, depth: str, element: str, rel: str, rel_2: str) -> Node:
+def create_series(tree: Node, series: Node, depth: str, element: str, rel: str, rel_2: str) -> Node:
     """Create a new series structure from ontology data."""
     if depth == "1":
-        series = Node(id="root_relation_series", name=rel)
+        series = Node(id="root_relation_series " + rel, name=rel)
+        Node(id="root_" + element, name=element + " ", parent=series)  # root node
+        node1 = Node(id=element+"null5", name="•••", parent=series)
+        parent_id = ""
+        class_parent = Node(id="", name="")
+        for pre, fill, node1 in RenderTree(tree):
+            for pre, fill, node2 in RenderTree(tree):
+                if (element + rel + node2.name + "elements" == node1.id):
+                    print(node2.name + " ")
+                    for pre, fill, node3 in RenderTree(series):
+                        if element + "null5" in node3.id:
+                            parent_id = node3.id
+                            class_parent = node3
+                    if find_by_attr(series, node2.name) is None:
+                        print("yes")
+                        Node(name="•••", id=parent_id + "5", parent=class_parent)
+                        Node(name=node2.name, id=node2.name, parent=class_parent)
+    if depth == "2":
+        series = Node(id="root_relation_series " + rel, name=rel)
         Node(id="root_" + element, name=element, parent=series)  # root node
         node1 = Node(id=element+"null5", name="•••", parent=series)
         parent_id = ""
@@ -245,7 +263,10 @@ def create_series(tree: Node, depth: str, element: str, rel: str, rel_2: str) ->
                             class_parent = node3
                     if find_by_attr(series, node2.name) is None:
                         Node(name="•••", id=parent_id + "5", parent=class_parent)
-                        Node(name=node2.name, id=node2.name, parent=class_parent)
+                        new_node1 = Node(name=node2.name, id=node2.name + "level_1", parent=class_parent)
+                        new_node2 = create_series(tree, series, "1", node2.name, rel_2, "")
+                        new_node2.parent = new_node1
+
     return series
 
 def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: str, second_elem: str, rel: str, one_elem: str, current_node_id: str) -> Node:
