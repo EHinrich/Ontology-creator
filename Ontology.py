@@ -878,39 +878,89 @@ class CreateSeriesWindow(qtw.QWidget):
         super().__init__(parent)
         self.setGeometry(200,200,1250,700)
         self.setWindowTitle("Create series of elements")
-        self.input_class = QLabel(self) #Поле ввода класса
-        self.input_class.setText("Class name")
-        self.input_class.setGeometry(775, 70, 120, 100)
-        self.class_name = QComboBox(self)
-        self.class_name.setGeometry(745, 130, 150, 25)
-        self.class_name.setEditable(True)
 
-        self.input_elem = QLabel(self) #Поле ввода элемента
-        self.input_elem.setText("Element name")
-        self.input_elem.setGeometry(940, 70, 100, 100)
-        self.elem_name = QComboBox(self)
-        self.elem_name.setGeometry(900, 130, 150, 25)
-        self.elem_name.setEditable(True)
-        self.input_rel = QLabel(self) #Поле ввода отношения
-        self.input_rel.setText("Relationship name")
-        self.input_rel.setGeometry(1075, 70, 120, 100)
-        self.rel_name = QComboBox(self)
-        self.rel_name.setGeometry(1055, 130, 150, 25)
+        self.series_depth_1 = QLabel(self)
+        self.series_depth_1.setText("Create a series of depth 1:")
+        self.series_depth_1.setGeometry(880, 60, 400, 50)
+        self.series_depth_1.setFont(QFont('Arial', 12))
+
+        self.input_class_depth_1 = QLabel(self) #Поле ввода класса
+        self.input_class_depth_1.setText("Class name")
+        self.input_class_depth_1.setGeometry(775, 70, 120, 100)
+        self.class_name_depth_1 = QComboBox(self)
+        self.class_name_depth_1.setGeometry(745, 130, 150, 25)
+        self.class_name_depth_1.setEditable(True)
+
+        self.input_elem_depth_1 = QLabel(self) #Поле ввода элемента
+        self.input_elem_depth_1.setText("Element name")
+        self.input_elem_depth_1.setGeometry(940, 70, 100, 100)
+        self.elem_name_depth_1 = QComboBox(self)
+        self.elem_name_depth_1.setGeometry(900, 130, 150, 25)
+        self.elem_name_depth_1.setEditable(True)
+        self.input_rel_depth_1 = QLabel(self) #Поле ввода отношения
+        self.input_rel_depth_1.setText("Relationship name")
+        self.input_rel_depth_1.setGeometry(1075, 70, 120, 100)
+        self.rel_name_depth_1 = QComboBox(self)
+        self.rel_name_depth_1.setGeometry(1055, 130, 150, 25)
         for pre, fill, node in RenderTree(tree):
             if (node.id!="Null"):
                 if (node.name!="•" and "null1" in node.parent.id):
-                    self.class_name.addItem(node.name)
+                    self.class_name_depth_1.addItem(node.name)
         for pre, fill, node in RenderTree(tree):
                 if (node.id != "Null"):
                     if (node.name!="•" and node.name + " in elements" == node.id and node.parent.id == node.name + " in elements_rel"):
-                        self.rel_name.addItem(node.name)
-        self.create_series_button=QPushButton(self)
-        self.create_series_button.setText("Create")
-        self.create_series_button.setGeometry(925, 160, 100, 25)
-        self.create_series_button.clicked.connect(self.create)
+                        self.rel_name_depth_1.addItem(node.name)
+        self.create_series_depth_1_button=QPushButton(self)
+        self.create_series_depth_1_button.setText("Create")
+        self.create_series_depth_1_button.setGeometry(925, 160, 100, 25)
+        self.create_series_depth_1_button.clicked.connect(self.create_depth_1)
         self.space = QLabel(self)
         self.space.setGeometry(825, 190, 100, 25)
-        self.class_name.activated[int].connect(self.class_choosen)
+        self.class_name_depth_1.activated[int].connect(self.class_choosen_depth_1)
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+
+        self.series_depth_2 = QLabel(self)
+        self.series_depth_2.setText("Create a series of depth 2:")
+        self.series_depth_2.setGeometry(880, 220, 400, 50)
+        self.series_depth_2.setFont(QFont('Arial', 12))
+
+        self.input_class_depth_2 = QLabel(self) #Поле ввода класса
+        self.input_class_depth_2.setText("Class name")
+        self.input_class_depth_2.setGeometry(775, 230, 120, 100)
+        self.class_name_depth_2 = QComboBox(self)
+        self.class_name_depth_2.setGeometry(745, 290, 150, 25)
+        self.class_name_depth_2.setEditable(True)
+        self.input_elem_depth_2 = QLabel(self) #Поле ввода элемента
+        self.input_elem_depth_2.setText("Element name")
+        self.input_elem_depth_2.setGeometry(775, 290, 100, 100)
+        self.elem_name_depth_2 = QComboBox(self)
+        self.elem_name_depth_2.setGeometry(745, 350, 150, 25)
+        self.elem_name_depth_2.setEditable(True)
+
+        self.input_rel_1_depth_2 = QLabel(self) 
+        self.input_rel_1_depth_2.setText("Relationship name 1")
+        self.input_rel_1_depth_2.setGeometry(940, 230, 100, 100)
+        self.rel_name_1_depth_2 = QComboBox(self)
+        self.rel_name_1_depth_2.setGeometry(900, 290, 150, 25)
+        self.input_rel_2_depth_2 = QLabel(self) #Поле ввода отношения
+        self.input_rel_2_depth_2.setText("Relationship name 2")
+        self.input_rel_2_depth_2.setGeometry(1075, 230, 120, 100)
+        self.rel_name_2_depth_2 = QComboBox(self)
+        self.rel_name_2_depth_2.setGeometry(1055, 290, 150, 25)
+        for pre, fill, node in RenderTree(tree):
+            if (node.id!="Null"):
+                if (node.name!="•" and "null1" in node.parent.id):
+                    self.class_name_depth_2.addItem(node.name)
+        for pre, fill, node in RenderTree(tree):
+                if (node.id != "Null"):
+                    if (node.name!="•" and node.name + " in elements" == node.id and node.parent.id == node.name + " in elements_rel"):
+                        self.rel_name_2_depth_2.addItem(node.name)
+                        self.rel_name_1_depth_2.addItem(node.name)
+        self.create_series_depth_2_button=QPushButton(self)
+        self.create_series_depth_2_button.setText("Create")
+        self.create_series_depth_2_button.setGeometry(925, 380, 100, 25)
+        self.create_series_depth_2_button.clicked.connect(self.create_depth_2)
+        self.class_name_depth_2.activated[int].connect(self.class_choosen_depth_2)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         
         self.sc = CanvasSeries(self)
@@ -937,9 +987,9 @@ class CreateSeriesWindow(qtw.QWidget):
         self.vlayout1.addWidget(self.sc)
         self.update()
 
-    def class_choosen(self): #Вывод списка элементов класса
-        self.elem_name.clear()
-        current_class = self.class_name.currentText()
+    def class_choosen_depth_1(self): #Вывод списка элементов класса
+        self.elem_name_depth_1.clear()
+        current_class = self.class_name_depth_1.currentText()
         node_class = Node(name = "", id ="")
         tmp_tree = Node(name=current_class, id = "1")
         for pre, fill, node in RenderTree(tree):
@@ -948,17 +998,33 @@ class CreateSeriesWindow(qtw.QWidget):
         if (node_class.id!=""):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
-                    self.elem_name.addItem(node.name)
+                    self.elem_name_depth_1.addItem(node.name)
                     #add_elem_list1(tmp_tree, node.name)
             for pre, fill, node in RenderTree(tmp_tree):
                 print("%s%s" % (pre, node.name))
-        else:
-            node1 = Node(name = "•", id = "1")
-            Node(name = "•", id = "2", parent=node1)
-            Node(name = current_class, id = "3", parent=node1)      
+
+    def class_choosen_depth_2(self): #Вывод списка элементов класса
+        self.elem_name_depth_2.clear()
+        current_class = self.class_name_depth_2.currentText()
+        node_class = Node(name = "", id ="")
+        tmp_tree = Node(name=current_class, id = "1")
+        for pre, fill, node in RenderTree(tree):
+            if (node.id == current_class + "null3"):
+                node_class = node
+        if (node_class.id!=""):
+            for pre, fill, node in RenderTree(tree):
+                if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
+                    self.elem_name_depth_2.addItem(node.name)
+                    #add_elem_list1(tmp_tree, node.name)
+            for pre, fill, node in RenderTree(tmp_tree):
+                print("%s%s" % (pre, node.name))   
             
-    def create(self): 
-        models.series = create_series(tree, self.elem_name.currentText(), self.rel_name.currentText())
+    def create_depth_1(self):
+        models.series = create_series(tree, "1", self.elem_name_depth_1.currentText(), self.rel_name_depth_1.currentText(), self.rel_name_2_depth_2.currentText())
+        self.refresh_canvas()
+    
+    def create_depth_2(self):
+        models.series = create_series(tree, "2", self.elem_name_depth_2.currentText(), self.rel_name_1_depth_2.currentText(), self.rel_name_2_depth_2.currentText())
         self.refresh_canvas()
 
 class CanvasSeries(FigureCanvasQTAgg):
@@ -1557,9 +1623,9 @@ def add_elements_rel(tree, el_name1, rel, el_name2): #Функция добав�
     # relocated to models
     return models.add_elements_rel(tree, el_name1, rel, el_name2)
 
-def create_series(tree, element, rel):
+def create_series(tree, depth, element, rel, rel_2):
     # relocated to models
-    return models.create_series(tree, element, rel)
+    return models.create_series(tree, depth, element, rel, rel_2)
 
 def draw_series(series):
     # relocated to viz
@@ -1570,9 +1636,6 @@ def main():
     app = QApplication(sys.argv)
     demo = Window()
     demo.show()
-    #demo.setEnabled(False)
-    #log = LoginWindow()
-    #log.show()
     sys.exit(app.exec())
 
 
