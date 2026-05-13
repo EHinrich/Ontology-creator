@@ -4,6 +4,7 @@ This module centralises the data model and related functions for tree-based
 ontology construction. The GUI imports functions from here rather than
 manipulating globals directly.
 """
+from logging import root
 from typing import Optional
 from anytree import Node, RenderTree, find_by_attr
 
@@ -230,43 +231,51 @@ def add_elements_rel(tree: Node, el_name1: str, rel: str, el_name2: str) -> None
 
 def create_series(tree: Node, series: Node, depth: str, element: str, rel: str, rel_2: str) -> Node:
     """Create a new series structure from ontology data."""
+    parent_id = "null5"
+    next_index = 1
     if depth == "1":
-        series = Node(id="root_relation_series " + rel, name=rel)
+        for pre, fill, node3 in RenderTree(series):
+            if node3.id.startswith(parent_id + "_"):
+                suffix = node3.id[len(parent_id) + 1 :]
+                if suffix.isdigit():
+                    next_index = max(next_index, int(suffix) + 1)
+        series = Node(id="root_relation_series " + element + " " + rel, name=rel)
         Node(id="root_" + element, name=element + " ", parent=series)  # root node
-        node1 = Node(id=element+"null5", name="•••", parent=series)
-        parent_id = ""
-        class_parent = Node(id="", name="")
+        Node(id=parent_id + "_" + str(next_index), name="•••", parent=series)
         for pre, fill, node1 in RenderTree(tree):
             for pre, fill, node2 in RenderTree(tree):
                 if (element + rel + node2.name + "elements" == node1.id):
-                    print(node2.name + " ")
+                    class_parent = None
                     for pre, fill, node3 in RenderTree(series):
-                        if element + "null5" in node3.id:
-                            parent_id = node3.id
-                            class_parent = node3
+                        if node3.id.startswith(parent_id + "_"):
+                            suffix = node3.id[len(parent_id) + 1 :]
+                            if suffix.isdigit():
+                                next_index = max(next_index, int(suffix) + 1)
+                                class_parent = node3
                     if find_by_attr(series, node2.name) is None:
-                        print("yes")
-                        Node(name="•••", id=parent_id + "5", parent=class_parent)
+                        Node(name="•••", id=f"{parent_id}_{next_index}", parent=class_parent)
                         Node(name=node2.name, id=node2.name, parent=class_parent)
     if depth == "2":
         series = Node(id="root_relation_series " + rel, name=rel)
         Node(id="root_" + element, name=element, parent=series)  # root node
-        node1 = Node(id=element+"null5", name="•••", parent=series)
-        parent_id = ""
-        class_parent = Node(id="", name="")
+        Node(id=parent_id + "_" + str(next_index), name="•••", parent=series)
         for pre, fill, node1 in RenderTree(tree):
             for pre, fill, node2 in RenderTree(tree):
                 if (element + rel + node2.name + "elements" == node1.id):
+                    class_parent = None
                     for pre, fill, node3 in RenderTree(series):
-                        if element + "null5" in node3.id:
-                            parent_id = node3.id
-                            class_parent = node3
+                        if node3.id.startswith(parent_id + "_"):
+                            suffix = node3.id[len(parent_id) + 1 :]
+                            if suffix.isdigit():
+                                next_index = max(next_index, int(suffix) + 1)
+                                class_parent = node3
                     if find_by_attr(series, node2.name) is None:
-                        Node(name="•••", id=parent_id + "5", parent=class_parent)
-                        new_node1 = Node(name=node2.name, id=node2.name + "level_1", parent=class_parent)
-                        new_node2 = create_series(tree, series, "1", node2.name, rel_2, "")
-                        new_node2.parent = new_node1
-
+                        Node(name="•••", id=f"{parent_id}_{next_index}", parent=class_parent)
+                        Node(name=node2.name, id=node2.name + "level_1", parent=class_parent)
+        for pre, fill, node in RenderTree(series):
+            if "level_1" in node.id:
+                new_node = create_series(tree, series, "1", node.name, rel_2, "")
+                new_node.parent = node
     return series
 
 def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: str, second_elem: str, rel: str, one_elem: str, current_node_id: str) -> Node:

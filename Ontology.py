@@ -903,6 +903,7 @@ class CreateSeriesWindow(qtw.QWidget):
         self.input_rel_depth_1.setGeometry(1075, 70, 120, 100)
         self.rel_name_depth_1 = QComboBox(self)
         self.rel_name_depth_1.setGeometry(1055, 130, 150, 25)
+        self.rel_name_depth_1.setEditable(True)
         for pre, fill, node in RenderTree(tree):
             if (node.id!="Null"):
                 if (node.name!="•" and "null1" in node.parent.id):
@@ -911,6 +912,7 @@ class CreateSeriesWindow(qtw.QWidget):
                 if (node.id != "Null"):
                     if (node.name!="•" and node.name + " in elements" == node.id and node.parent.id == node.name + " in elements_rel"):
                         self.rel_name_depth_1.addItem(node.name)
+        self.rel_name_depth_1.setCurrentText("")
         self.create_series_depth_1_button=QPushButton(self)
         self.create_series_depth_1_button.setText("Create")
         self.create_series_depth_1_button.setGeometry(925, 160, 100, 25)
@@ -948,6 +950,8 @@ class CreateSeriesWindow(qtw.QWidget):
         self.input_rel_2_depth_2.setGeometry(1075, 230, 120, 100)
         self.rel_name_2_depth_2 = QComboBox(self)
         self.rel_name_2_depth_2.setGeometry(1055, 290, 150, 25)
+        self.rel_name_1_depth_2.setEditable(True)
+        self.rel_name_2_depth_2.setEditable(True)
         for pre, fill, node in RenderTree(tree):
             if (node.id!="Null"):
                 if (node.name!="•" and "null1" in node.parent.id):
@@ -957,6 +961,8 @@ class CreateSeriesWindow(qtw.QWidget):
                     if (node.name!="•" and node.name + " in elements" == node.id and node.parent.id == node.name + " in elements_rel"):
                         self.rel_name_2_depth_2.addItem(node.name)
                         self.rel_name_1_depth_2.addItem(node.name)
+        self.rel_name_1_depth_2.setCurrentText("")
+        self.rel_name_2_depth_2.setCurrentText("")
         self.create_series_depth_2_button=QPushButton(self)
         self.create_series_depth_2_button.setText("Create")
         self.create_series_depth_2_button.setGeometry(925, 380, 100, 25)
@@ -982,7 +988,10 @@ class CreateSeriesWindow(qtw.QWidget):
         self.sc.setParent(None)
         self.toolbar.deleteLater()
         self.sc.deleteLater()
-        self.sc = CanvasSeries(self, self.rel_name_depth_1.currentText(), self.rel_name_1_depth_2.currentText())
+        if self.rel_name_1_depth_2.currentText()!="" and self.rel_name_2_depth_2.currentText()!="":
+            self.sc = CanvasSeries(self, self.rel_name_1_depth_2.currentText())
+        if self.rel_name_depth_1.currentText()!="":
+            self.sc = CanvasSeries(self, self.rel_name_depth_1.currentText())
         self.toolbar = NavigationToolbar(self.sc, self)
         self.vlayout1.addWidget(self.toolbar)
         self.vlayout1.addWidget(self.sc)
@@ -1023,13 +1032,18 @@ class CreateSeriesWindow(qtw.QWidget):
     def create_depth_1(self):
         models.series = create_series(tree, models.series, "1", self.elem_name_depth_1.currentText(), self.rel_name_depth_1.currentText(), "")
         self.refresh_canvas()
+        self.elem_name_depth_1.setCurrentText("")
+        self.rel_name_depth_1.setCurrentText("")
     
     def create_depth_2(self):
         models.series = create_series(tree, models.series, "2", self.elem_name_depth_2.currentText(), self.rel_name_1_depth_2.currentText(), self.rel_name_2_depth_2.currentText())
         self.refresh_canvas()
+        self.elem_name_depth_2.setCurrentText("")
+        self.rel_name_1_depth_2.setCurrentText("")
+        self.rel_name_2_depth_2.setCurrentText("")
 
 class CanvasSeries(FigureCanvasQTAgg):
-    def __init__(self, parent, rel="", rel_2=""):
+    def __init__(self, parent, rel):
         fig, self.ax = plt.subplots(figsize=(7, 7))
         self.ax.get_xaxis().set_visible(False)
         self.ax.get_yaxis().set_visible(False)
@@ -1039,10 +1053,7 @@ class CanvasSeries(FigureCanvasQTAgg):
         self.setParent(parent)
         series = models.series
         if series is not None:
-            if rel_2 =="":
-                draw_series(series, rel)
-        if rel == "":  
-            draw_series(series, rel_2) 
+            draw_series(series, rel)
         fig.tight_layout()
         plt.close()
 
