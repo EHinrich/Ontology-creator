@@ -229,16 +229,17 @@ def add_elements_rel(tree: Node, el_name1: str, rel: str, el_name2: str) -> None
         Node(name=el_name2, id=el_name2 + "in" + el_name1 + rel + el_name2 + "elements" + "2", parent=node3)
 
 
-def create_series(tree: Node, series: Node, depth: str, element: str, rel: str, rel_2: str) -> Node:
+def create_series(tree: Node, series: Node, depth: str, element: str, rel: str, rel_2: str, count: int) -> Node:
     """Create a new series structure from ontology data."""
     parent_id = "null5"
     next_index = 1
     if depth == "1":
-        for pre, fill, node3 in RenderTree(series):
-            if node3.id.startswith(parent_id + "_"):
-                suffix = node3.id[len(parent_id) + 1 :]
-                if suffix.isdigit():
-                    next_index = max(next_index, int(suffix) + 1)
+        if count == 1:
+            for pre, fill, node3 in RenderTree(series):
+                if node3.id.startswith(parent_id + "_"):
+                    suffix = node3.id[len(parent_id) + 1 :]
+                    if suffix.isdigit():
+                        next_index = max(next_index, int(suffix) + 1)
         series = Node(id="root_relation_series " + element + " " + rel, name=rel)
         Node(id="root_" + element, name=element + " ", parent=series)  # root node
         Node(id=parent_id + "_" + str(next_index), name="•••", parent=series)
@@ -274,7 +275,8 @@ def create_series(tree: Node, series: Node, depth: str, element: str, rel: str, 
                         Node(name=node2.name, id=node2.name + "level_1", parent=class_parent)
         for pre, fill, node in RenderTree(series):
             if "level_1" in node.id:
-                new_node = create_series(tree, series, "1", node.name, rel_2, "")
+                count = 1
+                new_node = create_series(tree, series, "1", node.name, rel_2, "", count)
                 new_node.parent = node
     return series
 

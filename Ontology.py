@@ -970,7 +970,7 @@ class CreateSeriesWindow(qtw.QWidget):
         self.class_name_depth_2.activated[int].connect(self.class_choosen_depth_2)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         
-        self.sc = CanvasSeries(self, self.rel_name_1_depth_2.currentText())
+        self.sc = CanvasSeries(self, self.rel_name_1_depth_2.currentText(), "", 0)
         self.hlayout = QHBoxLayout()
         self.vlayout1 = QVBoxLayout()
         self.toolbar = NavigationToolbar(self.sc, self)
@@ -981,7 +981,7 @@ class CreateSeriesWindow(qtw.QWidget):
         self.widget.setGeometry(0, 0, 700, 700)
         self.widget.setLayout(self.hlayout)
 
-    def refresh_canvas(self):
+    def refresh_canvas(self, depth):
         self.vlayout1.removeWidget(self.toolbar)
         self.vlayout1.removeWidget(self.sc)
         self.toolbar.setParent(None)
@@ -989,9 +989,9 @@ class CreateSeriesWindow(qtw.QWidget):
         self.toolbar.deleteLater()
         self.sc.deleteLater()
         if self.rel_name_1_depth_2.currentText()!="" and self.rel_name_2_depth_2.currentText()!="":
-            self.sc = CanvasSeries(self, self.rel_name_1_depth_2.currentText())
+            self.sc = CanvasSeries(self, self.rel_name_1_depth_2.currentText(), self.elem_name_depth_2.currentText(), depth)
         if self.rel_name_depth_1.currentText()!="":
-            self.sc = CanvasSeries(self, self.rel_name_depth_1.currentText())
+            self.sc = CanvasSeries(self, self.rel_name_depth_1.currentText(), self.elem_name_depth_1.currentText(), depth)
         self.toolbar = NavigationToolbar(self.sc, self)
         self.vlayout1.addWidget(self.toolbar)
         self.vlayout1.addWidget(self.sc)
@@ -1030,20 +1030,20 @@ class CreateSeriesWindow(qtw.QWidget):
                 print("%s%s" % (pre, node.name))   
             
     def create_depth_1(self):
-        models.series = create_series(tree, models.series, "1", self.elem_name_depth_1.currentText(), self.rel_name_depth_1.currentText(), "")
-        self.refresh_canvas()
+        models.series = create_series(tree, models.series, "1", self.elem_name_depth_1.currentText(), self.rel_name_depth_1.currentText(), "", 0)
+        self.refresh_canvas(1)
         self.elem_name_depth_1.setCurrentText("")
         self.rel_name_depth_1.setCurrentText("")
     
     def create_depth_2(self):
-        models.series = create_series(tree, models.series, "2", self.elem_name_depth_2.currentText(), self.rel_name_1_depth_2.currentText(), self.rel_name_2_depth_2.currentText())
-        self.refresh_canvas()
+        models.series = create_series(tree, models.series, "2", self.elem_name_depth_2.currentText(), self.rel_name_1_depth_2.currentText(), self.rel_name_2_depth_2.currentText(), 0)
+        self.refresh_canvas(2)
         self.elem_name_depth_2.setCurrentText("")
         self.rel_name_1_depth_2.setCurrentText("")
         self.rel_name_2_depth_2.setCurrentText("")
 
 class CanvasSeries(FigureCanvasQTAgg):
-    def __init__(self, parent, rel):
+    def __init__(self, parent, rel, element, depth):
         fig, self.ax = plt.subplots(figsize=(7, 7))
         self.ax.get_xaxis().set_visible(False)
         self.ax.get_yaxis().set_visible(False)
@@ -1053,7 +1053,10 @@ class CanvasSeries(FigureCanvasQTAgg):
         self.setParent(parent)
         series = models.series
         if series is not None:
-            draw_series(series, rel)
+            if depth == 1:
+                viz.draw_series_depth_1(series, rel, element)
+            elif depth == 2:
+                viz.draw_series_depth_2(series, rel)
         fig.tight_layout()
         plt.close()
 
@@ -1638,9 +1641,9 @@ def add_elements_rel(tree, el_name1, rel, el_name2): #Функция добав�
     # relocated to models
     return models.add_elements_rel(tree, el_name1, rel, el_name2)
 
-def create_series(tree, series, depth, element, rel, rel_2):
+def create_series(tree, series, depth, element, rel, rel_2, count):
     # relocated to models
-    return models.create_series(tree, series, depth, element, rel, rel_2)
+    return models.create_series(tree, series, depth, element, rel, rel_2, count)
 
 def draw_series(series, rel):
     # relocated to viz
