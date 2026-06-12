@@ -378,11 +378,11 @@ class AddElemWindowAbstract(qtw.QWidget):
         current_class = self.class_of_main_elem.currentText()
         current_elem = self.main_elem.currentText()
         self.main_elem.clear()
-        node_class = Node(name = "", id ="")
+        node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3" ):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
                     self.main_elem.addItem(node.name)
@@ -391,11 +391,11 @@ class AddElemWindowAbstract(qtw.QWidget):
     def class1_choosen_triple(self): #Вывод списка эл первого класса
         self.elem1_tiple.clear()
         current_class = self.class_for_elem1_triple.currentText()
-        node_class = Node(name = "", id ="")
+        node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3"):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
                     self.elem1_tiple.addItem(node.name)
@@ -403,24 +403,23 @@ class AddElemWindowAbstract(qtw.QWidget):
     def class2_choosen_triple(self): #Вывод списка элементов второго класса
         self.elem2_triple.clear()
         current_class = self.class_for_elem2_triple.currentText()
-        node_class = Node(name = "", id ="")
+        node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3"):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
-                if (node.id != "Null"):
-                    if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
-                        self.elem2_triple.addItem(node.name)
-    
+                if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
+                    self.elem2_triple.addItem(node.name)
+
     def class_choosen_one(self):
         self.elem_one.clear()
         current_class = self.class_for_elem_one.currentText()
-        node_class = Node(name = "", id ="")
+        node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3"):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
                     self.elem_one.addItem(node.name)
@@ -583,11 +582,11 @@ class EditAbstractStructureTripleWindow(qtw.QWidget):
     def class1_choosen_triple(self): #Вывод списка эл первого класса
         self.elem1_tiple.clear()
         current_class = self.class_for_elem1_triple.currentText()
-        node_class = Node(name = "", id ="")
+        node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3"):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
                     self.elem1_tiple.addItem(node.name)
@@ -595,15 +594,14 @@ class EditAbstractStructureTripleWindow(qtw.QWidget):
     def class2_choosen_triple(self): #Вывод списка элементов второго класса
         self.elem2_triple.clear()
         current_class = self.class_for_elem2_triple.currentText()
-        node_class = Node(name = "", id ="")
+        node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3"):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
-                if (node.id != "Null"):
-                    if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
-                        self.elem2_triple.addItem(node.name)
+                if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
+                    self.elem2_triple.addItem(node.name)
 
     def save_triple(self):
         models.abstract = models.create_abstract_class(models.abstract, "edit RDF triple", "", self.elem1_tiple.currentText(), self.elem2_triple.currentText(), self.rel_triple.text(), "", self.current_node)
@@ -644,11 +642,11 @@ class EditAbstractStructureOneElemWindow(qtw.QWidget):
     def class_choosen_one(self):
         self.elem_one.clear()
         current_class = self.class_for_elem_one.currentText()
-        node_class = Node(name = "", id ="")
+        node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3"):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
                     self.elem_one.addItem(node.name)
@@ -693,7 +691,6 @@ class DelElemWindow(qtw.QWidget):
         self.elem_name.clear()
         current_class = self.elem_class.currentText()
         node_class = None
-        tmp_tree = Node(name=current_class, id = "1")
         for pre, fill, node in RenderTree(tree):
             if (node.id == current_class + " in elements" + "null3"):
                 node_class = node.parent
@@ -701,13 +698,6 @@ class DelElemWindow(qtw.QWidget):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
                     self.elem_name.addItem(node.name)
-                    add_elem_list1(tmp_tree, node.name)
-            for pre, fill, node in RenderTree(tmp_tree):
-                print("%s%s" % (pre, node.name))
-        else:
-            node1 = Node(name = "•", id = "1")
-            Node(name = "•", id = "2", parent=node1)
-            Node(name = current_class, id = "3", parent=node1)
         
     def confirm(self): 
         self.submitClicked.emit(self.elem_name.currentText())
@@ -830,44 +820,28 @@ class AddRelElemWindow(qtw.QWidget):
     def class1_choosen(self): #Вывод списка эл первого класса
         self.elem1.clear()
         current_class = self.class1.currentText()
-        node_class = Node(name = "", id ="")
-        tmp_tree = Node(name=current_class, id = "1")
+        node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3"):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
                     self.elem1.addItem(node.name)
-                    add_elem_list1(tmp_tree, node.name)
-            for pre, fill, node in RenderTree(tmp_tree):
-                print("%s%s" % (pre, node.name))
-        else:
-            node1 = Node(name = "•", id = "1")
-            Node(name = "•", id = "2", parent=node1)
-            Node(name = current_class, id = "3", parent=node1)
         
 
     def class2_choosen(self): #Вывод списка элементов второго класса
         self.elem2.clear()
         current_class = self.class2.currentText()
-        node_class = Node(name = "", id ="")
-        tmp_tree = Node(name=current_class, id = "2")
+        node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3"):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
-                if (node.id != "Null"):
-                    if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
-                        self.elem2.addItem(node.name)
-                        add_elem_list2(tmp_tree, node.name)
-        else:
-            node1 = Node(name = "•", id = "1")
-            Node(name = "•", id = "2", parent=node1)
-            Node(name = current_class, id = "3", parent=node1)
-
-            
+                if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
+                    self.elem2.addItem(node.name)
+       
     def add(self):
         add_elements_rel(tree, self.elem1.currentText(), self.rel.text(), self.elem2.currentText())
         self.refresh_canvas()
@@ -1000,34 +974,26 @@ class CreateSeriesWindow(qtw.QWidget):
     def class_choosen_depth_1(self): #Вывод списка элементов класса
         self.elem_name_depth_1.clear()
         current_class = self.class_name_depth_1.currentText()
-        node_class = Node(name = "", id ="")
-        tmp_tree = Node(name=current_class, id = "1")
+        node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3"):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
                     self.elem_name_depth_1.addItem(node.name)
-                    #add_elem_list1(tmp_tree, node.name)
-            for pre, fill, node in RenderTree(tmp_tree):
-                print("%s%s" % (pre, node.name))
 
     def class_choosen_depth_2(self): #Вывод списка элементов класса
         self.elem_name_depth_2.clear()
         current_class = self.class_name_depth_2.currentText()
-        node_class = Node(name = "", id ="")
-        tmp_tree = Node(name=current_class, id = "1")
+        node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3"):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
                     self.elem_name_depth_2.addItem(node.name)
-                    #add_elem_list1(tmp_tree, node.name)
-            for pre, fill, node in RenderTree(tmp_tree):
-                print("%s%s" % (pre, node.name))   
             
     def create_depth_1(self):
         models.series = create_series(tree, models.series, "1", self.elem_name_depth_1.currentText(), self.rel_name_depth_1.currentText(), "", 0)
@@ -1091,7 +1057,7 @@ class CanvasElemChoosen(FigureCanvasQTAgg):
         self.ax.get_yaxis().set_visible(False)
         super(CanvasElemChoosen, self).__init__(fig)
         self.setParent(parent)
-        draw_class(tree)
+        #draw_class(tree)
         plt.close()
 
 
@@ -1611,13 +1577,6 @@ def draw_class(tmp_tree):
 
 def create_ontology_tree(fileName):
     return models.create_ontology_tree(fileName)
-
-
-def add_elem_list1(tmp_tree, elem_name):
-    return models.add_elem_list1(tmp_tree, elem_name)
-
-def add_elem_list2(tmp_tree, elem_name):
-    return models.add_elem_list2(tmp_tree, elem_name)
 
 
 def add_class(tree, class_name, type):

@@ -20,7 +20,7 @@ def draw_tree(tmp_tree: Node) -> None:
 
     for pre, fill, node in RenderTree(tmp_tree):
         if (node.id!="Null"):
-            if (" in classes" in node.id and " in classes_rel" in node.parent.id):
+            if (node.name + " in classes" + "null2" == node.id):
                 rel = node.name
                 for node1 in tree2graph.nodes():
                     for node2 in tree2graph.nodes():

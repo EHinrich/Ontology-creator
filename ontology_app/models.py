@@ -45,30 +45,6 @@ def create_ontology_tree(fileName: str) -> Node:
 
 
 
-def add_elem_list1(tmp_tree: Node, elem_name: str) -> None:
-    """Helper function to add element to list for displaying elements of a class."""
-    parent_id = ""
-    class_parent = Node(id="", name="")
-    for pre, fill, node in RenderTree(tmp_tree):
-        if "1" in node.id:
-            parent_id = node.id
-            class_parent = node
-    Node(id=elem_name, name=elem_name, parent=class_parent)
-    Node(id=parent_id + "1", name="•", parent=class_parent)
-
-
-def add_elem_list2(tmp_tree: Node, elem_name: str) -> None:
-    """Helper function to add element to list for displaying elements of a class."""
-    parent_id = ""
-    class_parent = Node(id="", name="")
-    for pre, fill, node in RenderTree(tmp_tree):
-        if "2" in node.id:
-            parent_id = node.id
-            class_parent = node
-    Node(id=elem_name, name=elem_name, parent=class_parent)
-    Node(id=parent_id + "2", name="•", parent=class_parent)
-
-
 def add_class(tree: Node, class_name: str, type: str) -> None:
     """Add a new class to the ontology tree."""
     class_parent = Node(id="", name="")
@@ -147,7 +123,6 @@ def add_elem(tree: Node, class_name: str, elem_name: str) -> None:
             Node(name="•", id=class_name + f"null3_{next_index_4}", parent=node2)
 
 
-
 def del_elem(tree: Node, elem_name: str, class_name: str) -> None:
     """Delete an element from the ontology tree."""
     for pre, fill, node_tmp in RenderTree(tree):
@@ -157,70 +132,99 @@ def del_elem(tree: Node, elem_name: str, class_name: str) -> None:
 
 def add_classes_rel(tree: Node, class_name1: str, rel: str, class_name2: str) -> None:
     """Add a relationship between two classes in the ontology."""
-    parent_id1 = ""
-    parent_class = Node(id="", name="")
+    class_parent = None
+    latest_index = 0
     for pre, fill, node in RenderTree(tree):
-        if (rel + " in classes_rel" in node.id and "null2" in node.parent.id):
-            for pre, fill, node in RenderTree(tree):
-                if rel + " null22" in node.id:
-                    parent_id1 = node.id
-                    parent_class = node
-            if find_by_attr(tree, class_name1 + rel + class_name2 + "classes") is None:
-                node1 = Node(name="•", id=class_name1 + rel + class_name2 + "classes", parent=parent_class)
-                Node(name="•", id=parent_id1 + "2", parent=parent_class)
-                Node(name=class_name1, id=class_name1 + "in" + class_name1 + rel + class_name2 + "classes" + "1", parent=node1)
-                Node(name=class_name2, id=class_name2 + "in" + class_name1 + rel + class_name2 + "classes" + "2", parent=node1)
-    k = 0
-    for pre, fill, node in RenderTree(tree):
-        if (rel + " in classes_rel" in node.id and "null2" in node.parent.id):
-            k = k + 1
-    if k == 0:
+        if (rel + " in classes" + "null2" == node.id):
+            for pre, fill, node1 in RenderTree(tree):
+                if node.id.startswith(rel + "null2_"):
+                    suffix = node1.id[len(rel + "null2_") :]
+                    if suffix.isdigit():
+                        index = int(suffix)
+                        if index >= latest_index:
+                            latest_index = index
+                            class_parent = node1
+    if class_parent is not None:
+        if find_by_attr(tree, class_name1 + rel + class_name2 + "classes") is None:
+            next_index = latest_index + 1 if class_parent.id != "null2" else 1
+            Node(id=rel + f"null2_{next_index}", name="•", parent=class_parent)
+            new_node = Node(name="•", id=class_name1 + rel + class_name2 + "classes", parent=class_parent)
+            Node(name=class_name1, id=class_name1 + "in" + class_name1 + rel + class_name2 + "classes" + "1", parent=new_node)
+            Node(name=class_name2, id=class_name2 + "in" + class_name1 + rel + class_name2 + "classes" + "2", parent=new_node)
+    else:
+        latest_index = 0
         for pre, fill, node in RenderTree(tree):
-            if node.id.find("null2") == 0:
-                parent_id = node.id
-                parent_class = node
-        Node(name="•", id=parent_id + "2", parent=parent_class)
-        node1 = Node(name="•", id=rel + " in classes_rel", parent=parent_class)
-        Node(name=rel, id=rel + " in classes", parent=node1)
-        node2 = Node(name="•", id=rel + " null2", parent=node1)
-        Node(name="•", id=rel + " null2" + "2", parent=node2)
-        node3 = Node(name="•", id=class_name1 + rel + class_name2 + "classes", parent=node2)
-        Node(name=class_name1, id=class_name1 + "in" + class_name1 + rel + class_name2 + "classes" + "1", parent=node3)
-        Node(name=class_name2, id=class_name2 + "in" + class_name1 + rel + class_name2 + "classes" + "2", parent=node3)
+            if node.id == "null2":
+                class_parent = node
+            elif node.id.startswith("null2_"):
+                suffix = node.id[len("null2_") :]
+                if suffix.isdigit():
+                    index = int(suffix)
+                    if index >= latest_index:
+                        latest_index = index
+                        class_parent = node
+        if class_parent is not None:
+            next_index_1 = latest_index + 1 if class_parent.id != "null2" else 1
+            Node(name="•", id=f"null2_{next_index_1}", parent=class_parent)
+            next_index_2 = next_index_1 + 1
+            node1 = Node(name="•", id=f"null2_{next_index_2}", parent=class_parent)
+            Node(name=rel, id=rel + " in classes" + "null2", parent=node1)
+            next_index_3 = next_index_2 + 1
+            node2 = Node(name="•", id= rel + f"null2_{next_index_3}", parent=node1)
+            node3 =Node(name="•", id=class_name1 + rel + class_name2 + "classes", parent=node2)
+            Node(name=class_name1, id=class_name1 + "in" + class_name1 + rel + class_name2 + "classes" + "1", parent=node3)
+            Node(name=class_name2, id=class_name2 + "in" + class_name1 + rel + class_name2 + "classes" + "2", parent=node3)
+            next_index_4 = next_index_3 + 1
+            Node(name="•", id=rel + f"null2_{next_index_4}", parent=node2)
+
 
 
 def add_elements_rel(tree: Node, el_name1: str, rel: str, el_name2: str) -> None:
     """Add a relationship between two elements in the ontology."""
-    parent_id = ""
-    class_parent = Node(id="", name="")
+    class_parent = None
+    latest_index = 0
     for pre, fill, node in RenderTree(tree):
-        if (rel + " in elements_rel" in node.id and "null4" in node.parent.id):
-            for pre, fill, node in RenderTree(tree):
-                if rel + " null44" in node.id:
-                    parent_id = node.id
-                    class_parent = node
-            if find_by_attr(tree, el_name1 + rel + el_name2 + "elements") is None:
-                node1 = Node(name="•", id=el_name1 + rel + el_name2 + "elements", parent=class_parent)
-                Node(name="•", id=parent_id + "4", parent=class_parent)
-                Node(name=el_name1, id=el_name1 + "in" + el_name1 + rel + el_name2 + "elements" + "1", parent=node1)
-                Node(name=el_name2, id=el_name2 + "in" + el_name1 + rel + el_name2 + "elements" + "2", parent=node1)
-    k = 0
-    for pre, fill, node in RenderTree(tree):
-        if (rel + " in elements_rel" in node.id and "null4" in node.parent.id):
-            k = k + 1
-    if k == 0:
+        if (rel + " in classes" + "null4" == node.id):
+            for pre, fill, node1 in RenderTree(tree):
+                if node.id.startswith(rel + "null4_"):
+                    suffix = node1.id[len(rel + "null4_") :]
+                    if suffix.isdigit():
+                        index = int(suffix)
+                        if index >= latest_index:
+                            latest_index = index
+                            class_parent = node1
+    if class_parent is not None:
+        if find_by_attr(tree, el_name1 + rel + el_name2 + "classes") is None:
+            next_index = latest_index + 1 if class_parent.id != "null4" else 1
+            Node(id=rel + f"null4_{next_index}", name="•", parent=class_parent)
+            new_node = Node(name="•", id=el_name1 + rel + el_name2 + "classes", parent=class_parent)
+            Node(name=el_name1, id=el_name1 + "in" + el_name1 + rel + el_name2 + "classes" + "1", parent=new_node)
+            Node(name=el_name2, id=el_name2 + "in" + el_name1 + rel + el_name2 + "classes" + "2", parent=new_node)
+    else:
+        latest_index = 0
         for pre, fill, node in RenderTree(tree):
-            if node.id.find("null4") == 0:
-                parent_id = node.id
-                parent_class = node
-        Node(name="•", id=parent_id + "4", parent=parent_class)
-        node1 = Node(name="•", id=rel + " in elements_rel", parent=parent_class)
-        Node(name=rel, id=rel + " in elements", parent=node1)
-        node2 = Node(name="•", id=rel + " null4", parent=node1)
-        Node(name="•", id=rel + " null4" + "4", parent=node2)
-        node3 = Node(name="•", id=el_name1 + rel + el_name2 + "elements", parent=node2)
-        Node(name=el_name1, id=el_name1 + "in" + el_name1 + rel + el_name2 + "elements" + "1", parent=node3)
-        Node(name=el_name2, id=el_name2 + "in" + el_name1 + rel + el_name2 + "elements" + "2", parent=node3)
+            if node.id == "null4":
+                class_parent = node
+            elif node.id.startswith("null4_"):
+                suffix = node.id[len("null4_") :]
+                if suffix.isdigit():
+                    index = int(suffix)
+                    if index >= latest_index:
+                        latest_index = index
+                        class_parent = node
+        if class_parent is not None:
+            next_index_1 = latest_index + 1 if class_parent.id != "null4" else 1
+            Node(name="•", id=f"null4_{next_index_1}", parent=class_parent)
+            next_index_2 = next_index_1 + 1
+            node1 = Node(name="•", id=f"null4_{next_index_2}", parent=class_parent)
+            Node(name=rel, id=rel + " in classes" + "null4", parent=node1)
+            next_index_3 = next_index_2 + 1
+            node2 = Node(name="•", id= rel + f"null4_{next_index_3}", parent=node1)
+            node3 =Node(name="•", id=el_name1 + rel + el_name2 + "classes", parent=node2)
+            Node(name=el_name1, id=el_name1 + "in" + el_name1 + rel + el_name2 + "classes" + "1", parent=node3)
+            Node(name=el_name2, id=el_name2 + "in" + el_name1 + rel + el_name2 + "classes" + "2", parent=node3)
+            next_index_4 = next_index_3 + 1
+            Node(name="•", id=rel + f"null4_{next_index_4}", parent=node2)
 
 
 def create_series(tree: Node, series: Node, depth: str, element: str, rel: str, rel_2: str, count: int) -> Node:
@@ -388,8 +392,6 @@ __all__ = [
     "abstract",
     "last_id",
     "create_ontology_tree",
-    "add_elem_list1",
-    "add_elem_list2",
     "add_class",
     "del_class",
     "add_elem",
