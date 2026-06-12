@@ -124,7 +124,7 @@ class AddClassWindow(qtw.QWidget):
             self.class_type.addItem("Abstract")
             self.input_class_button=qtw.QPushButton(self)
             self.input_class_button.setText("Add")
-            self.input_class_button.setGeometry(175, 100, 100, 25)
+            self.input_class_button.setGeometry(200, 100, 100, 25)
             self.input_class_button.clicked.connect(self.confirm)
             self.space = QLabel(self)
             self.space.setGeometry(175, 140, 100, 25)
@@ -188,7 +188,7 @@ class AddElemWindow(qtw.QWidget):
         #self.elem_name.setFont(font)
         self.input_elem_button=QPushButton(self)
         self.input_elem_button.setText("Add")
-        self.input_elem_button.setGeometry(250, 100, 100, 25)
+        self.input_elem_button.setGeometry(180, 100, 100, 25)
         self.input_elem_button.clicked.connect(self.confirm)
         self.space = QLabel(self)
         self.space.setGeometry(175, 140, 100, 25)
@@ -689,15 +689,15 @@ class DelElemWindow(qtw.QWidget):
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.elem_class.activated[int].connect(self.class_choosen)
 
-    def class_choosen(self): #Вывод списка эл первого класса
+    def class_choosen(self): #Вывод списка эл класса
         self.elem_name.clear()
         current_class = self.elem_class.currentText()
-        node_class = Node(name = "", id ="")
+        node_class = None
         tmp_tree = Node(name=current_class, id = "1")
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + "null3" ):
-                node_class = node
-        if (node_class.id!=""):
+            if (node.id == current_class + " in elements" + "null3"):
+                node_class = node.parent
+        if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
                 if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
                     self.elem_name.addItem(node.name)
@@ -1182,7 +1182,7 @@ class Window(QMainWindow, QDialog):
                         el_data=[]
                         node_class = Node(name = "", id ="")
                         for pre, fill, node in RenderTree(tree):
-                            if (node.id == current_class + "null3"):
+                            if (node.id == current_class + " in elements" + "null3"):
                                 node_class = node
                         if (node_class.id!=""):
                             for pre, fill, node in RenderTree(tree):
@@ -1374,7 +1374,8 @@ class Window(QMainWindow, QDialog):
     def del_elem_clicked(self):  #Перерисовка дерева при удалении элемента
         self.warning.setText("")
         current_elem = self.del_elem_window.elem_name.currentText()
-        del_elem(tree, current_elem)
+        current_class = self.del_elem_window.elem_class.currentText()
+        del_elem(tree, current_elem, current_class)
         exporter = JsonExporter(indent=2, sort_keys=True)
         list_tree=self.class_list_tree(tree)
         self.list_tree = QTreeView(self)
@@ -1629,8 +1630,8 @@ def del_class(tree, class_name):
 def add_elem(tree, class_name, elem_name):
     return models.add_elem(tree, class_name, elem_name)
 
-def del_elem(tree, elem_name):
-    return models.del_elem(tree, elem_name)
+def del_elem(tree, elem_name, class_name):
+    return models.del_elem(tree, elem_name, class_name)
 
         
 def add_classes_rel(tree, class_name1, rel, class_name2): #Функция добавления отношения между классами
