@@ -110,10 +110,11 @@ class AddClassWindow(qtw.QWidget):
     def __init__(self, main_window, parent=None):
         super().__init__(parent)
         self.main_window = main_window
+        self.setFixedSize(500, 200)
         self.setWindowTitle("Add class")
         self.input_class=qtw.QLabel(self)
         self.input_class.setText("Class name")
-        self.input_class.setGeometry(180, 10, 60, 100)
+        self.input_class.setGeometry(165, 10, 100, 100)
         self.class_name=qtw.QLineEdit(self)
         self.class_name.setGeometry(130, 70, 150, 25)
         self.input_type=qtw.QLabel(self)
@@ -125,12 +126,10 @@ class AddClassWindow(qtw.QWidget):
         self.class_type.addItem("Abstract")
         self.input_class_button=qtw.QPushButton(self)
         self.input_class_button.setText("Add")
-        self.input_class_button.setGeometry(200, 100, 100, 25)
+        self.input_class_button.setGeometry(200, 110, 100, 25)
         self.input_class_button.clicked.connect(self.confirm)
         self.warning = QLabel(self)        
-        self.warning.setGeometry(130, 140, 300, 25)
-        self.space = QLabel(self)
-        self.space.setGeometry(175, 140, 100, 25)
+        self.warning.setGeometry(30, 140, 450, 25)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
             
     def confirm(self):  
@@ -144,7 +143,7 @@ class AddClassWindow(qtw.QWidget):
         for pre, fill, node in RenderTree(tree):
             if node.id == current_class + current_type and "null1" in node.parent.id:
                 warning = True
-                self.warning.setText("Class with this name already exists in the ontology")
+                self.warning.setText("Class with name " + current_class + " already exists in the ontology")
         if not warning:
             add_class(tree, current_class, current_type)
             self.close()
@@ -155,12 +154,13 @@ class DelClassWindow(qtw.QWidget):
     def __init__(self, main_window, parent=None):
         super().__init__(parent)
         self.main_window = main_window
+        self.setFixedSize(400, 200)
         self.setWindowTitle("Delete class")
         self.input_class=qtw.QLabel(self)
         self.input_class.setText("Class name")
-        self.input_class.setGeometry(120, 10, 60, 100)
+        self.input_class.setGeometry(150, 10, 60, 100)
         self.class_name = QComboBox(self)
-        self.class_name.setGeometry(70, 70, 150, 25)
+        self.class_name.setGeometry(120, 70, 150, 25)
         self.class_name.setEditable(True)
         for pre, fill, node in RenderTree(tree):
             if (node.id!="Null"):
@@ -169,22 +169,23 @@ class DelClassWindow(qtw.QWidget):
         self.input_type=qtw.QLabel(self)
         self.del_class_button=qtw.QPushButton(self)
         self.del_class_button.setText("Delete")
-        self.del_class_button.setGeometry(95, 100, 100, 25)
+        self.del_class_button.setGeometry(145, 110, 100, 25)
         self.del_class_button.clicked.connect(self.confirm)
         self.warning = QLabel(self)  
-        self.warning.setGeometry(70, 140, 300, 25)
-        self.space = QLabel(self)
-        self.space.setGeometry(175, 140, 100, 25)
+        self.warning.setGeometry(10, 140, 330, 25)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
             
     def confirm(self):  
         warning = False
         self.warning.setText("")
-        current_class = self.class_name.text()
+        current_class = self.class_name.currentText()
+        count = 0
         for pre, fill, node in RenderTree(tree):
             if  (node.id == current_class + "object" or node.id == current_class + "abstract") and "null1" in node.parent.id:
-                warning = True
-                self.warning.setText("Class with this name already doesn't exist in the ontology")
+                count += 1
+        if count == 0:
+            warning = True
+            self.warning.setText("Class with name " + current_class + " doesn't exist in the ontology")
         if not warning:
             del_class(tree, current_class)
             self.close()
@@ -195,34 +196,31 @@ class AddElemWindow(qtw.QWidget):
     def __init__(self, main_window, parent=None):
         super().__init__(parent)
         self.main_window = main_window
+        self.setFixedSize(500, 200)
         self.setWindowTitle("Add element")
         self.input_class_of_elem = QLabel(self)
         self.input_class_of_elem.setText("Class name")
-        self.input_class_of_elem.setGeometry(125, 10, 100, 100)
+        self.input_class_of_elem.setGeometry(115, 10, 100, 100)
         self.elem_class = QComboBox(self)
         self.elem_class.setGeometry(75, 70, 150, 25)
         self.elem_class.setEditable(True)
         font = self.elem_class.font()
         font.setPointSize(11)
-        #self.elem_class.setFont(font)
         for pre, fill, node in RenderTree(tree):
             if (node.id!="Null"):
                 if (node.name!="•" and "null1" in node.parent.id):
                     self.elem_class.addItem(node.name)
         self.input_elem = QLabel(self)
         self.input_elem.setText("Element name")
-        self.input_elem.setGeometry(270, 10, 100, 100)
+        self.input_elem.setGeometry(260, 10, 100, 100)
         self.elem_name = qtw.QLineEdit(self)
         self.elem_name.setGeometry(230, 70, 150, 25)
-        #self.elem_name.setFont(font)
         self.input_elem_button=QPushButton(self)
         self.input_elem_button.setText("Add")
-        self.input_elem_button.setGeometry(180, 100, 100, 25)
+        self.input_elem_button.setGeometry(180, 110, 100, 25)
         self.input_elem_button.clicked.connect(self.confirm)
         self.warning = QLabel(self)  
-        self.warning.setGeometry(70, 140, 300, 25)
-        self.space = QLabel(self)
-        self.space.setGeometry(175, 140, 100, 25)
+        self.warning.setGeometry(10, 140, 480, 25)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.elem_class.activated[int].connect(self.class_choosen)
 

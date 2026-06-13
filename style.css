@@ -2,16 +2,16 @@
    Общие настройки окна и шрифтов
 ======================================================= */
 QMainWindow, QWidget {
-    background-color: #dcf3f3; /* Мягкий светло-серый/бежевый фон */
+    background-color: #deeeee; /* Мягкий светло-серый/бежевый фон */
     color: #2C3E50; /* Темно-серый текст для контраста */
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
     font-size: 14px;
 }
 QPushButton {
-    background-color: #94d5dd;
-    border: none;
+    background-color: #8bbcc9;
+    border: 2px solid #2C3E50;
     border-radius: 6px;
-    padding: 8px 16px;
+    /*padding: 8px 16px;*/
     font-weight: bold;
 }
 
@@ -28,8 +28,7 @@ QLineEdit {
     background-color: #FFFFFF;
     border: 2px solid #5ba5af;
     border-radius: 4px;
-    padding: 6px;
-    color: #ffffff;
+    /*padding: 6px;*/
 }
 QLineEdit:focus {
     border: 2px solid #5ba5af;
@@ -37,7 +36,7 @@ QLineEdit:focus {
 
 /* Текстовая метка (Label) */
 QLabel {
-    color: #a0aec0;
+    color: #2C3E50;
     font-size: 16px;
 }
 
@@ -45,16 +44,16 @@ QComboBox {
     background-color: #FFFFFF;
     border: 2px solid #5ba5af;
     border-radius: 4px;
-    padding: 6px;
+    /*padding: 6px;*/
 }
-QComdoBox:focus {
+QComboBox:focus {
     border: 2px solid #5ba5af;
 }
 /* =======================================================
    Верхнее меню (Add class, Add element...)
 ======================================================= */
 QMenuBar {
-    background-color: #dcf3f3;
+    background-color: #deeeee;
     border-bottom: 1px solid #8fcfc5;
     padding: 4px;
 }
