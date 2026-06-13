@@ -107,65 +107,94 @@ class LoginWindow(qtw.QWidget):
 
 class AddClassWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
-    def __init__(self, parent=None):
-            super().__init__(parent)
-            self.setWindowTitle("Add class")
-            self.input_class=qtw.QLabel(self)
-            self.input_class.setText("Class name")
-            self.input_class.setGeometry(180, 10, 60, 100)
-            self.class_name=qtw.QLineEdit(self)
-            self.class_name.setGeometry(130, 70, 150, 25)
-            self.input_type=qtw.QLabel(self)
-            self.input_type.setText("Type")
-            self.input_type.setGeometry(310, 10, 60, 100)
-            self.class_type = QComboBox(self)
-            self.class_type.setGeometry(290, 70, 70, 25)
-            self.class_type.addItem("Object")
-            self.class_type.addItem("Abstract")
-            self.input_class_button=qtw.QPushButton(self)
-            self.input_class_button.setText("Add")
-            self.input_class_button.setGeometry(200, 100, 100, 25)
-            self.input_class_button.clicked.connect(self.confirm)
-            self.space = QLabel(self)
-            self.space.setGeometry(175, 140, 100, 25)
-            self.setWindowFlags(Qt.WindowStaysOnTopHint)
+    def __init__(self, main_window, parent=None):
+        super().__init__(parent)
+        self.main_window = main_window
+        self.setWindowTitle("Add class")
+        self.input_class=qtw.QLabel(self)
+        self.input_class.setText("Class name")
+        self.input_class.setGeometry(180, 10, 60, 100)
+        self.class_name=qtw.QLineEdit(self)
+        self.class_name.setGeometry(130, 70, 150, 25)
+        self.input_type=qtw.QLabel(self)
+        self.input_type.setText("Type")
+        self.input_type.setGeometry(310, 10, 60, 100)
+        self.class_type = QComboBox(self)
+        self.class_type.setGeometry(290, 70, 70, 25)
+        self.class_type.addItem("Object")
+        self.class_type.addItem("Abstract")
+        self.input_class_button=qtw.QPushButton(self)
+        self.input_class_button.setText("Add")
+        self.input_class_button.setGeometry(200, 100, 100, 25)
+        self.input_class_button.clicked.connect(self.confirm)
+        self.warning = QLabel(self)        
+        self.warning.setGeometry(130, 140, 300, 25)
+        self.space = QLabel(self)
+        self.space.setGeometry(175, 140, 100, 25)
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
             
     def confirm(self):  
-            self.submitClicked.emit(self.class_name.text())
+        warning = False
+        self.warning.setText("")
+        current_class = self.class_name.text()
+        if(self.class_type.currentText()== "Object"):
+            current_type="object"
+        if(self.class_type.currentText()== "Abstract"):
+            current_type="abstract"
+        for pre, fill, node in RenderTree(tree):
+            if node.id == current_class + current_type and "null1" in node.parent.id:
+                warning = True
+                self.warning.setText("Class with this name already exists in the ontology")
+        if not warning:
+            add_class(tree, current_class, current_type)
             self.close()
+            self.main_window.refresh_tree()
 
 class DelClassWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
-    def __init__(self, parent=None):
-            super().__init__(parent)
-            self.setWindowTitle("Delete class")
-            self.input_class=qtw.QLabel(self)
-            self.input_class.setText("Class name")
-            self.input_class.setGeometry(120, 10, 60, 100)
-            self.class_name = QComboBox(self)
-            self.class_name.setGeometry(70, 70, 150, 25)
-            self.class_name.setEditable(True)
-            for pre, fill, node in RenderTree(tree):
-                if (node.id!="Null"):
-                    if (node.name!="•" and "null1" in node.parent.id):
-                        self.class_name.addItem(node.name)
-            self.input_type=qtw.QLabel(self)
-            self.del_class_button=qtw.QPushButton(self)
-            self.del_class_button.setText("Delete")
-            self.del_class_button.setGeometry(95, 100, 100, 25)
-            self.del_class_button.clicked.connect(self.confirm)
-            self.space = QLabel(self)
-            self.space.setGeometry(175, 140, 100, 25)
-            self.setWindowFlags(Qt.WindowStaysOnTopHint)
+    def __init__(self, main_window, parent=None):
+        super().__init__(parent)
+        self.main_window = main_window
+        self.setWindowTitle("Delete class")
+        self.input_class=qtw.QLabel(self)
+        self.input_class.setText("Class name")
+        self.input_class.setGeometry(120, 10, 60, 100)
+        self.class_name = QComboBox(self)
+        self.class_name.setGeometry(70, 70, 150, 25)
+        self.class_name.setEditable(True)
+        for pre, fill, node in RenderTree(tree):
+            if (node.id!="Null"):
+                if (node.name!="•" and "null1" in node.parent.id):
+                    self.class_name.addItem(node.name)
+        self.input_type=qtw.QLabel(self)
+        self.del_class_button=qtw.QPushButton(self)
+        self.del_class_button.setText("Delete")
+        self.del_class_button.setGeometry(95, 100, 100, 25)
+        self.del_class_button.clicked.connect(self.confirm)
+        self.warning = QLabel(self)  
+        self.warning.setGeometry(70, 140, 300, 25)
+        self.space = QLabel(self)
+        self.space.setGeometry(175, 140, 100, 25)
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
             
     def confirm(self):  
-            self.submitClicked.emit(self.class_name.currentText())
-            self.close()      
+        warning = False
+        self.warning.setText("")
+        current_class = self.class_name.text()
+        for pre, fill, node in RenderTree(tree):
+            if  (node.id == current_class + "object" or node.id == current_class + "abstract") and "null1" in node.parent.id:
+                warning = True
+                self.warning.setText("Class with this name already doesn't exist in the ontology")
+        if not warning:
+            del_class(tree, current_class)
+            self.close()
+            self.main_window.refresh_tree()  
 
 class AddElemWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
-    def __init__(self, parent=None):
+    def __init__(self, main_window, parent=None):
         super().__init__(parent)
+        self.main_window = main_window
         self.setWindowTitle("Add element")
         self.input_class_of_elem = QLabel(self)
         self.input_class_of_elem.setText("Class name")
@@ -190,6 +219,8 @@ class AddElemWindow(qtw.QWidget):
         self.input_elem_button.setText("Add")
         self.input_elem_button.setGeometry(180, 100, 100, 25)
         self.input_elem_button.clicked.connect(self.confirm)
+        self.warning = QLabel(self)  
+        self.warning.setGeometry(70, 140, 300, 25)
         self.space = QLabel(self)
         self.space.setGeometry(175, 140, 100, 25)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
@@ -204,8 +235,30 @@ class AddElemWindow(qtw.QWidget):
                 self.close()
 
     def confirm(self): 
-        self.submitClicked.emit(self.elem_name.text())
-        self.close()
+        warning = False
+        self.warning.setText("")
+        current_class = self.elem_class.currentText()
+        current_elem = self.elem_name.text()
+        self.elem_name.setText("")
+        count = 0
+        for pre, fill, node in RenderTree(tree):
+            if (current_class == node.name and "null1" in node.parent.id):
+                count += 1
+        if count == 0:
+            warning = True
+            self.warning.setText("Class " + current_class + ", to which you want to add an element is not present in the ontology")
+        
+        count = 0
+        for pre, fill, node in RenderTree(tree):
+            if (node.id == current_elem + current_class and "null3" in node.parent.id):
+                count += 1
+        if (count > 0):
+            warning = True
+            self.warning.setText("Element " + current_elem + " already exists in the ontology for class " + current_class)
+        if not warning:
+            add_elem(tree, current_class, current_elem)
+            self.close()
+            self.main_window.refresh_tree()
 
 class AddElemWindowAbstract(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
@@ -700,13 +753,36 @@ class DelElemWindow(qtw.QWidget):
                     self.elem_name.addItem(node.name)
         
     def confirm(self): 
-        self.submitClicked.emit(self.elem_name.currentText())
-        self.close()
+        warning = False
+        self.warning.setText("")
+        current_class = self.elem_class.currentText()
+        current_elem = self.elem_name.text()
+        self.elem_name.setText("")
+        count = 0
+        for pre, fill, node in RenderTree(tree):
+            if (current_class == node.name and "null1" in node.parent.id):
+                count += 1
+        if count == 0:
+            warning = True
+            self.warning.setText("Class " + current_class + ", to which you want to add an element is not present in the ontology")
+        
+        count = 0
+        for pre, fill, node in RenderTree(tree):
+            if (node.id == current_elem + current_class and "null3" in node.parent.id):
+                count += 1
+        if (count == 0):
+            warning = True
+            self.warning.setText("Element " + current_elem + " does not exist in the ontology for class " + current_class)
+        if not warning:
+            del_elem(tree, current_class, current_elem)
+            self.close()
+            self.main_window.refresh_tree()
 
 class AddRelClassesWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
-    def __init__(self, parent=None):
+    def __init__(self, main_window, parent=None):
         super().__init__(parent)
+        self.main_window = main_window
         self.setWindowTitle("Add relationships between classes")
         self.input_class1 = QLabel(self) #Поля ввода класса
         self.input_class1.setText("First class name")
@@ -734,18 +810,46 @@ class AddRelClassesWindow(qtw.QWidget):
         self.add_rel_classes_button.setText("Add")
         self.add_rel_classes_button.setGeometry(275, 110, 100, 25)
         self.add_rel_classes_button.clicked.connect(self.confirm)
+        self.warning = QLabel(self)
+        self.warning.setGeometry(120, 140, 400, 25)
         self.space = QLabel(self)
         self.space.setGeometry(175, 140, 100, 25)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         
     def confirm(self): 
-        self.submitClicked.emit(self.rel.text())
-        self.close()
+        warning = False
+        self.warning.setText("")
+        current_class1 = self.class1.currentText()
+        current_rel = self.rel.text()
+        current_class2 = self.class2.currentText()
+        self.rel.setText("")
+        count1=0
+        count2=0
+        for pre, fill, node in RenderTree(tree):
+            if (current_class1 + "object" == node.id and "null1" in node.parent.id):
+                count1=count1+1
+            if (current_class2 + "object" == node.id and "null1" in node.parent.id):
+                count2=count2+1
+        if (count1==0 and count2!=0):
+            warning = True
+            self.warning.setText("Class " + current_class1 + " is not present in the ontology")
+        if (count2==0 and count1!=0):
+            warning = True
+            self.warning.setText("Class " + current_class2 + " is not present in the ontology")
+        if (count2==0 and count1==0):
+            warning = True
+            self.warning.setText("Classes " + current_class1 + " and " + current_class2 + " are not present in the ontology")
+
+        if not warning:
+            add_classes_rel(tree, current_class1, current_rel, current_class2)
+            self.close()
+            self.main_window.refresh_tree()
 
 class AddRelElemWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
-    def __init__(self, parent=None):
+    def __init__(self, main_window, parent=None):
         super().__init__(parent)
+        self.main_window = main_window
         self.setGeometry(200,200,1250,700)
         self.setWindowTitle("Add relationships between elements")
         self.input_class_for_elem1 = QLabel(self) #Поля ввода класса
@@ -787,6 +891,8 @@ class AddRelElemWindow(qtw.QWidget):
         self.add_elem_rel_button.setText("Add")
         self.add_elem_rel_button.setGeometry(925, 160, 100, 25)
         self.add_elem_rel_button.clicked.connect(self.add)
+        self.warning = QLabel(self)
+        self.warning.setGeometry(770, 190, 400, 25)
         self.space = QLabel(self)
         self.space.setGeometry(825, 190, 100, 25)
         self.class1.activated[int].connect(self.class1_choosen)
@@ -843,8 +949,36 @@ class AddRelElemWindow(qtw.QWidget):
                     self.elem2.addItem(node.name)
        
     def add(self):
-        add_elements_rel(tree, self.elem1.currentText(), self.rel.text(), self.elem2.currentText())
-        self.refresh_canvas()
+        warning = False
+        self.warning.setText("")
+        current_elem1 = self.elem1.currentText()
+        current_rel = self.rel.text()
+        current_elem2 = self.elem2.currentText()
+        self.rel.setText("")
+        count1=0
+        count2=0
+        for pre, fill, node1 in RenderTree(tree):
+            if (node1.id != "Null"):
+                if "null1" in node1.parent.id:
+                    for pre, fill, node2 in RenderTree(tree):
+                        if current_elem1+node1.name == node2.id:
+                            count1=count1+1
+                        if current_elem2+node1.name == node2.id:
+                            count2=count2+1
+        if (count1==0 and count2!=0):
+            warning = True
+            self.warning.setText("Element " + current_elem1 + " is not present in the ontology")
+        if (count2==0 and count1!=0):
+            warning = True
+            self.warning.setText("Element " + current_elem2 + " is not present in the ontology")
+        if (count2==0 and count1==0):
+            warning = True
+            self.warning.setText("Elements " + current_elem1 + " and " + current_elem2 + " are not present in the ontology")
+
+        if not warning:
+            add_elements_rel(tree, current_elem1, current_rel, current_elem2)
+            self.close()
+            self.main_window.refresh_tree()
 
 class CreateSeriesWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
@@ -1060,7 +1194,6 @@ class CanvasElemChoosen(FigureCanvasQTAgg):
         #draw_class(tree)
         plt.close()
 
-
 class Window(QMainWindow, QDialog):
     resized = QtCore.pyqtSignal()
     def __init__(self):
@@ -1191,61 +1324,47 @@ class Window(QMainWindow, QDialog):
         self.login_window.show()
 
 
-    def window_add_class(self, checked):
+    def window_add_class(self):
         if opened:
-            self.add_class_window = AddClassWindow()
+            self.add_class_window = AddClassWindow(self)
             self.add_class_window.class_name.setText("")
-            self.add_class_window.submitClicked.connect(self.add_class_clicked)
             self.add_class_window.show()
 
-    def window_del_class(self, checked):
+    def window_del_class(self):
         if opened:
-            self.del_class_window = DelClassWindow()
-            self.del_class_window.submitClicked.connect(self.del_class_clicked)
+            self.del_class_window = DelClassWindow(self)
             self.del_class_window.show()
 
-    def window_add_elem(self, checked):
+    def window_add_elem(self):
         if opened:
-            self.add_elem_window = AddElemWindow()
+            self.add_elem_window = AddElemWindow(self)
             self.add_elem_window.elem_name.setText("")
-            self.add_elem_window.submitClicked.connect(self.add_elem_clicked)
             self.add_elem_window.show()
 
-    def window_del_elem(self, checked):
+    def window_del_elem(self):
         if opened:
-            self.del_elem_window = DelElemWindow()
-            self.del_elem_window.submitClicked.connect(self.del_elem_clicked)
+            self.del_elem_window = DelElemWindow(self)
             self.del_elem_window.show()
 
-    def window_add_rel_classes(self, checked):
+    def window_add_rel_classes(self):
         if opened:
-            self.add_rel_classes_window = AddRelClassesWindow()
+            self.add_rel_classes_window = AddRelClassesWindow(self)
             self.add_rel_classes_window.rel.setText("")
-            self.add_rel_classes_window.submitClicked.connect(self.add_rel_classes_clicked)
             self.add_rel_classes_window.show()
     
-    def window_add_rel_elem(self, checked):
+    def window_add_rel_elem(self):
         if opened:
-            self.add_rel_elem_window = AddRelElemWindow()
+            self.add_rel_elem_window = AddRelElemWindow(self)
             self.add_rel_elem_window.rel.setText("")
-            #self.add_rel_elem_window.submitClicked.connect(self.add_rel_elem_clicked)
             self.add_rel_elem_window.show()
 
-    def window_create_series(self, checked):
+    def window_create_series(self):
         if opened:
             self.create_series_window = CreateSeriesWindow()
             self.create_series_window.show()
 
     @pyqtSlot()
-    def add_class_clicked(self):  #Перерисовка дерева при добавлении нового класса в онтологию
-        self.warning.setText("")
-        current_class = self.add_class_window.class_name.text()
-        if(self.add_class_window.class_type.currentText()== "Object"):
-            current_type="object"
-        if(self.add_class_window.class_type.currentText()== "Abstract"):
-            current_type="abstract"
-        self.add_class_window.class_name.setText("")
-        add_class(tree, current_class, current_type)
+    def refresh_tree(self):  
         list_tree=self.class_list_tree(tree)
         self.list_tree = QTreeView(self)
         root_model = QStandardItemModel()
@@ -1268,199 +1387,6 @@ class Window(QMainWindow, QDialog):
         fnt.setPixelSize(15)
         self.list_tree.setFont(fnt)
 
-    def del_class_clicked(self):  #Перерисовка дерева при удалении класса
-        self.warning.setText("")
-        current_class = self.del_class_window.class_name.currentText()
-        del_class(tree, current_class)
-        list_tree=self.class_list_tree(tree)
-        self.list_tree = QTreeView(self)
-        root_model = QStandardItemModel()
-        self.list_tree.setModel(root_model)
-        self._populateTree(list_tree, root_model.invisibleRootItem())
-
-        hlayout = QHBoxLayout()
-        vlayout1 = QVBoxLayout()
-        widget = QWidget()
-        widget.setLayout(hlayout)
-        sc = Canvas(self)
-        toolbar = NavigationToolbar(sc, self)
-        vlayout1.addWidget(toolbar)
-        vlayout1.addWidget(sc)
-        hlayout.addLayout(vlayout1,stretch=4)
-        hlayout.addWidget(self.list_tree,stretch=1)
-        self.setCentralWidget(widget)
-
-        fnt = QFont()
-        fnt.setPixelSize(15)
-        self.list_tree.setFont(fnt)
-
-    def add_elem_clicked(self):  #Перерисовка дерева при добавлении нового элемента в класс онтологии
-        self.warning.setText("")
-        current_class = self.add_elem_window.elem_class.currentText()
-        current_elem = self.add_elem_window.elem_name.text()
-        self.add_elem_window.elem_name.setText("")
-        n=0
-        for pre, fill, node in RenderTree(tree):
-            if (current_class == node.name and "null1" in node.parent.id):
-                n=n+1
-        if n==0:
-            self.warning.setText("Class " + current_class + ", to which you want to add an element is not present in the ontology")
-        else:
-            n=0
-            for pre, fill, node in RenderTree(tree):
-                if (node.id==current_class+"formula"):
-                    n=n+1
-            if (n==0):
-                add_elem(tree, current_class, current_elem)
-            else:
-                add_elem(tree, current_class, current_elem)
-
-        list_tree=self.class_list_tree(tree)
-        self.list_tree = QTreeView(self)
-        root_model = QStandardItemModel()
-        self.list_tree.setModel(root_model)
-        self._populateTree(list_tree, root_model.invisibleRootItem())
-
-        hlayout = QHBoxLayout()
-        vlayout1 = QVBoxLayout()
-        widget = QWidget()
-        widget.setLayout(hlayout)
-        sc = Canvas(self)
-        toolbar = NavigationToolbar(sc, self)
-        vlayout1.addWidget(toolbar)
-        vlayout1.addWidget(sc)
-        hlayout.addLayout(vlayout1,stretch=4)
-        hlayout.addWidget(self.list_tree,stretch=1)
-        self.setCentralWidget(widget)
-
-        fnt = QFont()
-        fnt.setPixelSize(15)
-        self.list_tree.setFont(fnt)
-
-    def del_elem_clicked(self):  #Перерисовка дерева при удалении элемента
-        self.warning.setText("")
-        current_elem = self.del_elem_window.elem_name.currentText()
-        current_class = self.del_elem_window.elem_class.currentText()
-        del_elem(tree, current_elem, current_class)
-        exporter = JsonExporter(indent=2, sort_keys=True)
-        list_tree=self.class_list_tree(tree)
-        self.list_tree = QTreeView(self)
-        root_model = QStandardItemModel()
-        self.list_tree.setModel(root_model)
-        self._populateTree(list_tree, root_model.invisibleRootItem())
-
-        hlayout = QHBoxLayout()
-        vlayout1 = QVBoxLayout()
-        widget = QWidget()
-        widget.setLayout(hlayout)
-        sc = Canvas(self)
-        toolbar = NavigationToolbar(sc, self)
-        vlayout1.addWidget(toolbar)
-        vlayout1.addWidget(sc)
-        hlayout.addLayout(vlayout1,stretch=4)
-        hlayout.addWidget(self.list_tree,stretch=1)
-        self.setCentralWidget(widget)
-
-        fnt = QFont()
-        fnt.setPixelSize(15)
-        self.list_tree.setFont(fnt)
-
-    def add_rel_classes_clicked(self):  #Перерисовка дерева при добавлении нового отношения между классами
-        self.warning.setText("")
-        current_class1 = self.add_rel_classes_window.class1.currentText()
-        current_rel = self.add_rel_classes_window.rel.text()
-        current_class2 = self.add_rel_classes_window.class2.currentText()
-        self.add_rel_classes_window.rel.setText("")
-        n1=0
-        n2=0
-        for pre, fill, node in RenderTree(tree):
-            if (current_class1 == node.name and "null1" in node.parent.id):
-                n1=n1+1
-            if (current_class2 == node.name and "null1" in node.parent.id):
-                n2=n2+1
-        if (n1==0 and n2!=0):
-            self.warning.setText("Class " + current_class1 + " is not present in the ontology")
-        if (n2==0 and n1!=0):
-            self.warning.setText("Class " + current_class2 + " is not present in the ontology")
-        if (n2==0 and n1==0):
-            self.warning.setText("Classes " + current_class1 + " и " + current_class2 + " are not present in the ontology")
-        if (n1!=0 and n2!=0):
-            add_classes_rel(tree, current_class1, current_rel, current_class2)
-
-        list_tree=self.class_list_tree(tree)
-        self.list_tree = QTreeView(self)
-        root_model = QStandardItemModel()
-        self.list_tree.setModel(root_model)
-        self._populateTree(list_tree, root_model.invisibleRootItem())
-
-        hlayout = QHBoxLayout()
-        vlayout1 = QVBoxLayout()
-        widget = QWidget()
-        widget.setLayout(hlayout)
-        sc = Canvas(self)
-        toolbar = NavigationToolbar(sc, self)
-        vlayout1.addWidget(toolbar)
-        vlayout1.addWidget(sc)
-        hlayout.addLayout(vlayout1,stretch=4)
-        hlayout.addWidget(self.list_tree,stretch=1)
-        self.setCentralWidget(widget)
-
-        fnt = QFont()
-        fnt.setPixelSize(15)
-        self.list_tree.setFont(fnt)
-
-    def add_rel_elem_clicked(self):  #Перерисовка дерева при добавлении нового отношения между элементами
-        self.warning.setText("")
-        current_elem1 = self.add_rel_elem_window.elem1.currentText()
-        current_rel = self.add_rel_elem_window.rel.text()
-        current_elem2 = self.add_rel_elem_window.elem2.currentText()
-        self.add_rel_elem_window.rel.setText("")
-        n1=0
-        n2=0
-        for pre, fill, node1 in RenderTree(tree):
-            if (node1.id != "Null"):
-                if "null1" in node1.parent.id:
-                    for pre, fill, node2 in RenderTree(tree):
-                        if current_elem1+node1.name == node2.id:
-                            n1=n1+1
-                        if current_elem2+node1.name == node2.id:
-                            n2=n2+1
-        if (n1==0 and n2!=0):
-            self.warning.setText("Element " + current_elem1 + " is not present in the ontology")
-        if (n2==0 and n1!=0):
-            self.warning.setText("Element " + current_elem2 + " is not present in the ontology")
-        if (n2==0 and n1==0):
-            self.warning.setText("Elements " + current_elem1 + " и " + current_elem2 + " are not present in the ontology")
-        if (n1!=0 and n2!=0):
-            add_elements_rel(tree, current_elem1, current_rel, current_elem2)
-
-        list_tree=self.class_list_tree(tree)
-        self.list_tree = QTreeView(self)
-        root_model = QStandardItemModel()
-        self.list_tree.setModel(root_model)
-        self._populateTree(list_tree, root_model.invisibleRootItem())
-
-        hlayout = QHBoxLayout()
-        vlayout1 = QVBoxLayout()
-        widget = QWidget()
-        widget.setLayout(hlayout)
-        sc = Canvas(self)
-        toolbar = NavigationToolbar(sc, self)
-        vlayout1.addWidget(toolbar)
-        vlayout1.addWidget(sc)
-        hlayout.addLayout(vlayout1,stretch=4)
-        hlayout.addWidget(self.list_tree,stretch=1)
-        self.setCentralWidget(widget)
-
-        self.add_rel_elem_window = AddRelElemWindow()
-        self.add_rel_elem_window.rel.setText("")
-        self.add_rel_elem_window.submitClicked.connect(self.add_rel_elem_clicked)
-        self.add_rel_elem_window.show()
-
-        fnt = QFont()
-        fnt.setPixelSize(15)
-        self.list_tree.setFont(fnt)
-        
 
     @QtCore.pyqtSlot()
     @QtCore.pyqtSlot(QtWidgets.QAction)
