@@ -1,0 +1,192 @@
+/* =======================================================
+   Общие настройки окна и шрифтов
+======================================================= */
+QMainWindow, QWidget {
+    background-color: #dcf3f3; /* Мягкий светло-серый/бежевый фон */
+    color: #2C3E50; /* Темно-серый текст для контраста */
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+QPushButton {
+    background-color: #94d5dd;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+/* Эффект при наведении курсора на кнопку */
+QPushButton:hover {
+    background-color: #5ba5af;
+}
+
+/* Эффект при клике на кнопку */
+QPushButton:pressed {
+    background-color: #5ba5af;
+}
+QLineEdit {
+    background-color: #FFFFFF;
+    border: 2px solid #5ba5af;
+    border-radius: 4px;
+    padding: 6px;
+    color: #ffffff;
+}
+QLineEdit:focus {
+    border: 2px solid #5ba5af;
+}
+
+/* Текстовая метка (Label) */
+QLabel {
+    color: #a0aec0;
+    font-size: 16px;
+}
+
+QComboBox {
+    background-color: #FFFFFF;
+    border: 2px solid #5ba5af;
+    border-radius: 4px;
+    padding: 6px;
+}
+QComdoBox:focus {
+    border: 2px solid #5ba5af;
+}
+/* =======================================================
+   Верхнее меню (Add class, Add element...)
+======================================================= */
+QMenuBar {
+    background-color: #dcf3f3;
+    border-bottom: 1px solid #8fcfc5;
+    padding: 4px;
+}
+
+QMenuBar::item {
+    background-color: transparent;
+    padding: 8px 14px;
+    border-radius: 6px;
+    margin-right: 4px;
+}
+
+QMenuBar::item:selected, QMenuBar::item:hover {
+    background-color: #8fcfc5; /* Светло-сине-серый при наведении */
+    color: #0056B3;
+}
+
+QMenu {
+    background-color: #FFFFFF;
+    border: 1px solid #8fcfc5;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+QMenu::item:selected {
+    background-color: #8fcfc5;
+    color: #0056B3;
+    border-radius: 4px;
+}
+
+/* =======================================================
+   Панель инструментов (Иконки: домой, стрелки, лупа)
+======================================================= */
+QToolBar {
+    background-color: #bfecdf;
+    border-bottom: 1px solid #8fcfc5;
+    spacing: 8px;
+    padding: 6px;
+}
+
+QToolButton {
+    background-color: transparent;
+    border: 2px solid #5ba5af;
+    border-radius: 4px;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+QToolButton:hover {
+    background-color: #8fcfc5;
+}
+
+QToolButton:pressed {
+    background-color: #D6E0EA;
+}
+
+/* =======================================================
+   Правая панель (Дерево элементов/классов онтологии)
+======================================================= */
+QTreeWidget, QListWidget {
+    background-color: #FFFFFF;
+    border: 1px solid #8fcfc5;
+    border-radius: 8px;
+    padding: 6px;
+    margin: 10px;
+    outline: none; /* Убирает пунктирную рамку фокуса */
+}
+
+QTreeWidget::item, QListWidget::item {
+    padding: 6px;
+    border-radius: 4px;
+}
+
+QTreeWidget::item:hover, QListWidget::item:hover {
+    background-color: #F1F4F8;
+}
+
+QTreeWidget::item:selected, QListWidget::item:selected {
+    background-color: #E3F2FD;
+    color: #0056B3;
+}
+
+/* =======================================================
+   Центральный холст (Граф)
+======================================================= */
+QGraphicsView {
+    background-color: #FFFFFF;
+    border: 1px solid #8fcfc5;
+    border-radius: 8px;
+    margin: 10px;
+}
+
+/* =======================================================
+   Современные скроллбары
+======================================================= */
+QScrollBar:vertical {
+    border: none;
+    background-color: transparent;
+    width: 12px;
+    margin: 0px 0px 0px 0px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #CFD8DC;
+    min-height: 20px;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: #B0BEC5;
+}
+
+QScrollBar:horizontal {
+    border: none;
+    background-color: transparent;
+    height: 12px;
+    margin: 0px 0px 0px 0px;
+}
+
+QScrollBar::handle:horizontal {
+    background-color: #CFD8DC;
+    min-width: 20px;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background-color: #B0BEC5;
+}
+
+QScrollBar::add-page, QScrollBar::sub-page, 
+QScrollBar::add-line, QScrollBar::sub-line {
+    background: none;
+    border: none;
+}

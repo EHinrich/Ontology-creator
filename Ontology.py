@@ -1536,8 +1536,13 @@ def draw_series(series, rel):
     return viz.draw_series(series, rel)
 
 
+def load_stylesheet(filename):
+    with open(filename, 'r', encoding='utf-8') as f:
+        return f.read()
+
 def main():
     app = QApplication(sys.argv)
+    app.setStyleSheet(load_stylesheet('style.css'))
     demo = Window()
     demo.show()
     sys.exit(app.exec())
