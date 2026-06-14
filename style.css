@@ -40,6 +40,16 @@ QLabel {
     font-size: 16px;
 }
 
+#HeaderLabel {
+    color: #2C3E50;
+    font-size: 20px;
+    font-weight: bold;
+    /*background-color: #f0f0f0;
+    border: 2px solid #2C3E50;
+    border-radius: 5px;*/
+    padding: 5px;
+}
+
 QComboBox {
     background-color: #FFFFFF;
     border: 2px solid #5ba5af;

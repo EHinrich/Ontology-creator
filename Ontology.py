@@ -271,8 +271,8 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.setWindowTitle("Add element for abstract class " + abstract_class)
         self.main_elem_name = QLabel(self)
         self.main_elem_name.setText("You are currently working with element: "+ current_elem)
-        self.main_elem_name.setGeometry(830, 0, 400, 50)
-        self.main_elem_name.setFont(QFont('Arial', 12))
+        self.main_elem_name.setGeometry(800, 0, 400, 50)
+        self.main_elem_name.setObjectName("HeaderLabel")
 
         self.input_class_of_elem = QLabel(self) #Поля ввода предметного класса
         self.input_class_of_elem.setText("Object class name")
@@ -302,8 +302,8 @@ class AddElemWindowAbstract(qtw.QWidget):
 
         self.input_pair = QLabel(self)
         self.input_pair.setText("Add RDF triple into structure:")
-        self.input_pair.setGeometry(880, 160, 400, 50)
-        self.input_pair.setFont(QFont('Arial', 12))
+        self.input_pair.setGeometry(850, 160, 400, 50)
+        self.input_pair.setObjectName("HeaderLabel")
 
         self.input_class_for_elem1 = QLabel(self) #Поля ввода класса
         self.input_class_for_elem1.setText("First class name")
@@ -352,8 +352,8 @@ class AddElemWindowAbstract(qtw.QWidget):
 
         self.input_one_elem = QLabel(self)
         self.input_one_elem.setText("Add one element into structure:")
-        self.input_one_elem.setGeometry(880, 380, 400, 50)
-        self.input_one_elem.setFont(QFont('Arial', 12))
+        self.input_one_elem.setGeometry(850, 380, 400, 50)
+        self.input_one_elem.setObjectName("HeaderLabel")
 
         self.input_class_for_elem = QLabel(self) 
         self.input_class_for_elem.setText("Class name")
@@ -985,25 +985,26 @@ class CreateSeriesWindow(qtw.QWidget):
 
         self.series_depth_1 = QLabel(self)
         self.series_depth_1.setText("Create a series of depth 1:")
-        self.series_depth_1.setGeometry(880, 60, 400, 50)
+        self.series_depth_1.setGeometry(850, 60, 400, 50)
         self.series_depth_1.setFont(QFont('Arial', 12))
+        self.series_depth_1.setObjectName("HeaderLabel")
 
         self.input_class_depth_1 = QLabel(self) #Поле ввода класса
         self.input_class_depth_1.setText("Class name")
-        self.input_class_depth_1.setGeometry(775, 70, 120, 100)
+        self.input_class_depth_1.setGeometry(775, 100, 120, 30)
         self.class_name_depth_1 = QComboBox(self)
         self.class_name_depth_1.setGeometry(745, 130, 150, 25)
         self.class_name_depth_1.setEditable(True)
 
         self.input_elem_depth_1 = QLabel(self) #Поле ввода элемента
         self.input_elem_depth_1.setText("Element name")
-        self.input_elem_depth_1.setGeometry(940, 70, 100, 100)
+        self.input_elem_depth_1.setGeometry(920, 100, 100, 30)
         self.elem_name_depth_1 = QComboBox(self)
         self.elem_name_depth_1.setGeometry(900, 130, 150, 25)
         self.elem_name_depth_1.setEditable(True)
         self.input_rel_depth_1 = QLabel(self) #Поле ввода отношения
         self.input_rel_depth_1.setText("Relationship name")
-        self.input_rel_depth_1.setGeometry(1075, 70, 120, 100)
+        self.input_rel_depth_1.setGeometry(1065, 100, 140, 30)
         self.rel_name_depth_1 = QComboBox(self)
         self.rel_name_depth_1.setGeometry(1055, 130, 150, 25)
         self.rel_name_depth_1.setEditable(True)
@@ -1018,7 +1019,7 @@ class CreateSeriesWindow(qtw.QWidget):
         self.rel_name_depth_1.setCurrentText("")
         self.create_series_depth_1_button=QPushButton(self)
         self.create_series_depth_1_button.setText("Create")
-        self.create_series_depth_1_button.setGeometry(925, 160, 100, 25)
+        self.create_series_depth_1_button.setGeometry(925, 170, 100, 25)
         self.create_series_depth_1_button.clicked.connect(self.create_depth_1)
         self.space = QLabel(self)
         self.space.setGeometry(825, 190, 100, 25)
@@ -1027,30 +1028,31 @@ class CreateSeriesWindow(qtw.QWidget):
 
         self.series_depth_2 = QLabel(self)
         self.series_depth_2.setText("Create a series of depth 2:")
-        self.series_depth_2.setGeometry(880, 220, 400, 50)
+        self.series_depth_2.setGeometry(850, 220, 400, 50)
         self.series_depth_2.setFont(QFont('Arial', 12))
+        self.series_depth_2.setObjectName("HeaderLabel")
 
         self.input_class_depth_2 = QLabel(self) #Поле ввода класса
         self.input_class_depth_2.setText("Class name")
-        self.input_class_depth_2.setGeometry(775, 230, 120, 100)
+        self.input_class_depth_2.setGeometry(775, 260, 120, 30)
         self.class_name_depth_2 = QComboBox(self)
         self.class_name_depth_2.setGeometry(745, 290, 150, 25)
         self.class_name_depth_2.setEditable(True)
         self.input_elem_depth_2 = QLabel(self) #Поле ввода элемента
         self.input_elem_depth_2.setText("Element name")
-        self.input_elem_depth_2.setGeometry(775, 290, 100, 100)
+        self.input_elem_depth_2.setGeometry(775, 320, 100, 30)
         self.elem_name_depth_2 = QComboBox(self)
         self.elem_name_depth_2.setGeometry(745, 350, 150, 25)
         self.elem_name_depth_2.setEditable(True)
 
         self.input_rel_1_depth_2 = QLabel(self) 
         self.input_rel_1_depth_2.setText("Relationship name 1")
-        self.input_rel_1_depth_2.setGeometry(940, 230, 100, 100)
+        self.input_rel_1_depth_2.setGeometry(900, 260, 150, 30)
         self.rel_name_1_depth_2 = QComboBox(self)
         self.rel_name_1_depth_2.setGeometry(900, 290, 150, 25)
         self.input_rel_2_depth_2 = QLabel(self) #Поле ввода отношения
         self.input_rel_2_depth_2.setText("Relationship name 2")
-        self.input_rel_2_depth_2.setGeometry(1075, 230, 120, 100)
+        self.input_rel_2_depth_2.setGeometry(1055, 260, 150, 30)
         self.rel_name_2_depth_2 = QComboBox(self)
         self.rel_name_2_depth_2.setGeometry(1055, 290, 150, 25)
         self.rel_name_1_depth_2.setEditable(True)

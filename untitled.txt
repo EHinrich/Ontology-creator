@@ -15,32 +15,32 @@
             {
               "children": [
                 {
-                  "id": "Aobject",
-                  "name": "A"
+                  "id": "Class_Aobject",
+                  "name": "Class_A"
                 },
                 {
                   "children": [
                     {
-                      "id": "Bobject",
-                      "name": "B"
+                      "id": "Class_Bobject",
+                      "name": "Class_B"
                     },
                     {
                       "children": [
                         {
-                          "id": "Cobject",
-                          "name": "C"
+                          "id": "Class_Cobject",
+                          "name": "Class_C"
                         },
                         {
                           "children": [
                             {
-                              "id": "Dobject",
-                              "name": "D"
+                              "id": "Class_Dobject",
+                              "name": "Class_D"
                             },
                             {
                               "children": [
                                 {
-                                  "id": "Eobject",
-                                  "name": "E"
+                                  "id": "Class_Eobject",
+                                  "name": "Class_E"
                                 },
                                 {
                                   "id": "null1_5",
@@ -87,51 +87,51 @@
                     {
                       "children": [
                         {
-                          "id": "r1 in classesnull2",
-                          "name": "r1"
+                          "id": "rel_1 in classesnull2",
+                          "name": "rel_1"
                         },
                         {
                           "children": [
                             {
                               "children": [
                                 {
-                                  "id": "AinAr1Bclasses1",
-                                  "name": "A"
+                                  "id": "Class_AinClass_Arel_1Class_Bclasses1",
+                                  "name": "Class_A"
                                 },
                                 {
-                                  "id": "BinAr1Bclasses2",
-                                  "name": "B"
+                                  "id": "Class_BinClass_Arel_1Class_Bclasses2",
+                                  "name": "Class_B"
                                 }
                               ],
-                              "id": "Ar1Bclasses",
+                              "id": "Class_Arel_1Class_Bclasses",
                               "name": "\u2022"
                             },
                             {
                               "children": [
                                 {
-                                  "id": "r1null2_5",
+                                  "id": "rel_1null2_5",
                                   "name": "\u2022"
                                 },
                                 {
                                   "children": [
                                     {
-                                      "id": "AinAr1Dclasses1",
-                                      "name": "A"
+                                      "id": "Class_BinClass_Brel_1Class_Cclasses1",
+                                      "name": "Class_B"
                                     },
                                     {
-                                      "id": "DinAr1Dclasses2",
-                                      "name": "D"
+                                      "id": "Class_CinClass_Brel_1Class_Cclasses2",
+                                      "name": "Class_C"
                                     }
                                   ],
-                                  "id": "Ar1Dclasses",
+                                  "id": "Class_Brel_1Class_Cclasses",
                                   "name": "\u2022"
                                 }
                               ],
-                              "id": "r1null2_4",
+                              "id": "rel_1null2_4",
                               "name": "\u2022"
                             }
                           ],
-                          "id": "r1null2_3",
+                          "id": "rel_1null2_3",
                           "name": "\u2022"
                         },
                         {
@@ -141,31 +141,31 @@
                         {
                           "children": [
                             {
-                              "id": "r2 in classesnull2",
-                              "name": "r2"
+                              "id": "rel_2 in classesnull2",
+                              "name": "rel_2"
                             },
                             {
                               "children": [
                                 {
                                   "children": [
                                     {
-                                      "id": "CinCr2Dclasses1",
-                                      "name": "C"
+                                      "id": "Class_CinClass_Crel_2Class_Eclasses1",
+                                      "name": "Class_C"
                                     },
                                     {
-                                      "id": "DinCr2Dclasses2",
-                                      "name": "D"
+                                      "id": "Class_EinClass_Crel_2Class_Eclasses2",
+                                      "name": "Class_E"
                                     }
                                   ],
-                                  "id": "Cr2Dclasses",
+                                  "id": "Class_Crel_2Class_Eclasses",
                                   "name": "\u2022"
                                 },
                                 {
-                                  "id": "r2null2_6",
+                                  "id": "rel_2null2_6",
                                   "name": "\u2022"
                                 }
                               ],
-                              "id": "r2null2_5",
+                              "id": "rel_2null2_5",
                               "name": "\u2022"
                             },
                             {
@@ -175,31 +175,31 @@
                             {
                               "children": [
                                 {
-                                  "id": "r3 in classesnull2",
-                                  "name": "r3"
+                                  "id": "rel_3 in classesnull2",
+                                  "name": "rel_3"
                                 },
                                 {
                                   "children": [
                                     {
                                       "children": [
                                         {
-                                          "id": "AinAr3Eclasses1",
-                                          "name": "A"
+                                          "id": "Class_BinClass_Brel_3Class_Dclasses1",
+                                          "name": "Class_B"
                                         },
                                         {
-                                          "id": "EinAr3Eclasses2",
-                                          "name": "E"
+                                          "id": "Class_DinClass_Brel_3Class_Dclasses2",
+                                          "name": "Class_D"
                                         }
                                       ],
-                                      "id": "Ar3Eclasses",
+                                      "id": "Class_Brel_3Class_Dclasses",
                                       "name": "\u2022"
                                     },
                                     {
-                                      "id": "r3null2_8",
+                                      "id": "rel_3null2_8",
                                       "name": "\u2022"
                                     }
                                   ],
-                                  "id": "r3null2_7",
+                                  "id": "rel_3null2_7",
                                   "name": "\u2022"
                                 }
                               ],
@@ -239,41 +239,41 @@
                         {
                           "children": [
                             {
-                              "id": "A in elementsnull3",
-                              "name": "A"
+                              "id": "Class_A in elementsnull3",
+                              "name": "Class_A"
                             },
                             {
                               "children": [
                                 {
-                                  "id": "a1A",
-                                  "name": "a1"
+                                  "id": "element_a1Class_A",
+                                  "name": "element_a1"
                                 },
                                 {
                                   "children": [
                                     {
-                                      "id": "a2A",
-                                      "name": "a2"
+                                      "id": "element_a2Class_A",
+                                      "name": "element_a2"
                                     },
                                     {
                                       "children": [
                                         {
-                                          "id": "a3A",
-                                          "name": "a3"
+                                          "id": "element_a3Class_A",
+                                          "name": "element_a3"
                                         },
                                         {
-                                          "id": "Anull3_6",
+                                          "id": "Class_Anull3_6",
                                           "name": "\u2022"
                                         }
                                       ],
-                                      "id": "Anull3_5",
+                                      "id": "Class_Anull3_5",
                                       "name": "\u2022"
                                     }
                                   ],
-                                  "id": "Anull3_4",
+                                  "id": "Class_Anull3_4",
                                   "name": "\u2022"
                                 }
                               ],
-                              "id": "Anull3_3",
+                              "id": "Class_Anull3_3",
                               "name": "\u2022"
                             },
                             {
@@ -283,59 +283,31 @@
                             {
                               "children": [
                                 {
-                                  "id": "B in elementsnull3",
-                                  "name": "B"
+                                  "id": "Class_B in elementsnull3",
+                                  "name": "Class_B"
                                 },
                                 {
                                   "children": [
                                     {
-                                      "id": "b1B",
-                                      "name": "b1"
+                                      "id": "element_b1Class_B",
+                                      "name": "element_b1"
                                     },
                                     {
                                       "children": [
                                         {
-                                          "id": "b2B",
-                                          "name": "b2"
+                                          "id": "element_b2Class_B",
+                                          "name": "element_b2"
                                         },
                                         {
-                                          "id": "Bnull3_7",
+                                          "id": "Class_Bnull3_7",
                                           "name": "\u2022"
                                         }
                                       ],
-                                      "id": "Bnull3_6",
+                                      "id": "Class_Bnull3_6",
                                       "name": "\u2022"
                                     }
                                   ],
-                                  "id": "Bnull3_5",
-                                  "name": "\u2022"
-                                },
-                                {
-                                  "id": "null3_5",
-                                  "name": "\u2022"
-                                },
-                                {
-                                  "children": [
-                                    {
-                                      "id": "C in elementsnull3",
-                                      "name": "C"
-                                    },
-                                    {
-                                      "children": [
-                                        {
-                                          "id": "c1C",
-                                          "name": "c1"
-                                        },
-                                        {
-                                          "id": "Cnull3_8",
-                                          "name": "\u2022"
-                                        }
-                                      ],
-                                      "id": "Cnull3_7",
-                                      "name": "\u2022"
-                                    }
-                                  ],
-                                  "id": "null3_6",
+                                  "id": "Class_Bnull3_5",
                                   "name": "\u2022"
                                 }
                               ],
