@@ -196,13 +196,13 @@ class AddElemWindow(qtw.QWidget):
     def __init__(self, main_window, parent=None):
         super().__init__(parent)
         self.main_window = main_window
-        self.setFixedSize(500, 200)
+        self.setFixedSize(490, 200)
         self.setWindowTitle("Add element")
         self.input_class_of_elem = QLabel(self)
         self.input_class_of_elem.setText("Class name")
-        self.input_class_of_elem.setGeometry(115, 10, 100, 100)
+        self.input_class_of_elem.setGeometry(125, 10, 100, 100)
         self.elem_class = QComboBox(self)
-        self.elem_class.setGeometry(75, 70, 150, 25)
+        self.elem_class.setGeometry(85, 70, 150, 25)
         self.elem_class.setEditable(True)
         font = self.elem_class.font()
         font.setPointSize(11)
@@ -214,10 +214,10 @@ class AddElemWindow(qtw.QWidget):
         self.input_elem.setText("Element name")
         self.input_elem.setGeometry(260, 10, 100, 100)
         self.elem_name = qtw.QLineEdit(self)
-        self.elem_name.setGeometry(230, 70, 150, 25)
+        self.elem_name.setGeometry(240, 70, 150, 25)
         self.input_elem_button=QPushButton(self)
         self.input_elem_button.setText("Add")
-        self.input_elem_button.setGeometry(180, 110, 100, 25)
+        self.input_elem_button.setGeometry(190, 110, 100, 25)
         self.input_elem_button.clicked.connect(self.confirm)
         self.warning = QLabel(self)  
         self.warning.setGeometry(10, 140, 480, 25)
@@ -262,7 +262,7 @@ class AddElemWindowAbstract(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
     def __init__(self, abstract_class, current_class, current_elem, current_node, parent=None):
         super().__init__(parent)
-        self.setGeometry(200,200,1250,700)
+        self.setFixedSize(1250, 700)
         models.abstract = None
         self.abstract_class = abstract_class
         self.current_class = current_class
@@ -781,6 +781,7 @@ class AddRelClassesWindow(qtw.QWidget):
     def __init__(self, main_window, parent=None):
         super().__init__(parent)
         self.main_window = main_window
+        self.setFixedSize(620, 200)
         self.setWindowTitle("Add relationships between classes")
         self.input_class1 = QLabel(self) #Поля ввода класса
         self.input_class1.setText("First class name")
@@ -809,9 +810,7 @@ class AddRelClassesWindow(qtw.QWidget):
         self.add_rel_classes_button.setGeometry(275, 110, 100, 25)
         self.add_rel_classes_button.clicked.connect(self.confirm)
         self.warning = QLabel(self)
-        self.warning.setGeometry(120, 140, 400, 25)
-        self.space = QLabel(self)
-        self.space.setGeometry(175, 140, 100, 25)
+        self.warning.setGeometry(10, 140, 600, 25)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         
     def confirm(self): 
@@ -848,35 +847,35 @@ class AddRelElemWindow(qtw.QWidget):
     def __init__(self, main_window, parent=None):
         super().__init__(parent)
         self.main_window = main_window
-        self.setGeometry(200,200,1250,700)
+        self.setFixedSize(1250, 700)
         self.setWindowTitle("Add relationships between elements")
         self.input_class_for_elem1 = QLabel(self) #Поля ввода класса
         self.input_class_for_elem1.setText("First class name")
-        self.input_class_for_elem1.setGeometry(770, -10, 100, 100)
+        self.input_class_for_elem1.setGeometry(760, 20, 120, 30)
         self.class1 = QComboBox(self)
         self.class1.setGeometry(745, 50, 150, 25)
         self.class1.setEditable(True)
         self.input_class_for_elem2 = QLabel(self) #Поля ввода класса
         self.input_class_for_elem2.setText("Second class name")
-        self.input_class_for_elem2.setGeometry(1085, -10, 100, 100)
+        self.input_class_for_elem2.setGeometry(1065, 20, 130, 30)
         self.class2 = QComboBox(self)
         self.class2.setGeometry(1055, 50, 150, 25)
         self.class2.setEditable(True)
 
         self.input_elem1 = QLabel(self) #Поля ввода элемента
         self.input_elem1.setText("First element name")
-        self.input_elem1.setGeometry(775, 70, 120, 100)
+        self.input_elem1.setGeometry(755, 100, 140, 30)
         self.elem1 = QComboBox(self)
         self.elem1.setGeometry(745, 130, 150, 25)
         self.elem1.setEditable(True)
         self.input_rel = QLabel(self) #Поля ввода отношения
         self.input_rel.setText("Relationship name")
-        self.input_rel.setGeometry(940, 70, 100, 100)
+        self.input_rel.setGeometry(910, 100, 130, 30)
         self.rel = QLineEdit(self)
         self.rel.setGeometry(900, 130, 150, 25)
         self.input_elem2 = QLabel(self) #Поля ввода элемента
         self.input_elem2.setText("Second element name")
-        self.input_elem2.setGeometry(1075, 70, 120, 100)
+        self.input_elem2.setGeometry(1055, 100, 160, 30)
         self.elem2 = QComboBox(self)
         self.elem2.setGeometry(1055, 130, 150, 25)
         self.elem2.setEditable(True)
@@ -887,12 +886,10 @@ class AddRelElemWindow(qtw.QWidget):
                     self.class2.addItem(node.name)
         self.add_elem_rel_button=QPushButton(self)
         self.add_elem_rel_button.setText("Add")
-        self.add_elem_rel_button.setGeometry(925, 160, 100, 25)
+        self.add_elem_rel_button.setGeometry(925, 180, 100, 25)
         self.add_elem_rel_button.clicked.connect(self.add)
         self.warning = QLabel(self)
-        self.warning.setGeometry(770, 190, 400, 25)
-        self.space = QLabel(self)
-        self.space.setGeometry(825, 190, 100, 25)
+        self.warning.setGeometry(770, 220, 400, 25)
         self.class1.activated[int].connect(self.class1_choosen)
         self.class2.activated[int].connect(self.class2_choosen)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
@@ -1309,11 +1306,11 @@ class Window(QMainWindow, QDialog):
         saveAction = QAction("&Save", self)
         exitAction = QAction("Exit", self)
         loginAction = QAction("Login", self)
+        fileMenu.addAction(loginAction)
+        fileMenu.addAction(newAction)
         fileMenu.addAction(openAction)
         fileMenu.addAction(saveAction)
         fileMenu.addAction(exitAction)
-        fileMenu.addAction(newAction)
-        fileMenu.addAction(loginAction)
         fileMenu.triggered[QAction].connect(self.do_something_ontology)
 
     def window_login(self):
@@ -1444,6 +1441,11 @@ class Window(QMainWindow, QDialog):
                 tree = models.tree
                 exporter = JsonExporter(indent=2, sort_keys=True)
                 draw_tree(tree)
+                file = open(fileName, 'w')
+                exporter = JsonExporter(indent=2, sort_keys=True)
+                text = exporter.export(tree)
+                file.write(text)
+                file.close()
             list_tree=self.class_list_tree(tree)
             self.list_tree = QTreeView(self)
             fnt = QFont()

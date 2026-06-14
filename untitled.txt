@@ -1,4 +1,396 @@
 {
-  "id": "",
-  "name": ""
+  "children": [
+    {
+      "id": "ontology_untitled",
+      "name": "untitled"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "id": "classes",
+              "name": "Classes"
+            },
+            {
+              "children": [
+                {
+                  "id": "Aobject",
+                  "name": "A"
+                },
+                {
+                  "children": [
+                    {
+                      "id": "Bobject",
+                      "name": "B"
+                    },
+                    {
+                      "children": [
+                        {
+                          "id": "Cobject",
+                          "name": "C"
+                        },
+                        {
+                          "children": [
+                            {
+                              "id": "Dobject",
+                              "name": "D"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "id": "Eobject",
+                                  "name": "E"
+                                },
+                                {
+                                  "id": "null1_5",
+                                  "name": "\u2022"
+                                }
+                              ],
+                              "id": "null1_4",
+                              "name": "\u2022"
+                            }
+                          ],
+                          "id": "null1_3",
+                          "name": "\u2022"
+                        }
+                      ],
+                      "id": "null1_2",
+                      "name": "\u2022"
+                    }
+                  ],
+                  "id": "null1_1",
+                  "name": "\u2022"
+                }
+              ],
+              "id": "null1",
+              "name": "\u2022"
+            }
+          ],
+          "id": " 2",
+          "name": "\u2022"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "id": "rel_classes",
+                  "name": "Rel_classes"
+                },
+                {
+                  "children": [
+                    {
+                      "id": "null2_1",
+                      "name": "\u2022"
+                    },
+                    {
+                      "children": [
+                        {
+                          "id": "r1 in classesnull2",
+                          "name": "r1"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "id": "AinAr1Bclasses1",
+                                  "name": "A"
+                                },
+                                {
+                                  "id": "BinAr1Bclasses2",
+                                  "name": "B"
+                                }
+                              ],
+                              "id": "Ar1Bclasses",
+                              "name": "\u2022"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "id": "r1null2_5",
+                                  "name": "\u2022"
+                                },
+                                {
+                                  "children": [
+                                    {
+                                      "id": "AinAr1Dclasses1",
+                                      "name": "A"
+                                    },
+                                    {
+                                      "id": "DinAr1Dclasses2",
+                                      "name": "D"
+                                    }
+                                  ],
+                                  "id": "Ar1Dclasses",
+                                  "name": "\u2022"
+                                }
+                              ],
+                              "id": "r1null2_4",
+                              "name": "\u2022"
+                            }
+                          ],
+                          "id": "r1null2_3",
+                          "name": "\u2022"
+                        },
+                        {
+                          "id": "null2_3",
+                          "name": "\u2022"
+                        },
+                        {
+                          "children": [
+                            {
+                              "id": "r2 in classesnull2",
+                              "name": "r2"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [
+                                    {
+                                      "id": "CinCr2Dclasses1",
+                                      "name": "C"
+                                    },
+                                    {
+                                      "id": "DinCr2Dclasses2",
+                                      "name": "D"
+                                    }
+                                  ],
+                                  "id": "Cr2Dclasses",
+                                  "name": "\u2022"
+                                },
+                                {
+                                  "id": "r2null2_6",
+                                  "name": "\u2022"
+                                }
+                              ],
+                              "id": "r2null2_5",
+                              "name": "\u2022"
+                            },
+                            {
+                              "id": "null2_5",
+                              "name": "\u2022"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "id": "r3 in classesnull2",
+                                  "name": "r3"
+                                },
+                                {
+                                  "children": [
+                                    {
+                                      "children": [
+                                        {
+                                          "id": "AinAr3Eclasses1",
+                                          "name": "A"
+                                        },
+                                        {
+                                          "id": "EinAr3Eclasses2",
+                                          "name": "E"
+                                        }
+                                      ],
+                                      "id": "Ar3Eclasses",
+                                      "name": "\u2022"
+                                    },
+                                    {
+                                      "id": "r3null2_8",
+                                      "name": "\u2022"
+                                    }
+                                  ],
+                                  "id": "r3null2_7",
+                                  "name": "\u2022"
+                                }
+                              ],
+                              "id": "null2_6",
+                              "name": "\u2022"
+                            }
+                          ],
+                          "id": "null2_4",
+                          "name": "\u2022"
+                        }
+                      ],
+                      "id": "null2_2",
+                      "name": "\u2022"
+                    }
+                  ],
+                  "id": "null2",
+                  "name": "\u2022"
+                }
+              ],
+              "id": " 4",
+              "name": "\u2022"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "id": "elements",
+                      "name": "Elements"
+                    },
+                    {
+                      "children": [
+                        {
+                          "id": "null3_1",
+                          "name": "\u2022"
+                        },
+                        {
+                          "children": [
+                            {
+                              "id": "A in elementsnull3",
+                              "name": "A"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "id": "a1A",
+                                  "name": "a1"
+                                },
+                                {
+                                  "children": [
+                                    {
+                                      "id": "a2A",
+                                      "name": "a2"
+                                    },
+                                    {
+                                      "children": [
+                                        {
+                                          "id": "a3A",
+                                          "name": "a3"
+                                        },
+                                        {
+                                          "id": "Anull3_6",
+                                          "name": "\u2022"
+                                        }
+                                      ],
+                                      "id": "Anull3_5",
+                                      "name": "\u2022"
+                                    }
+                                  ],
+                                  "id": "Anull3_4",
+                                  "name": "\u2022"
+                                }
+                              ],
+                              "id": "Anull3_3",
+                              "name": "\u2022"
+                            },
+                            {
+                              "id": "null3_3",
+                              "name": "\u2022"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "id": "B in elementsnull3",
+                                  "name": "B"
+                                },
+                                {
+                                  "children": [
+                                    {
+                                      "id": "b1B",
+                                      "name": "b1"
+                                    },
+                                    {
+                                      "children": [
+                                        {
+                                          "id": "b2B",
+                                          "name": "b2"
+                                        },
+                                        {
+                                          "id": "Bnull3_7",
+                                          "name": "\u2022"
+                                        }
+                                      ],
+                                      "id": "Bnull3_6",
+                                      "name": "\u2022"
+                                    }
+                                  ],
+                                  "id": "Bnull3_5",
+                                  "name": "\u2022"
+                                },
+                                {
+                                  "id": "null3_5",
+                                  "name": "\u2022"
+                                },
+                                {
+                                  "children": [
+                                    {
+                                      "id": "C in elementsnull3",
+                                      "name": "C"
+                                    },
+                                    {
+                                      "children": [
+                                        {
+                                          "id": "c1C",
+                                          "name": "c1"
+                                        },
+                                        {
+                                          "id": "Cnull3_8",
+                                          "name": "\u2022"
+                                        }
+                                      ],
+                                      "id": "Cnull3_7",
+                                      "name": "\u2022"
+                                    }
+                                  ],
+                                  "id": "null3_6",
+                                  "name": "\u2022"
+                                }
+                              ],
+                              "id": "null3_4",
+                              "name": "\u2022"
+                            }
+                          ],
+                          "id": "null3_2",
+                          "name": "\u2022"
+                        }
+                      ],
+                      "id": "null3",
+                      "name": "\u2022"
+                    }
+                  ],
+                  "id": " 6",
+                  "name": "\u2022"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "id": "rel_elem",
+                          "name": "Rel_elem"
+                        },
+                        {
+                          "id": "null4",
+                          "name": "\u2022"
+                        }
+                      ],
+                      "id": " 8",
+                      "name": "\u2022"
+                    },
+                    {
+                      "id": " 9",
+                      "name": "\u2022"
+                    }
+                  ],
+                  "id": " 7",
+                  "name": "\u2022"
+                }
+              ],
+              "id": " 5",
+              "name": "\u2022"
+            }
+          ],
+          "id": " 3",
+          "name": "\u2022"
+        }
+      ],
+      "id": " 1",
+      "name": "\u2022"
+    }
+  ],
+  "id": "Null",
+  "name": "<"
 }

@@ -86,7 +86,7 @@ def add_elem(tree: Node, class_name: str, elem_name: str) -> None:
     for pre, fill, node in RenderTree(tree):
         if (class_name + " in elements" + "null3" == node.id):
             for pre, fill, node1 in RenderTree(tree):
-                if node.id.startswith(class_name + "null3_"):
+                if node1.id.startswith(class_name + "null3_"):
                     suffix = node1.id[len(class_name + "null3_") :]
                     if suffix.isdigit():
                         index = int(suffix)
@@ -137,7 +137,7 @@ def add_classes_rel(tree: Node, class_name1: str, rel: str, class_name2: str) ->
     for pre, fill, node in RenderTree(tree):
         if (rel + " in classes" + "null2" == node.id):
             for pre, fill, node1 in RenderTree(tree):
-                if node.id.startswith(rel + "null2_"):
+                if node1.id.startswith(rel + "null2_"):
                     suffix = node1.id[len(rel + "null2_") :]
                     if suffix.isdigit():
                         index = int(suffix)
@@ -186,7 +186,7 @@ def add_elements_rel(tree: Node, el_name1: str, rel: str, el_name2: str) -> None
     for pre, fill, node in RenderTree(tree):
         if (rel + " in classes" + "null4" == node.id):
             for pre, fill, node1 in RenderTree(tree):
-                if node.id.startswith(rel + "null4_"):
+                if node1.id.startswith(rel + "null4_"):
                     suffix = node1.id[len(rel + "null4_") :]
                     if suffix.isdigit():
                         index = int(suffix)
