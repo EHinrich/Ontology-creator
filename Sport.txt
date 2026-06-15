@@ -1,0 +1,358 @@
+{
+  "children": [
+    {
+      "id": "ontology_Sport",
+      "name": "Sport"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "id": "classes",
+              "name": "Classes"
+            },
+            {
+              "children": [
+                {
+                  "id": "Athleteobject",
+                  "name": "Athlete"
+                },
+                {
+                  "children": [
+                    {
+                      "id": "Eventobject",
+                      "name": "Event"
+                    },
+                    {
+                      "children": [
+                        {
+                          "id": "Sport nameobject",
+                          "name": "Sport name"
+                        },
+                        {
+                          "id": "null1_3",
+                          "name": "\u2022"
+                        }
+                      ],
+                      "id": "null1_2",
+                      "name": "\u2022"
+                    }
+                  ],
+                  "id": "null1_1",
+                  "name": "\u2022"
+                }
+              ],
+              "id": "null1",
+              "name": "\u2022"
+            }
+          ],
+          "id": " 2",
+          "name": "\u2022"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "id": "rel_classes",
+                  "name": "Rel_classes"
+                },
+                {
+                  "id": "null2",
+                  "name": "\u2022"
+                }
+              ],
+              "id": " 4",
+              "name": "\u2022"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "id": "elements",
+                      "name": "Elements"
+                    },
+                    {
+                      "children": [
+                        {
+                          "id": "null3_1",
+                          "name": "\u2022"
+                        },
+                        {
+                          "children": [
+                            {
+                              "id": "Athlete in elementsnull3",
+                              "name": "Athlete"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "id": "athlete1Athlete",
+                                  "name": "athlete1"
+                                },
+                                {
+                                  "id": "Athletenull3_4",
+                                  "name": "\u2022"
+                                }
+                              ],
+                              "id": "Athletenull3_3",
+                              "name": "\u2022"
+                            },
+                            {
+                              "id": "null3_3",
+                              "name": "\u2022"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "id": "Event in elementsnull3",
+                                  "name": "Event"
+                                },
+                                {
+                                  "children": [
+                                    {
+                                      "id": "event1Event",
+                                      "name": "event1"
+                                    },
+                                    {
+                                      "children": [
+                                        {
+                                          "id": "event2Event",
+                                          "name": "event2"
+                                        },
+                                        {
+                                          "children": [
+                                            {
+                                              "id": "event3Event",
+                                              "name": "event3"
+                                            },
+                                            {
+                                              "id": "Eventnull3_8",
+                                              "name": "\u2022"
+                                            }
+                                          ],
+                                          "id": "Eventnull3_7",
+                                          "name": "\u2022"
+                                        }
+                                      ],
+                                      "id": "Eventnull3_6",
+                                      "name": "\u2022"
+                                    }
+                                  ],
+                                  "id": "Eventnull3_5",
+                                  "name": "\u2022"
+                                },
+                                {
+                                  "id": "null3_5",
+                                  "name": "\u2022"
+                                },
+                                {
+                                  "children": [
+                                    {
+                                      "id": "Sport name in elementsnull3",
+                                      "name": "Sport name"
+                                    },
+                                    {
+                                      "children": [
+                                        {
+                                          "id": "sport1Sport name",
+                                          "name": "sport1"
+                                        },
+                                        {
+                                          "children": [
+                                            {
+                                              "id": "sport2Sport name",
+                                              "name": "sport2"
+                                            },
+                                            {
+                                              "id": "Sport namenull3_9",
+                                              "name": "\u2022"
+                                            }
+                                          ],
+                                          "id": "Sport namenull3_8",
+                                          "name": "\u2022"
+                                        }
+                                      ],
+                                      "id": "Sport namenull3_7",
+                                      "name": "\u2022"
+                                    }
+                                  ],
+                                  "id": "null3_6",
+                                  "name": "\u2022"
+                                }
+                              ],
+                              "id": "null3_4",
+                              "name": "\u2022"
+                            }
+                          ],
+                          "id": "null3_2",
+                          "name": "\u2022"
+                        }
+                      ],
+                      "id": "null3",
+                      "name": "\u2022"
+                    }
+                  ],
+                  "id": " 6",
+                  "name": "\u2022"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "id": "rel_elem",
+                          "name": "Rel_elem"
+                        },
+                        {
+                          "children": [
+                            {
+                              "id": "null4_1",
+                              "name": "\u2022"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "id": "take part in elementsnull4",
+                                  "name": "take part"
+                                },
+                                {
+                                  "children": [
+                                    {
+                                      "children": [
+                                        {
+                                          "id": "athlete1inathlete1take partevent1elements1",
+                                          "name": "athlete1"
+                                        },
+                                        {
+                                          "id": "event1inathlete1take partevent1elements2",
+                                          "name": "event1"
+                                        }
+                                      ],
+                                      "id": "athlete1take partevent1elements",
+                                      "name": "\u2022"
+                                    },
+                                    {
+                                      "children": [
+                                        {
+                                          "id": "take partnull4_5",
+                                          "name": "\u2022"
+                                        },
+                                        {
+                                          "children": [
+                                            {
+                                              "id": "athlete1inathlete1take partevent3elements1",
+                                              "name": "athlete1"
+                                            },
+                                            {
+                                              "id": "event3inathlete1take partevent3elements2",
+                                              "name": "event3"
+                                            }
+                                          ],
+                                          "id": "athlete1take partevent3elements",
+                                          "name": "\u2022"
+                                        }
+                                      ],
+                                      "id": "take partnull4_4",
+                                      "name": "\u2022"
+                                    }
+                                  ],
+                                  "id": "take partnull4_3",
+                                  "name": "\u2022"
+                                },
+                                {
+                                  "id": "null4_3",
+                                  "name": "\u2022"
+                                },
+                                {
+                                  "children": [
+                                    {
+                                      "id": "relates to in elementsnull4",
+                                      "name": "relates to"
+                                    },
+                                    {
+                                      "children": [
+                                        {
+                                          "children": [
+                                            {
+                                              "id": "event1inevent1relates tosport2elements1",
+                                              "name": "event1"
+                                            },
+                                            {
+                                              "id": "sport2inevent1relates tosport2elements2",
+                                              "name": "sport2"
+                                            }
+                                          ],
+                                          "id": "event1relates tosport2elements",
+                                          "name": "\u2022"
+                                        },
+                                        {
+                                          "children": [
+                                            {
+                                              "id": "relates tonull4_7",
+                                              "name": "\u2022"
+                                            },
+                                            {
+                                              "children": [
+                                                {
+                                                  "id": "event3inevent3relates tosport1elements1",
+                                                  "name": "event3"
+                                                },
+                                                {
+                                                  "id": "sport1inevent3relates tosport1elements2",
+                                                  "name": "sport1"
+                                                }
+                                              ],
+                                              "id": "event3relates tosport1elements",
+                                              "name": "\u2022"
+                                            }
+                                          ],
+                                          "id": "relates tonull4_6",
+                                          "name": "\u2022"
+                                        }
+                                      ],
+                                      "id": "relates tonull4_5",
+                                      "name": "\u2022"
+                                    }
+                                  ],
+                                  "id": "null4_4",
+                                  "name": "\u2022"
+                                }
+                              ],
+                              "id": "null4_2",
+                              "name": "\u2022"
+                            }
+                          ],
+                          "id": "null4",
+                          "name": "\u2022"
+                        }
+                      ],
+                      "id": " 8",
+                      "name": "\u2022"
+                    },
+                    {
+                      "id": " 9",
+                      "name": "\u2022"
+                    }
+                  ],
+                  "id": " 7",
+                  "name": "\u2022"
+                }
+              ],
+              "id": " 5",
+              "name": "\u2022"
+            }
+          ],
+          "id": " 3",
+          "name": "\u2022"
+        }
+      ],
+      "id": " 1",
+      "name": "\u2022"
+    }
+  ],
+  "id": "Null",
+  "name": "<"
+}

@@ -184,7 +184,7 @@ def add_elements_rel(tree: Node, el_name1: str, rel: str, el_name2: str) -> None
     class_parent = None
     latest_index = 0
     for pre, fill, node in RenderTree(tree):
-        if (rel + " in classes" + "null4" == node.id):
+        if (rel + " in elements" + "null4" == node.id):
             for pre, fill, node1 in RenderTree(tree):
                 if node1.id.startswith(rel + "null4_"):
                     suffix = node1.id[len(rel + "null4_") :]
@@ -194,12 +194,12 @@ def add_elements_rel(tree: Node, el_name1: str, rel: str, el_name2: str) -> None
                             latest_index = index
                             class_parent = node1
     if class_parent is not None:
-        if find_by_attr(tree, el_name1 + rel + el_name2 + "classes") is None:
+        if find_by_attr(tree, el_name1 + rel + el_name2 + "elements") is None:
             next_index = latest_index + 1 if class_parent.id != "null4" else 1
             Node(id=rel + f"null4_{next_index}", name="•", parent=class_parent)
-            new_node = Node(name="•", id=el_name1 + rel + el_name2 + "classes", parent=class_parent)
-            Node(name=el_name1, id=el_name1 + "in" + el_name1 + rel + el_name2 + "classes" + "1", parent=new_node)
-            Node(name=el_name2, id=el_name2 + "in" + el_name1 + rel + el_name2 + "classes" + "2", parent=new_node)
+            new_node = Node(name="•", id=el_name1 + rel + el_name2 + "elements", parent=class_parent)
+            Node(name=el_name1, id=el_name1 + "in" + el_name1 + rel + el_name2 + "elements" + "1", parent=new_node)
+            Node(name=el_name2, id=el_name2 + "in" + el_name1 + rel + el_name2 + "elements" + "2", parent=new_node)
     else:
         latest_index = 0
         for pre, fill, node in RenderTree(tree):
@@ -217,12 +217,12 @@ def add_elements_rel(tree: Node, el_name1: str, rel: str, el_name2: str) -> None
             Node(name="•", id=f"null4_{next_index_1}", parent=class_parent)
             next_index_2 = next_index_1 + 1
             node1 = Node(name="•", id=f"null4_{next_index_2}", parent=class_parent)
-            Node(name=rel, id=rel + " in classes" + "null4", parent=node1)
+            Node(name=rel, id=rel + " in elements" + "null4", parent=node1)
             next_index_3 = next_index_2 + 1
             node2 = Node(name="•", id= rel + f"null4_{next_index_3}", parent=node1)
-            node3 =Node(name="•", id=el_name1 + rel + el_name2 + "classes", parent=node2)
-            Node(name=el_name1, id=el_name1 + "in" + el_name1 + rel + el_name2 + "classes" + "1", parent=node3)
-            Node(name=el_name2, id=el_name2 + "in" + el_name1 + rel + el_name2 + "classes" + "2", parent=node3)
+            node3 =Node(name="•", id=el_name1 + rel + el_name2 + "elements", parent=node2)
+            Node(name=el_name1, id=el_name1 + "in" + el_name1 + rel + el_name2 + "elements" + "1", parent=node3)
+            Node(name=el_name2, id=el_name2 + "in" + el_name1 + rel + el_name2 + "elements" + "2", parent=node3)
             next_index_4 = next_index_3 + 1
             Node(name="•", id=rel + f"null4_{next_index_4}", parent=node2)
 

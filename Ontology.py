@@ -271,12 +271,12 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.setWindowTitle("Add element for abstract class " + abstract_class)
         self.main_elem_name = QLabel(self)
         self.main_elem_name.setText("You are currently working with element: "+ current_elem)
-        self.main_elem_name.setGeometry(800, 0, 400, 50)
+        self.main_elem_name.setGeometry(780, 0, 400, 50)
         self.main_elem_name.setObjectName("HeaderLabel")
 
         self.input_class_of_elem = QLabel(self) #Поля ввода предметного класса
         self.input_class_of_elem.setText("Object class name")
-        self.input_class_of_elem.setGeometry(855, 50, 120, 20)
+        self.input_class_of_elem.setGeometry(835, 50, 140, 20)
         self.class_of_main_elem = QComboBox(self)
         self.class_of_main_elem.setGeometry(825, 70, 150, 25)
         self.class_of_main_elem.setEditable(True)
@@ -288,7 +288,7 @@ class AddElemWindowAbstract(qtw.QWidget):
 
         self.input_main_elem = QLabel(self)
         self.input_main_elem.setText("Element name")
-        self.input_main_elem.setGeometry(1020, 50, 100, 20)
+        self.input_main_elem.setGeometry(1005, 50, 100, 20)
         self.main_elem = QComboBox(self)
         self.main_elem.setGeometry(980, 70, 150, 25)
         self.main_elem.setEditable(True)
@@ -302,36 +302,36 @@ class AddElemWindowAbstract(qtw.QWidget):
 
         self.input_pair = QLabel(self)
         self.input_pair.setText("Add RDF triple into structure:")
-        self.input_pair.setGeometry(850, 160, 400, 50)
+        self.input_pair.setGeometry(840, 160, 400, 50)
         self.input_pair.setObjectName("HeaderLabel")
 
         self.input_class_for_elem1 = QLabel(self) #Поля ввода класса
         self.input_class_for_elem1.setText("First class name")
-        self.input_class_for_elem1.setGeometry(770, 200, 100, 20)
+        self.input_class_for_elem1.setGeometry(760, 200, 120, 20)
         self.class_for_elem1_triple = QComboBox(self)
         self.class_for_elem1_triple.setGeometry(745, 220, 150, 25)
         self.class_for_elem1_triple.setEditable(True)
         self.input_class_for_elem2 = QLabel(self) #Поля ввода класса
         self.input_class_for_elem2.setText("Second class name")
-        self.input_class_for_elem2.setGeometry(1085, 200, 100, 20)
+        self.input_class_for_elem2.setGeometry(1065, 200, 130, 20)
         self.class_for_elem2_triple = QComboBox(self)
         self.class_for_elem2_triple.setGeometry(1055, 220, 150, 25)
         self.class_for_elem2_triple.setEditable(True)
 
         self.input_elem1 = QLabel(self) #Поля ввода элемента
         self.input_elem1.setText("First element name")
-        self.input_elem1.setGeometry(775, 260, 120, 20)
+        self.input_elem1.setGeometry(755, 260, 140, 20)
         self.elem1_tiple = QComboBox(self)
         self.elem1_tiple.setGeometry(745, 280, 150, 25)
         self.elem1_tiple.setEditable(True)
         self.input_rel_triple = QLabel(self) #Поля ввода отношения
         self.input_rel_triple.setText("Relationship name")
-        self.input_rel_triple.setGeometry(940, 260, 100, 20)
+        self.input_rel_triple.setGeometry(910, 260, 130, 20)
         self.rel_triple = QLineEdit(self)
         self.rel_triple.setGeometry(900, 280, 150, 25)
         self.input_elem2 = QLabel(self) #Поля ввода элемента
         self.input_elem2.setText("Second element name")
-        self.input_elem2.setGeometry(1075, 260, 120, 20)
+        self.input_elem2.setGeometry(1055, 260, 150, 20)
         self.elem2_triple = QComboBox(self)
         self.elem2_triple.setGeometry(1055, 280, 150, 25)
         self.elem2_triple.setEditable(True)
@@ -352,14 +352,14 @@ class AddElemWindowAbstract(qtw.QWidget):
 
         self.input_one_elem = QLabel(self)
         self.input_one_elem.setText("Add one element into structure:")
-        self.input_one_elem.setGeometry(850, 380, 400, 50)
+        self.input_one_elem.setGeometry(825, 380, 400, 50)
         self.input_one_elem.setObjectName("HeaderLabel")
 
         self.input_class_for_elem = QLabel(self) 
         self.input_class_for_elem.setText("Class name")
-        self.input_class_for_elem.setGeometry(855, 430, 120, 20)
+        self.input_class_for_elem.setGeometry(860, 430, 120, 20)
         self.class_for_elem_one = QComboBox(self)
-        self.class_for_elem_one.setGeometry(825, 450, 150, 25)
+        self.class_for_elem_one.setGeometry(820, 450, 150, 25)
         self.class_for_elem_one.setEditable(True)
         for pre, fill, node in RenderTree(tree):
             if (node.id!="Null"):
@@ -368,7 +368,7 @@ class AddElemWindowAbstract(qtw.QWidget):
 
         self.input_elem = QLabel(self)
         self.input_elem.setText("Element name")
-        self.input_elem.setGeometry(1020, 430, 100, 20)
+        self.input_elem.setGeometry(1010, 430, 100, 20)
         self.elem_one = QComboBox(self)
         self.elem_one.setGeometry(980, 450, 150, 25)
         self.elem_one.setEditable(True)
@@ -1014,7 +1014,7 @@ class CreateSeriesWindow(qtw.QWidget):
                     self.class_name_depth_1.addItem(node.name)
         for pre, fill, node in RenderTree(tree):
                 if (node.id != "Null"):
-                    if (node.name!="•" and node.name + " in elements" == node.id and node.parent.id == node.name + " in elements_rel"):
+                    if (node.name!="•" and node.name + " in elements" + "null4" == node.id and "null4" in node.parent.id):
                         self.rel_name_depth_1.addItem(node.name)
         self.rel_name_depth_1.setCurrentText("")
         self.create_series_depth_1_button=QPushButton(self)
@@ -1063,7 +1063,7 @@ class CreateSeriesWindow(qtw.QWidget):
                     self.class_name_depth_2.addItem(node.name)
         for pre, fill, node in RenderTree(tree):
                 if (node.id != "Null"):
-                    if (node.name!="•" and node.name + " in elements" == node.id and node.parent.id == node.name + " in elements_rel"):
+                    if (node.name!="•" and node.name + " in elements" + "null4" == node.id and "null4" in node.parent.id):
                         self.rel_name_2_depth_2.addItem(node.name)
                         self.rel_name_1_depth_2.addItem(node.name)
         self.rel_name_1_depth_2.setCurrentText("")
