@@ -33,20 +33,31 @@ def draw_tree(tmp_tree: Node) -> None:
     nx.draw(tree2graph, pos, with_labels=True, bbox=dict(facecolor='skyblue', edgecolor='black', boxstyle='circle, pad=0.3'))
     nx.draw_networkx_edge_labels(tree2graph, pos, edge_labels=nx.get_edge_attributes(tree2graph,'title'))
 
-def draw_class(tmp_tree: Node) -> None:
-    # this function references class_name1global stored in models
+def draw_class(tmp_tree: Node, current_class_1: str, current_class_2: str) -> None:
+
     tree2graph = nx.DiGraph()
+    labels_of_another_class = {}
+    node_class = None
     for pre, fill, node in RenderTree(tmp_tree):
-        if node.id != "Null" and "null3" in node.parent.id and node.name != "•":
-            tree2graph.add_node(node.name)
+        if (node.id == current_class_1 + " in elements" + "null3"):
+            node_class = node.parent
+    if (node_class is not None):
+        for pre, fill, node in RenderTree(tmp_tree):
+            if (node.name!="•" and node.name!=current_class_1 and node.name+current_class_1 == node.id):
+                tree2graph.add_node(node.name)
+                labels_of_another_class.update({node.name:node.name})
+
+    node_class = None
+    for pre, fill, node in RenderTree(tmp_tree):
+        if (node.id == current_class_2 + " in elements" + "null3"):
+            node_class = node.parent
+    if (node_class is not None):
+        for pre, fill, node in RenderTree(tmp_tree):
+            if (node.name!="•" and node.name!=current_class_2 and node.name+current_class_2 == node.id):
+                tree2graph.add_node(node.name)
 
     for pre, fill, node in RenderTree(tmp_tree):
-        if node.id != "Null" and "null3" in node.parent.id and node.name != "•":
-            if "in elements" in node.id:
-                tree2graph.remove_node(node.name)
-
-    for pre, fill, node in RenderTree(tmp_tree):
-        if node.id != "Null" and " in elements" in node.id and " in elements_rel" in node.parent.id:
+        if node.id == node.name + " in elements" + "null4":
             rel = node.name
             for node1 in tree2graph.nodes():
                 for node2 in tree2graph.nodes():
@@ -57,6 +68,7 @@ def draw_class(tmp_tree: Node) -> None:
     pos = nx.nx_pydot.pydot_layout(tree2graph, prog='neato')
     nx.draw(tree2graph, pos, with_labels=True,
             bbox=dict(facecolor='pink', edgecolor='black', boxstyle='round, pad=0.3'))
+    nx.draw_networkx_labels(tree2graph, pos=pos, labels = labels_of_another_class, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
     nx.draw_networkx_edge_labels(tree2graph, pos, edge_labels=nx.get_edge_attributes(tree2graph, 'title'))
 
 def draw_series_depth_2(tmp_series: Node, rel: str) -> None:

@@ -894,7 +894,7 @@ class AddRelElemWindow(qtw.QWidget):
         self.class2.activated[int].connect(self.class2_choosen)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         
-        self.sc = CanvasElemChoosen(self)
+        self.sc = CanvasElemChoosen(self, "", "")
         self.hlayout = QHBoxLayout()
         self.vlayout1 = QVBoxLayout()
         self.toolbar = NavigationToolbar(self.sc, self)
@@ -905,14 +905,14 @@ class AddRelElemWindow(qtw.QWidget):
         self.widget.setGeometry(0, 0, 700, 700)
         self.widget.setLayout(self.hlayout)
 
-    def refresh_canvas(self):
+    def refresh_canvas(self, current_class_1, current_class_2):
         self.vlayout1.removeWidget(self.toolbar)
         self.vlayout1.removeWidget(self.sc)
         self.toolbar.setParent(None)
         self.sc.setParent(None)
         self.toolbar.deleteLater()
         self.sc.deleteLater()
-        self.sc = CanvasElemChoosen(self)
+        self.sc = CanvasElemChoosen(self, current_class_1, current_class_2)
         self.toolbar = NavigationToolbar(self.sc, self)
         self.vlayout1.addWidget(self.toolbar)
         self.vlayout1.addWidget(self.sc)
@@ -920,27 +920,31 @@ class AddRelElemWindow(qtw.QWidget):
     
     def class1_choosen(self): #Вывод списка эл первого класса
         self.elem1.clear()
-        current_class = self.class1.currentText()
+        current_class_1 = self.class1.currentText()
+        current_class_2 = self.class2.currentText()
+        self.refresh_canvas(current_class_1, current_class_2)
         node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + " in elements" + "null3"):
+            if (node.id == current_class_1 + " in elements" + "null3"):
                 node_class = node.parent
         if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
-                if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
+                if (node.name!="•" and node.name!=current_class_1 and node.name+current_class_1 == node.id):
                     self.elem1.addItem(node.name)
         
 
     def class2_choosen(self): #Вывод списка элементов второго класса
         self.elem2.clear()
-        current_class = self.class2.currentText()
+        current_class_1 = self.class1.currentText()
+        current_class_2 = self.class2.currentText()
+        self.refresh_canvas(current_class_1, current_class_2)
         node_class = None
         for pre, fill, node in RenderTree(tree):
-            if (node.id == current_class + " in elements" + "null3"):
+            if (node.id == current_class_2 + " in elements" + "null3"):
                 node_class = node.parent
         if (node_class is not None):
             for pre, fill, node in RenderTree(tree):
-                if (node.name!="•" and node.name!=current_class and node.name+current_class == node.id):
+                if (node.name!="•" and node.name!=current_class_2 and node.name+current_class_2 == node.id):
                     self.elem2.addItem(node.name)
        
     def add(self):
@@ -972,8 +976,9 @@ class AddRelElemWindow(qtw.QWidget):
 
         if not warning:
             add_elements_rel(tree, current_elem1, current_rel, current_elem2)
-            self.close()
-            self.main_window.refresh_tree()
+            self.refresh_canvas(self.class1.currentText(), self.class2.currentText())
+            #self.close()
+            #self.main_window.refresh_tree()
 
 class CreateSeriesWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
@@ -1182,13 +1187,13 @@ class CanvasElem(FigureCanvasQTAgg):
         plt.close()
 
 class CanvasElemChoosen(FigureCanvasQTAgg):
-    def __init__(self, parent):
+    def __init__(self, parent, current_class_1, current_class_2):
         fig, self.ax = plt.subplots(figsize=(7, 7))
         self.ax.get_xaxis().set_visible(False)
         self.ax.get_yaxis().set_visible(False)
         super(CanvasElemChoosen, self).__init__(fig)
         self.setParent(parent)
-        #draw_class(tree)
+        draw_class(tree, current_class_1, current_class_2)
         plt.close()
 
 class Window(QMainWindow, QDialog):
@@ -1498,10 +1503,9 @@ def draw_tree(tmp_tree):
     """Delegate to :mod:`ontology_app.viz`."""
     return viz.draw_tree(tmp_tree)
 
-def draw_class(tmp_tree):
+def draw_class(tmp_tree, current_class_1, current_class_2):
     """Delegate to :mod:`ontology_app.viz`."""
-    return viz.draw_class(tmp_tree)
-
+    return viz.draw_class(tmp_tree, current_class_1, current_class_2)
 
 def create_ontology_tree(fileName):
     return models.create_ontology_tree(fileName)
