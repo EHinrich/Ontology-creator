@@ -290,7 +290,7 @@ def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: s
             #Node(id="root_" + element, name=element, parent=abstract)
             #Node(id=element+"null6", name="•••", parent=abstract)
 
-    if mode == "add RDF triple":
+    if mode == "add RDF triple" and abstract is not None:
         parent_id = element + "null6"
         next_node = None
         current_node_data = None
@@ -321,7 +321,7 @@ def create_abstract_class(abstract: Node, mode: str, element: str, first_elem: s
         Node(name=first_elem, id=first_elem + " in " + first_elem + rel + second_elem + " elements" + "1", parent=new_rel_node)
         Node(name=second_elem, id=second_elem + " in " + first_elem + rel + second_elem + " elements" + "2", parent=new_rel_node)
 
-    if mode == "add element":
+    if mode == "add element" and abstract is not None:
         parent_id = element + "null6"
         next_node = None
         current_node_data = None

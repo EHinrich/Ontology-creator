@@ -379,13 +379,13 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.button_arrow_up.setText("↑")
         self.button_arrow_up.setGeometry(705, 600, 35, 45)
         self.button_arrow_up.clicked.connect(self.arrow_up)
-        self.button_arrow_up.setFont(QFont('Arial', 16, QFont.Bold))
+        self.button_arrow_up.setObjectName("HeaderLabel")
 
         self.button_arrow_down = QPushButton(self)
         self.button_arrow_down.setText("↓")
         self.button_arrow_down.setGeometry(705, 650, 35, 45)
         self.button_arrow_down.clicked.connect(self.arrow_down)
-        self.button_arrow_down.setFont(QFont('Arial', 16, QFont.Bold))
+        self.button_arrow_down.setObjectName("HeaderLabel")
 
         self.edit_button = QPushButton(self)
         self.edit_button.setText("Edit node")
@@ -472,24 +472,26 @@ class AddElemWindowAbstract(qtw.QWidget):
                     self.elem_one.addItem(node.name)
 
     def arrow_up(self):
-        cur = ""
-        for pre, fill, node in RenderTree(models.abstract):
-            if node.id != "root_relation":
-                if node.id == self.current_node and "null6" in node.parent.id:
-                    cur = node.parent.id
-        if cur != "":
-            self.current_node = cur
-        self.refresh_canvas()
+        if models.abstract is not None:
+            cur = ""
+            for pre, fill, node in RenderTree(models.abstract):
+                if node.id != "root_relation":
+                    if node.id == self.current_node and "null6" in node.parent.id:
+                        cur = node.parent.id
+            if cur != "":
+                self.current_node = cur
+            self.refresh_canvas()
 
     def arrow_down(self):
-        cur = ""
-        for pre, fill, node in RenderTree(models.abstract):
-            if node.id != "root_relation":
-                if node.parent.id == self.current_node and "null6" in node.id:
-                    cur = node.id
-        if cur != "":
-            self.current_node = cur
-        self.refresh_canvas()
+        if models.abstract is not None:
+            cur = ""
+            for pre, fill, node in RenderTree(models.abstract):
+                if node.id != "root_relation":
+                    if node.parent.id == self.current_node and "null6" in node.id:
+                        cur = node.id
+            if cur != "":
+                self.current_node = cur
+            self.refresh_canvas()
 
     def load_elem(self):
         models.abstract = models.create_abstract_class(models.abstract, "load", self.main_elem.currentText(), "", "", "", "", self.current_node)
@@ -519,37 +521,39 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.refresh_canvas()
 
     def edit_elem(self):
-        tmp_node = None
-        for pre, fill, node in RenderTree(models.abstract):
-            if node.id != "root_relation":
-                if node.parent.id == self.current_node:
-                    tmp_node = node
-        count_nodes = 0
-        if tmp_node is not None:
-            for pre, fill, node in RenderTree(tmp_node):
-                count_nodes += 1
-        if count_nodes == 3:
-            self.edit_elem_window = EditAbstractStructureTripleWindow(tmp_node, self.current_node, self)
-            self.edit_elem_window.show()
-        if count_nodes == 1:
-            self.edit_elem_window = EditAbstractStructureOneElemWindow(tmp_node, self.current_node, self)
-            self.edit_elem_window.show()
-
-    def del_elem(self):
-        node_to_delete = None
-        for pre, fill, node in RenderTree(models.abstract):
-            if node.id == self.current_node:
-                node_to_delete = node
-        if len(node_to_delete.children) > 0:
-            tmp_current_node = self.current_node
-            cur = ""
+        if models.abstract is not None:
+            tmp_node = None
             for pre, fill, node in RenderTree(models.abstract):
                 if node.id != "root_relation":
-                    if node.parent.id == self.current_node and "null6" in node.id:
-                        cur = node.id
-            self.current_node = cur
-            models.abstract = models.create_abstract_class(models.abstract, "delete", self.main_elem.currentText(), "", "", "", "", tmp_current_node)
-            self.refresh_canvas()
+                    if node.parent.id == self.current_node:
+                        tmp_node = node
+            count_nodes = 0
+            if tmp_node is not None:
+                for pre, fill, node in RenderTree(tmp_node):
+                    count_nodes += 1
+            if count_nodes == 3:
+                self.edit_elem_window = EditAbstractStructureTripleWindow(tmp_node, self.current_node, self)
+                self.edit_elem_window.show()
+            if count_nodes == 1:
+                self.edit_elem_window = EditAbstractStructureOneElemWindow(tmp_node, self.current_node, self)
+                self.edit_elem_window.show()
+
+    def del_elem(self):
+        if models.abstract is not None:
+            node_to_delete = None
+            for pre, fill, node in RenderTree(models.abstract):
+                if node.id == self.current_node:
+                    node_to_delete = node
+            if len(node_to_delete.children) > 0:
+                tmp_current_node = self.current_node
+                cur = ""
+                for pre, fill, node in RenderTree(models.abstract):
+                    if node.id != "root_relation":
+                        if node.parent.id == self.current_node and "null6" in node.id:
+                            cur = node.id
+                self.current_node = cur
+                models.abstract = models.create_abstract_class(models.abstract, "delete", self.main_elem.currentText(), "", "", "", "", tmp_current_node)
+                self.refresh_canvas()
 
 class CanvasAbstract(FigureCanvasQTAgg):
     def __init__(self, parent, current_node=None):
@@ -1127,12 +1131,16 @@ class CreateNeighborhoodWindow(qtw.QWidget):
                     self.elem_name_depth_2.addItem(node.name)
             
     def create_depth_1(self):
+        if self.elem_name_depth_1.currentText() == "" or self.rel_name_depth_1.currentText() == "":
+            return
         models.series = create_series(tree, models.series, "1", self.elem_name_depth_1.currentText(), self.rel_name_depth_1.currentText(), "", 0)
         self.refresh_canvas(1)
         self.elem_name_depth_1.setCurrentText("")
         self.rel_name_depth_1.setCurrentText("")
     
     def create_depth_2(self):
+        if self.elem_name_depth_2.currentText() == "" or self.rel_name_1_depth_2.currentText() == "" or self.rel_name_2_depth_2.currentText() == "":
+            return
         models.series = create_series(tree, models.series, "2", self.elem_name_depth_2.currentText(), self.rel_name_1_depth_2.currentText(), self.rel_name_2_depth_2.currentText(), 0)
         self.refresh_canvas(2)
         self.elem_name_depth_2.setCurrentText("")
@@ -1195,19 +1203,20 @@ class Window(QMainWindow, QDialog):
     #resized = QtCore.pyqtSignal()
     def __init__(self):
         super(Window, self).__init__()
-        self.setWindowTitle("Ontology ")
         self.initUI()
 
     def initUI(self):
         QWidget.__init__(self)
+        self.setWindowTitle("Ontology editor")
         tree = {}
         self.tree = QTreeView(self)
         root_model = QStandardItemModel()
+        root_model.setHorizontalHeaderLabels(["Classes elements"])
         self.tree.setModel(root_model)
         self._populateTree(tree, root_model.invisibleRootItem())
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
-        #width = self.frameGeometry().width()
-        #self.resized.connect(self.resize)
+        header_font = QFont("Arial", 12, QFont.Bold)
+        self.tree.header().setFont(header_font)
+        #self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
         hlayout = QHBoxLayout()
         vlayout1 = QVBoxLayout()
@@ -1220,12 +1229,19 @@ class Window(QMainWindow, QDialog):
         hlayout.addLayout(vlayout1,stretch=4)
         hlayout.addWidget(self.tree,stretch=1)
         self.setCentralWidget(widget)
-
         self._createMenuBar()
+
         toolbar = QToolBar()
         toolbar.setFixedHeight(36)
         self.addToolBar(toolbar)
         toolbar.setStyleSheet("QToolButton{padding: 20px;}")
+
+        self.addToolBarBreak()
+
+        toolbar_2 = QToolBar()
+        toolbar_2.setFixedHeight(36)
+        self.addToolBar(toolbar_2)
+        toolbar_2.setStyleSheet("QToolButton{padding: 20px;}")
 
         button_add_class = QAction("Add class", self)
         button_add_class.setFont(QFont('Times', 10))
@@ -1257,10 +1273,10 @@ class Window(QMainWindow, QDialog):
         button_del_elem.triggered.connect(self.window_del_elem)
         toolbar.addAction(button_del_elem)
 
-        button_create_series = QAction("Create a knowledge neighborhood", self)
-        button_create_series.setFont(QFont('Times', 10))
-        button_create_series.triggered.connect(self.window_create_neighborhood)
-        toolbar.addAction(button_create_series)
+        button_create_neighborhood = QAction("Create a knowledge neighborhood", self)
+        button_create_neighborhood.setFont(QFont('Times', 10))
+        button_create_neighborhood.triggered.connect(self.window_create_neighborhood)
+        toolbar_2.addAction(button_create_neighborhood)
 
         self.resize(1400, 800)
 
@@ -1313,7 +1329,7 @@ class Window(QMainWindow, QDialog):
         fileMenu.triggered[QAction].connect(self.do_something_ontology)
 
     def window_login(self):
-        self.login_window = LoginWindow()
+        self.login_window = LoginWindow(self)
         self.login_window.show()
 
 
@@ -1358,11 +1374,14 @@ class Window(QMainWindow, QDialog):
 
     @pyqtSlot()
     def refresh_tree(self):  
-        list_tree=self.class_list_tree(tree)
+        list_tree = self.class_list_tree(tree)
         self.list_tree = QTreeView(self)
         root_model = QStandardItemModel()
+        root_model.setHorizontalHeaderLabels(["Classes elements"])
         self.list_tree.setModel(root_model)
         self._populateTree(list_tree, root_model.invisibleRootItem())
+        header_font = QFont("Arial", 12, QFont.Bold)
+        self.list_tree.header().setFont(header_font)
 
         hlayout = QHBoxLayout()
         vlayout1 = QVBoxLayout()
@@ -1399,26 +1418,7 @@ class Window(QMainWindow, QDialog):
                 load.close()
                 models.tree = importer.import_(j)
                 tree = models.tree
-            list_tree=self.class_list_tree(tree)
-            self.list_tree = QTreeView(self)
-            fnt = QFont()
-            fnt.setPixelSize(15)
-            self.list_tree.setFont(fnt)
-            root_model = QStandardItemModel()
-            self.list_tree.setModel(root_model)
-            self._populateTree(list_tree, root_model.invisibleRootItem())
-
-            hlayout = QHBoxLayout()
-            vlayout1 = QVBoxLayout()
-            widget = QWidget()
-            widget.setLayout(hlayout)
-            sc = Canvas(self)
-            toolbar = NavigationToolbar(sc, self)
-            vlayout1.addWidget(toolbar)
-            vlayout1.addWidget(sc)
-            hlayout.addLayout(vlayout1,stretch=4)
-            hlayout.addWidget(self.list_tree,stretch=1)
-            self.setCentralWidget(widget)
+            self.refresh_tree()
             global opened
             opened = True
 
@@ -1438,32 +1438,12 @@ class Window(QMainWindow, QDialog):
                 models.tree = create_ontology_tree(os.path.splitext(base)[0])
                 tree = models.tree
                 exporter = JsonExporter(indent=2, sort_keys=True)
-                draw_tree(tree)
                 file = open(fileName, 'w')
                 exporter = JsonExporter(indent=2, sort_keys=True)
                 text = exporter.export(tree)
                 file.write(text)
                 file.close()
-            list_tree=self.class_list_tree(tree)
-            self.list_tree = QTreeView(self)
-            fnt = QFont()
-            fnt.setPixelSize(15)
-            self.list_tree.setFont(fnt)
-            root_model = QStandardItemModel()
-            self.list_tree.setModel(root_model)
-            self._populateTree(list_tree, root_model.invisibleRootItem())
-
-            hlayout = QHBoxLayout()
-            vlayout1 = QVBoxLayout()
-            widget = QWidget()
-            widget.setLayout(hlayout)
-            sc = Canvas(self)
-            toolbar = NavigationToolbar(sc, self)
-            vlayout1.addWidget(toolbar)
-            vlayout1.addWidget(sc)
-            hlayout.addLayout(vlayout1,stretch=4)
-            hlayout.addWidget(self.list_tree,stretch=1)
-            self.setCentralWidget(widget)
+            self.refresh_tree()
             opened = True
 
 
@@ -1480,8 +1460,11 @@ class Window(QMainWindow, QDialog):
                 file.close()
 
         if (action.text()=="Login"):
+            self.setEnabled(False)
             self.window_login()
 
+        if (action.text()=="Exit"):
+            QApplication.instance().closeAllWindows()
 
 def anytree_to_treelib1():
     # moved to models
