@@ -59,19 +59,17 @@ tree = models.tree
 last_id = models.last_id
 series = models.series
 abstract = models.abstract
-"""the variables above are aliases to the models package; the
-"global" declarations are unnecessary and caused a syntax error when the
-aliases were assigned before the keyword."""
 
 
 opened = False
 
 class LoginWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
-    def __init__(self, parent=None):
+    def __init__(self, main_window, parent=None):
         super().__init__(parent)
-        self.main_window = parent if isinstance(parent, Window) else None
+        self.main_window = main_window
         self.setWindowTitle("Log in")
+        self.setFixedSize(450, 180)
         self.input_user_name = QLabel(self) #Поля ввода элемента
         self.input_user_name.setText("Login")
         self.input_user_name.setGeometry(125, 10, 100, 100)
@@ -86,10 +84,8 @@ class LoginWindow(qtw.QWidget):
         self.password.setGeometry(230, 70, 150, 25)
         self.log_in_button=QPushButton(self)
         self.log_in_button.setText("Log in")
-        self.log_in_button.setGeometry(180, 100, 100, 25)
+        self.log_in_button.setGeometry(180, 110, 100, 25)
         self.log_in_button.clicked.connect(self.confirm)
-        self.space = QLabel(self)
-        self.space.setGeometry(175, 140, 100, 25)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
     def confirm(self):  
@@ -980,12 +976,12 @@ class AddRelElemWindow(qtw.QWidget):
             #self.close()
             #self.main_window.refresh_tree()
 
-class CreateSeriesWindow(qtw.QWidget):
+class CreateNeighborhoodWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setGeometry(200,200,1250,700)
-        self.setWindowTitle("Create series of elements")
+        self.setWindowTitle("Create a knowledge neighborhood")
         models.series = None
 
         self.series_depth_1 = QLabel(self)
@@ -1197,11 +1193,10 @@ class CanvasElemChoosen(FigureCanvasQTAgg):
         plt.close()
 
 class Window(QMainWindow, QDialog):
-    resized = QtCore.pyqtSignal()
+    #resized = QtCore.pyqtSignal()
     def __init__(self):
         super(Window, self).__init__()
         self.setWindowTitle("Ontology ")
-        self.setGeometry(100, 100, 600, 400)
         self.initUI()
 
     def initUI(self):
@@ -1212,12 +1207,8 @@ class Window(QMainWindow, QDialog):
         self.tree.setModel(root_model)
         self._populateTree(tree, root_model.invisibleRootItem())
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
-        width = self.frameGeometry().width()
-        self.resized.connect(self.resize)
-
-        self.warning = QLabel(self)
-        self.warning.setText("")
-        self.warning.setGeometry(100, 600, 600, 100)
+        #width = self.frameGeometry().width()
+        #self.resized.connect(self.resize)
 
         hlayout = QHBoxLayout()
         vlayout1 = QVBoxLayout()
@@ -1267,10 +1258,12 @@ class Window(QMainWindow, QDialog):
         button_del_elem.triggered.connect(self.window_del_elem)
         toolbar.addAction(button_del_elem)
 
-        button_create_series = QAction("Create series", self)
+        button_create_series = QAction("Create a knowledge neighborhood", self)
         button_create_series.setFont(QFont('Times', 10))
-        button_create_series.triggered.connect(self.window_create_series)
+        button_create_series.triggered.connect(self.window_create_neighborhood)
         toolbar.addAction(button_create_series)
+
+        self.resize(1400, 800)
 
 
     def class_list_tree(self, tree):
@@ -1360,10 +1353,10 @@ class Window(QMainWindow, QDialog):
             self.add_rel_elem_window.rel.setText("")
             self.add_rel_elem_window.show()
 
-    def window_create_series(self):
+    def window_create_neighborhood(self):
         if opened:
-            self.create_series_window = CreateSeriesWindow()
-            self.create_series_window.show()
+            self.create_neighborhood_window = CreateNeighborhoodWindow()
+            self.create_neighborhood_window.show()
 
     @pyqtSlot()
     def refresh_tree(self):  
@@ -1551,6 +1544,9 @@ def main():
     app.setStyleSheet(load_stylesheet('style.css'))
     demo = Window()
     demo.show()
+    demo.setEnabled(False)
+    login = LoginWindow(demo)
+    login.show()
     sys.exit(app.exec())
 
 
