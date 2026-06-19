@@ -123,7 +123,7 @@ def add_elem(tree: Node, class_name: str, elem_name: str) -> None:
             Node(name="•", id=class_name + f"null3_{next_index_4}", parent=node2)
 
 
-def del_elem(tree: Node, elem_name: str, class_name: str) -> None:
+def del_elem(tree: Node, class_name: str, elem_name: str) -> None:
     """Delete an element from the ontology tree."""
     for pre, fill, node_tmp in RenderTree(tree):
         if (elem_name + class_name == node_tmp.id and "null3_" in node_tmp.parent.id):

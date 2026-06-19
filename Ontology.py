@@ -154,7 +154,7 @@ class DelClassWindow(qtw.QWidget):
         self.setWindowTitle("Delete class")
         self.input_class=qtw.QLabel(self)
         self.input_class.setText("Class name")
-        self.input_class.setGeometry(150, 10, 60, 100)
+        self.input_class.setGeometry(150, 10, 100, 100)
         self.class_name = QComboBox(self)
         self.class_name.setGeometry(120, 70, 150, 25)
         self.class_name.setEditable(True)
@@ -705,14 +705,15 @@ class EditAbstractStructureOneElemWindow(qtw.QWidget):
 
 class DelElemWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
-    def __init__(self, parent=None):
+    def __init__(self, main_window, parent=None):
         super().__init__(parent)
+        self.main_window = main_window
         self.setWindowTitle("Delete element")
         self.input_class_of_elem = QLabel(self) 
         self.input_class_of_elem.setText("Class name")
         self.input_class_of_elem.setGeometry(125, 10, 100, 100)
         self.elem_class = QComboBox(self)
-        self.elem_class.setGeometry(75, 70, 150, 25)
+        self.elem_class.setGeometry(95, 70, 150, 25)
         self.elem_class.setEditable(True)
         for pre, fill, node in RenderTree(tree):
             if (node.id!="Null"):
@@ -724,13 +725,13 @@ class DelElemWindow(qtw.QWidget):
         self.input_elem.setGeometry(270, 10, 100, 100)
         self.elem_name = QComboBox(self)
         self.elem_name.setEditable(True)
-        self.elem_name.setGeometry(230, 70, 150, 25)
+        self.elem_name.setGeometry(250, 70, 150, 25)
         self.del_elem_button=QPushButton(self)
         self.del_elem_button.setText("Delete")
-        self.del_elem_button.setGeometry(175, 100, 100, 25)
+        self.del_elem_button.setGeometry(195, 110, 100, 25)
         self.del_elem_button.clicked.connect(self.confirm)
-        self.space = QLabel(self)
-        self.space.setGeometry(175, 140, 100, 25)
+        self.warning = QLabel(self)
+        self.warning.setGeometry(10, 140, 470, 25)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.elem_class.activated[int].connect(self.class_choosen)
 
@@ -748,17 +749,15 @@ class DelElemWindow(qtw.QWidget):
         
     def confirm(self): 
         warning = False
-        self.warning.setText("")
         current_class = self.elem_class.currentText()
-        current_elem = self.elem_name.text()
-        self.elem_name.setText("")
+        current_elem = self.elem_name.currentText()
         count = 0
         for pre, fill, node in RenderTree(tree):
             if (current_class == node.name and "null1" in node.parent.id):
                 count += 1
         if count == 0:
             warning = True
-            self.warning.setText("Class " + current_class + ", to which you want to add an element is not present in the ontology")
+            self.warning.setText("Class " + current_class + ", from which you want to delete an element is not present in the ontology")
         
         count = 0
         for pre, fill, node in RenderTree(tree):
@@ -1315,7 +1314,6 @@ class Window(QMainWindow, QDialog):
 
     def window_login(self):
         self.login_window = LoginWindow()
-        self.login_window.submitClicked.connect(self.login_clicked)
         self.login_window.show()
 
 
