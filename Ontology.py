@@ -798,18 +798,18 @@ class AddRelClassesWindow(qtw.QWidget):
         self.setWindowTitle("Add relationships between classes")
         self.input_class1 = QLabel(self) #Поля ввода класса
         self.input_class1.setText("First class name")
-        self.input_class1.setGeometry(120, 10, 100, 100)
+        self.input_class1.setGeometry(110, 10, 120, 100)
         self.class1 = QComboBox(self)
         self.class1.setGeometry(95, 70, 150, 25)
         self.class1.setEditable(True)
         self.input_rel = QLabel(self) 
         self.input_rel.setText("Relationship name")
-        self.input_rel.setGeometry(290, 10, 100, 100)
+        self.input_rel.setGeometry(260, 10, 130, 100)
         self.rel = QLineEdit(self)
         self.rel.setGeometry(250, 70, 150, 25)
         self.input_class2 = QLabel(self) #Поля ввода класса
         self.input_class2.setText("Second class name")
-        self.input_class2.setGeometry(435, 10, 100, 100)
+        self.input_class2.setGeometry(415, 10, 130, 100)
         self.class2 = QComboBox(self)
         self.class2.setGeometry(405, 70, 150, 25)
         self.class2.setEditable(True)
@@ -835,9 +835,9 @@ class AddRelClassesWindow(qtw.QWidget):
         count1=0
         count2=0
         for pre, fill, node in RenderTree(tree):
-            if (current_class1 + "object" == node.id and "null1" in node.parent.id):
+            if (current_class1 + "object" == node.id or current_class1 + "abstract" == node.id) and "null1" in node.parent.id:
                 count1=count1+1
-            if (current_class2 + "object" == node.id and "null1" in node.parent.id):
+            if (current_class2 + "object" == node.id or current_class2 + "abstract" == node.id) and "null1" in node.parent.id:
                 count2=count2+1
         if (count1==0 and count2!=0):
             warning = True
@@ -1206,7 +1206,7 @@ class Canvas(FigureCanvasQTAgg):
             k+=1
         if k>1:
             draw_tree(tree, self.ax)
-            fig.tight_layout()
+        fig.tight_layout()
 
 class CanvasElem(FigureCanvasQTAgg):
     def __init__(self, parent):
@@ -1216,6 +1216,7 @@ class CanvasElem(FigureCanvasQTAgg):
         self.ax.get_yaxis().set_visible(False)
         super(CanvasElem, self).__init__(fig)
         self.setParent(parent)
+        fig.tight_layout()
 
 class CanvasElemChoosen(FigureCanvasQTAgg):
     def __init__(self, parent, current_class_1, current_class_2):
@@ -1226,6 +1227,7 @@ class CanvasElemChoosen(FigureCanvasQTAgg):
         super(CanvasElemChoosen, self).__init__(fig)
         self.setParent(parent)
         draw_class(tree, current_class_1, current_class_2, self.ax)
+        fig.tight_layout()
 
 class Window(QMainWindow, QDialog):
     #resized = QtCore.pyqtSignal()

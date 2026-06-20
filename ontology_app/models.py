@@ -71,6 +71,11 @@ def del_class(tree: Node, class_name: str) -> None:
         if class_name + "object" == node.id or class_name + "abstract" == node.id:
             node.parent = None
             node = None
+    
+    for pre, fill, node in RenderTree(tree):
+        if class_name in node.id and "classes" in node.id and "null2" in node.parent.id:
+            node.parent = None
+            node = None
 
 
 def add_elem(tree: Node, class_name: str, elem_name: str) -> None:
@@ -122,6 +127,12 @@ def del_elem(tree: Node, class_name: str, elem_name: str) -> None:
     for pre, fill, node_tmp in RenderTree(tree):
         if (elem_name + class_name == node_tmp.id and "null3_" in node_tmp.parent.id):
             node_tmp.parent = None
+            node_tmp = None
+    
+    for pre, fill, node in RenderTree(tree):
+        if elem_name in node.id and "elements" in node.id and "null4" in node.parent.id:
+            node.parent = None
+            node = None
 
 
 def add_classes_rel(tree: Node, class_name1: str, rel: str, class_name2: str) -> None:
@@ -247,7 +258,7 @@ def create_series(tree: Node, series: Node, depth: str, element: str, rel: str, 
                                 class_parent = node3
                     if find_by_attr(series, node2.name) is None:
                         Node(name="•••", id=f"{parent_id}_{next_index}", parent=class_parent)
-                        Node(name=node2.name, id=node2.name, parent=class_parent)
+                        Node(name=node2.name, id=element + node2.name, parent=class_parent)
     if depth == "2":
         series = Node(id="root_relation_series " + rel, name=rel)
         Node(id="root_" + element, name=element, parent=series)  # root node

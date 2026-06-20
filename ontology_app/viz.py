@@ -100,7 +100,12 @@ def draw_series_depth_2(tmp_series: Node, rel: str, ax) -> None:
         else: 
             color_map.append('skyblue')
             node_sizes.append(100)
-    pos = nx.nx_pydot.pydot_layout(tree2graph, prog='dot')
+    mapping = {node: str(i) for i, node in enumerate(tree2graph.nodes())}
+    inverted_mapping = {v: k for k, v in mapping.items()}
+    H = nx.relabel_nodes(tree2graph, mapping)
+    pos_temp = nx.nx_pydot.pydot_layout(H, prog='dot')
+    pos = {inverted_mapping[node]: coords for node, coords in pos_temp.items()}
+    #pos = nx.nx_pydot.pydot_layout(tree2graph, prog='dot')
     nx.draw_networkx(tree2graph, ax=ax, node_color=color_map, node_size = node_sizes, pos=pos, edge_color=colors, arrows= True, with_labels=True, labels=id_to_str, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
 
 def draw_series_depth_1(tmp_series: Node, rel: str, element: str, ax) -> None:
@@ -136,7 +141,12 @@ def draw_series_depth_1(tmp_series: Node, rel: str, element: str, ax) -> None:
         else: 
             color_map.append('skyblue')
             node_sizes.append(100)
-    pos = nx.nx_pydot.pydot_layout(tree2graph, prog='dot')
+    mapping = {node: str(i) for i, node in enumerate(tree2graph.nodes())}
+    inverted_mapping = {v: k for k, v in mapping.items()}
+    H = nx.relabel_nodes(tree2graph, mapping)
+    pos_temp = nx.nx_pydot.pydot_layout(H, prog='dot')
+    pos = {inverted_mapping[node]: coords for node, coords in pos_temp.items()}
+    #pos = nx.nx_pydot.pydot_layout(tree2graph, prog='dot')
     nx.draw_networkx(tree2graph, ax=ax, node_color=color_map, node_size = node_sizes, pos=pos, edge_color=colors, arrows= True, with_labels=True, labels=id_to_str, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
 
 
@@ -159,7 +169,14 @@ def draw_abstract_class(tmp_abstract: Node, current_node: str, ax) -> None:
     node_sizes = []
     for node in tree2graph:
         node_sizes.append(0)
-    pos = nx.nx_pydot.pydot_layout(tree2graph, prog='dot')
+
+    mapping = {node: str(i) for i, node in enumerate(tree2graph.nodes())}
+    inverted_mapping = {v: k for k, v in mapping.items()}
+    H = nx.relabel_nodes(tree2graph, mapping)
+    pos_temp = nx.nx_pydot.pydot_layout(H, prog='dot')
+    pos = {inverted_mapping[node]: coords for node, coords in pos_temp.items()}
+
+    #pos = nx.nx_pydot.pydot_layout(tree2graph, prog='dot')
     nx.draw_networkx(tree2graph, ax=ax, node_size = node_sizes, pos=pos, edge_color=colors, arrows= True, with_labels=True, labels=id_to_str, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
     nx.draw_networkx_labels(tree2graph, ax=ax, pos=pos, labels = {current_node: "•••"}, bbox=dict(facecolor='skyblue', edgecolor='black', boxstyle='round, pad=0.3'))
 
