@@ -6,4 +6,4 @@ data/
 tests/
 build/
 dist/
-run.spec
+Editor.spec
