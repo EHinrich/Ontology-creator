@@ -1,9 +1,7 @@
-/* =======================================================
-   Общие настройки окна и шрифтов
-======================================================= */
+
 QMainWindow, QWidget {
-    background-color: #deeeee; /* Мягкий светло-серый/бежевый фон */
-    color: #2C3E50; /* Темно-серый текст для контраста */
+    background-color: #deeeee; 
+    color: #2C3E50; 
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
     font-size: 14px;
 }
@@ -11,7 +9,6 @@ QPushButton {
     background-color: #8bbcc9;
     border: 2px solid #2C3E50;
     border-radius: 6px;
-    /*padding: 8px 16px;*/
     font-weight: bold;
 }
 
@@ -44,9 +41,6 @@ QLabel {
     color: #2C3E50;
     font-size: 20px;
     font-weight: bold;
-    /*background-color: #f0f0f0;
-    border: 2px solid #2C3E50;
-    border-radius: 5px;*/
     padding: 5px;
 }
 
@@ -59,9 +53,7 @@ QComboBox {
 QComboBox:focus {
     border: 2px solid #5ba5af;
 }
-/* =======================================================
-   Верхнее меню (Add class, Add element...)
-======================================================= */
+
 QMenuBar {
     background-color: #deeeee;
     border-bottom: 1px solid #8fcfc5;
@@ -76,7 +68,7 @@ QMenuBar::item {
 }
 
 QMenuBar::item:selected, QMenuBar::item:hover {
-    background-color: #8fcfc5; /* Светло-сине-серый при наведении */
+    background-color: #8fcfc5; 
     color: #0056B3;
 }
 
@@ -93,9 +85,7 @@ QMenu::item:selected {
     border-radius: 4px;
 }
 
-/* =======================================================
-   Панель инструментов (Иконки: домой, стрелки, лупа)
-======================================================= */
+
 QToolBar {
     background-color: #bfecdf;
     border-bottom: 1px solid #8fcfc5;
@@ -119,16 +109,14 @@ QToolButton:pressed {
     background-color: #D6E0EA;
 }
 
-/* =======================================================
-   Правая панель (Дерево элементов/классов онтологии)
-======================================================= */
+
 QTreeWidget, QListWidget {
     background-color: #FFFFFF;
     border: 1px solid #8fcfc5;
     border-radius: 8px;
     padding: 6px;
     margin: 10px;
-    outline: none; /* Убирает пунктирную рамку фокуса */
+    outline: none; 
 }
 
 QTreeWidget::item, QListWidget::item {
@@ -145,9 +133,7 @@ QTreeWidget::item:selected, QListWidget::item:selected {
     color: #0056B3;
 }
 
-/* =======================================================
-   Центральный холст (Граф)
-======================================================= */
+
 QGraphicsView {
     background-color: #FFFFFF;
     border: 1px solid #8fcfc5;
@@ -155,47 +141,3 @@ QGraphicsView {
     margin: 10px;
 }
 
-/* =======================================================
-   Современные скроллбары
-======================================================= */
-QScrollBar:vertical {
-    border: none;
-    background-color: transparent;
-    width: 12px;
-    margin: 0px 0px 0px 0px;
-}
-
-QScrollBar::handle:vertical {
-    background-color: #CFD8DC;
-    min-height: 20px;
-    border-radius: 6px;
-    margin: 2px;
-}
-
-QScrollBar::handle:vertical:hover {
-    background-color: #B0BEC5;
-}
-
-QScrollBar:horizontal {
-    border: none;
-    background-color: transparent;
-    height: 12px;
-    margin: 0px 0px 0px 0px;
-}
-
-QScrollBar::handle:horizontal {
-    background-color: #CFD8DC;
-    min-width: 20px;
-    border-radius: 6px;
-    margin: 2px;
-}
-
-QScrollBar::handle:horizontal:hover {
-    background-color: #B0BEC5;
-}
-
-QScrollBar::add-page, QScrollBar::sub-page, 
-QScrollBar::add-line, QScrollBar::sub-line {
-    background: none;
-    border: none;
-}

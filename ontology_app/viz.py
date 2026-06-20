@@ -1,8 +1,4 @@
-"""Visualization helpers originally defined in the monolithic script.
-
-The drawing functions are now self‑contained so other parts of the package
-can import them without dragging in the entire UI module.
-"""
+"""Visualization functions for ontology trees and graphs."""
 
 from typing import Any, Dict, List, Tuple
 from anytree import Node, RenderTree

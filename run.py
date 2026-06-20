@@ -1,4 +1,4 @@
-"""Entry point to run the ontology application (safe import-friendly)."""
+"""Entry point to run the ontology application."""
 from Ontology import main
 
 

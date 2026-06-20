@@ -17,12 +17,9 @@ from networkx.drawing.nx_pydot import graphviz_layout
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
-from PyQt5.uic import loadUi
 import os
 
-from generativepy.formulas import rasterise_formula
 
-import graphviz
 if hasattr(sys, '_MEIPASS'):
     # Если запущено как exe, корень — это папка с exe
     base_dir = os.path.dirname(sys.executable)

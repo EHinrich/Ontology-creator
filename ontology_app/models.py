@@ -1,11 +1,5 @@
-"""Domain logic for ontology operations.
+"""Domain logic for ontology operations."""
 
-This module centralises the data model and related functions for tree-based
-ontology construction. The GUI imports functions from here rather than
-manipulating globals directly.
-"""
-from logging import root
-from typing import Optional
 from anytree import Node, RenderTree, find_by_attr
 
 # shared state
