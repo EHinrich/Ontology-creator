@@ -9,7 +9,7 @@ from anytree import Node, RenderTree
 import networkx as nx
 from ontology_app import models
 
-def draw_tree(tmp_tree: Node) -> None:
+def draw_tree(tmp_tree: Node, ax) -> None:
     global tree2graph
     tree2graph = nx.DiGraph()
     
@@ -30,10 +30,10 @@ def draw_tree(tmp_tree: Node) -> None:
         
     pos = nx.nx_pydot.pydot_layout(tree2graph, prog='neato')
 
-    nx.draw(tree2graph, pos, with_labels=True, bbox=dict(facecolor='skyblue', edgecolor='black', boxstyle='circle, pad=0.3'))
-    nx.draw_networkx_edge_labels(tree2graph, pos, edge_labels=nx.get_edge_attributes(tree2graph,'title'))
+    nx.draw(tree2graph, ax=ax, pos=pos, with_labels=True, bbox=dict(facecolor='skyblue', edgecolor='black', boxstyle='circle, pad=0.3'))
+    nx.draw_networkx_edge_labels(tree2graph, ax=ax, pos=pos, edge_labels=nx.get_edge_attributes(tree2graph,'title'))
 
-def draw_class(tmp_tree: Node, current_class_1: str, current_class_2: str) -> None:
+def draw_class(tmp_tree: Node, current_class_1: str, current_class_2: str, ax) -> None:
 
     tree2graph = nx.DiGraph()
     labels_of_another_class = {}
@@ -66,12 +66,12 @@ def draw_class(tmp_tree: Node, current_class_1: str, current_class_2: str) -> No
                             tree2graph.add_edge(node1, node2, title=rel)
 
     pos = nx.nx_pydot.pydot_layout(tree2graph, prog='neato')
-    nx.draw(tree2graph, pos, with_labels=True,
+    nx.draw(tree2graph, ax=ax, pos=pos, with_labels=True,
             bbox=dict(facecolor='pink', edgecolor='black', boxstyle='round, pad=0.3'))
-    nx.draw_networkx_labels(tree2graph, pos=pos, labels = labels_of_another_class, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
-    nx.draw_networkx_edge_labels(tree2graph, pos, edge_labels=nx.get_edge_attributes(tree2graph, 'title'))
+    nx.draw_networkx_labels(tree2graph, ax=ax, pos=pos, labels = labels_of_another_class, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
+    nx.draw_networkx_edge_labels(tree2graph, ax=ax, pos=pos, edge_labels=nx.get_edge_attributes(tree2graph, 'title'))
 
-def draw_series_depth_2(tmp_series: Node, rel: str) -> None:
+def draw_series_depth_2(tmp_series: Node, rel: str, ax) -> None:
     tree2graph = nx.DiGraph()
     parsed_series = []
     id_to_str = {}
@@ -105,9 +105,9 @@ def draw_series_depth_2(tmp_series: Node, rel: str) -> None:
             color_map.append('skyblue')
             node_sizes.append(100)
     pos = nx.nx_pydot.pydot_layout(tree2graph, prog='dot')
-    nx.draw_networkx(tree2graph, node_color=color_map, node_size = node_sizes, pos=pos, edge_color=colors, arrows= True, with_labels=True, labels=id_to_str, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
+    nx.draw_networkx(tree2graph, ax=ax, node_color=color_map, node_size = node_sizes, pos=pos, edge_color=colors, arrows= True, with_labels=True, labels=id_to_str, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
 
-def draw_series_depth_1(tmp_series: Node, rel: str, element: str) -> None:
+def draw_series_depth_1(tmp_series: Node, rel: str, element: str, ax) -> None:
     tree2graph = nx.DiGraph()
     parsed_series = []
     id_to_str = {}
@@ -141,10 +141,10 @@ def draw_series_depth_1(tmp_series: Node, rel: str, element: str) -> None:
             color_map.append('skyblue')
             node_sizes.append(100)
     pos = nx.nx_pydot.pydot_layout(tree2graph, prog='dot')
-    nx.draw_networkx(tree2graph, node_color=color_map, node_size = node_sizes, pos=pos, edge_color=colors, arrows= True, with_labels=True, labels=id_to_str, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
+    nx.draw_networkx(tree2graph, ax=ax, node_color=color_map, node_size = node_sizes, pos=pos, edge_color=colors, arrows= True, with_labels=True, labels=id_to_str, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
 
 
-def draw_abstract_class(tmp_abstract: Node, current_node: str) -> None:
+def draw_abstract_class(tmp_abstract: Node, current_node: str, ax) -> None:
     tree2graph = nx.DiGraph()
     parsed_series = []
     id_to_str = {}
@@ -164,8 +164,8 @@ def draw_abstract_class(tmp_abstract: Node, current_node: str) -> None:
     for node in tree2graph:
         node_sizes.append(0)
     pos = nx.nx_pydot.pydot_layout(tree2graph, prog='dot')
-    nx.draw_networkx(tree2graph, node_size = node_sizes, pos=pos, edge_color=colors, arrows= True, with_labels=True, labels=id_to_str, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
-    nx.draw_networkx_labels(tree2graph, pos=pos, labels = {current_node: "•••"}, bbox=dict(facecolor='skyblue', edgecolor='black', boxstyle='round, pad=0.3'))
+    nx.draw_networkx(tree2graph, ax=ax, node_size = node_sizes, pos=pos, edge_color=colors, arrows= True, with_labels=True, labels=id_to_str, bbox=dict(facecolor='yellow', edgecolor='black', boxstyle='round, pad=0.3'))
+    nx.draw_networkx_labels(tree2graph, ax=ax, pos=pos, labels = {current_node: "•••"}, bbox=dict(facecolor='skyblue', edgecolor='black', boxstyle='round, pad=0.3'))
 
 
 __all__ = ["draw_tree", "draw_class", "draw_series", "draw_abstract_class"]

@@ -86,7 +86,6 @@ class LoginWindow(qtw.QWidget):
         self.log_in_button.setText("Log in")
         self.log_in_button.setGeometry(180, 110, 100, 25)
         self.log_in_button.clicked.connect(self.confirm)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
     def confirm(self):  
         login = self.user_name.text()
@@ -126,7 +125,6 @@ class AddClassWindow(qtw.QWidget):
         self.input_class_button.clicked.connect(self.confirm)
         self.warning = QLabel(self)        
         self.warning.setGeometry(30, 140, 450, 25)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
             
     def confirm(self):  
         warning = False
@@ -140,6 +138,9 @@ class AddClassWindow(qtw.QWidget):
             if node.id == current_class + current_type and "null1" in node.parent.id:
                 warning = True
                 self.warning.setText("Class with name " + current_class + " already exists in the ontology")
+        if current_class == "":
+            warning = True
+            self.warning.setText("Class name can't be empty")
         if not warning:
             add_class(tree, current_class, current_type)
             self.close()
@@ -169,7 +170,6 @@ class DelClassWindow(qtw.QWidget):
         self.del_class_button.clicked.connect(self.confirm)
         self.warning = QLabel(self)  
         self.warning.setGeometry(10, 140, 330, 25)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
             
     def confirm(self):  
         warning = False
@@ -217,7 +217,6 @@ class AddElemWindow(qtw.QWidget):
         self.input_elem_button.clicked.connect(self.confirm)
         self.warning = QLabel(self)  
         self.warning.setGeometry(10, 140, 480, 25)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.elem_class.activated[int].connect(self.class_choosen)
 
     def class_choosen(self):
@@ -249,6 +248,15 @@ class AddElemWindow(qtw.QWidget):
         if (count > 0):
             warning = True
             self.warning.setText("Element " + current_elem + " already exists in the ontology for class " + current_class)
+        if current_elem == "":
+            warning = True
+            self.warning.setText("Element name can't be empty")
+        if current_class == "":
+            warning = True
+            self.warning.setText("Class name can't be empty")
+        if current_class == "" and current_elem == "":
+            warning = True
+            self.warning.setText("Class name and element name can't be empty")
         if not warning:
             add_elem(tree, current_class, current_elem)
             self.close()
@@ -344,7 +352,6 @@ class AddElemWindowAbstract(qtw.QWidget):
         self.space.setGeometry(825, 360, 100, 25)
         self.class_for_elem1_triple.activated[int].connect(self.class1_choosen_triple)
         self.class_for_elem2_triple.activated[int].connect(self.class2_choosen_triple)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
         self.input_one_elem = QLabel(self)
         self.input_one_elem.setText("Add one element into structure:")
@@ -557,7 +564,8 @@ class AddElemWindowAbstract(qtw.QWidget):
 
 class CanvasAbstract(FigureCanvasQTAgg):
     def __init__(self, parent, current_node=None):
-        fig, self.ax = plt.subplots(figsize=(7, 7))
+        fig = Figure(figsize=(5, 5))
+        self.ax = fig.add_subplot(111)
         self.ax.get_xaxis().set_visible(False)
         self.ax.get_yaxis().set_visible(False)
         for spine in self.ax.spines.values():
@@ -566,15 +574,15 @@ class CanvasAbstract(FigureCanvasQTAgg):
         self.setParent(parent)
         abstract = models.abstract
         if abstract is not None:
-            viz.draw_abstract_class(abstract, current_node)
-            plt.tight_layout()
-        plt.close()
+            viz.draw_abstract_class(abstract, current_node, self.ax)
+        fig.tight_layout()
 
 class EditAbstractStructureTripleWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
     def __init__(self, tmp_node, current_node, abstract_class_window, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Edit RDF triple")
+        self.setFixedSize(620, 240)
         self.current_node = current_node
         self.abstract_class_window = abstract_class_window
 
@@ -584,31 +592,31 @@ class EditAbstractStructureTripleWindow(qtw.QWidget):
 
         self.input_class_for_elem1 = QLabel(self) #Поля ввода класса
         self.input_class_for_elem1.setText("First class name")
-        self.input_class_for_elem1.setGeometry(100, 50, 100, 20)
+        self.input_class_for_elem1.setGeometry(85, 50, 130, 20)
         self.class_for_elem1_triple = QComboBox(self)
         self.class_for_elem1_triple.setGeometry(70, 70, 150, 25)
         self.class_for_elem1_triple.setEditable(True)
         self.input_class_for_elem2 = QLabel(self) #Поля ввода класса
         self.input_class_for_elem2.setText("Second class name")
-        self.input_class_for_elem2.setGeometry(435, 50, 100, 20)
+        self.input_class_for_elem2.setGeometry(420, 50, 120, 20)
         self.class_for_elem2_triple = QComboBox(self)
         self.class_for_elem2_triple.setGeometry(415, 70, 150, 25)
         self.class_for_elem2_triple.setEditable(True)
 
         self.input_elem1 = QLabel(self) #Поля ввода элемента
         self.input_elem1.setText("First element name")
-        self.input_elem1.setGeometry(90, 110, 120, 20)
+        self.input_elem1.setGeometry(80, 110, 140, 20)
         self.elem1_tiple = QComboBox(self)
         self.elem1_tiple.setGeometry(70, 130, 150, 25)
         self.elem1_tiple.setEditable(True)
         self.input_rel_triple = QLabel(self) #Поля ввода отношения
         self.input_rel_triple.setText("Relationship name")
-        self.input_rel_triple.setGeometry(260, 110, 100, 20)
+        self.input_rel_triple.setGeometry(250, 110, 130, 20)
         self.rel_triple = QLineEdit(self)
         self.rel_triple.setGeometry(240, 130, 150, 25)
         self.input_elem2 = QLabel(self) #Поля ввода элемента
         self.input_elem2.setText("Second element name")
-        self.input_elem2.setGeometry(445, 110, 120, 20)
+        self.input_elem2.setGeometry(415, 110, 160, 20)
         self.elem2_triple = QComboBox(self)
         self.elem2_triple.setGeometry(415, 130, 150, 25)
         self.elem2_triple.setEditable(True)
@@ -628,7 +636,6 @@ class EditAbstractStructureTripleWindow(qtw.QWidget):
         self.button_save.clicked.connect(self.save_triple)
         self.class_for_elem1_triple.activated[int].connect(self.class1_choosen_triple)
         self.class_for_elem2_triple.activated[int].connect(self.class2_choosen_triple)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
     def class1_choosen_triple(self): #Вывод списка эл первого класса
         self.elem1_tiple.clear()
@@ -663,6 +670,8 @@ class EditAbstractStructureOneElemWindow(qtw.QWidget):
     def __init__(self, tmp_node, current_node, abstract_class_window, parent=None):
         super().__init__(parent)
         self.current_node = current_node
+        self.setWindowTitle("Edit element")
+        self.setFixedSize(460, 180)
         self.abstract_class_window = abstract_class_window
         self.input_class_for_elem = QLabel(self) 
         self.input_class_for_elem.setText("Class name")
@@ -688,7 +697,6 @@ class EditAbstractStructureOneElemWindow(qtw.QWidget):
         self.button_save_elem.setText("Save element")
         self.button_save_elem.setGeometry(170, 110, 100, 25)
         self.button_save_elem.clicked.connect(self.save_elem)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
     def class_choosen_one(self):
         self.elem_one.clear()
@@ -712,6 +720,7 @@ class DelElemWindow(qtw.QWidget):
     def __init__(self, main_window, parent=None):
         super().__init__(parent)
         self.main_window = main_window
+        self.setFixedSize(480, 200)
         self.setWindowTitle("Delete element")
         self.input_class_of_elem = QLabel(self) 
         self.input_class_of_elem.setText("Class name")
@@ -736,7 +745,6 @@ class DelElemWindow(qtw.QWidget):
         self.del_elem_button.clicked.connect(self.confirm)
         self.warning = QLabel(self)
         self.warning.setGeometry(10, 140, 470, 25)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.elem_class.activated[int].connect(self.class_choosen)
 
     def class_choosen(self): #Вывод списка эл класса
@@ -770,6 +778,15 @@ class DelElemWindow(qtw.QWidget):
         if (count == 0):
             warning = True
             self.warning.setText("Element " + current_elem + " does not exist in the ontology for class " + current_class)
+        if current_elem == "":
+            warning = True
+            self.warning.setText("Element name can't be empty")
+        if current_class == "":
+            warning = True
+            self.warning.setText("Class name can't be empty")
+        if current_class == "" and current_elem == "":
+            warning = True
+            self.warning.setText("Class name and element name can't be empty")
         if not warning:
             del_elem(tree, current_class, current_elem)
             self.close()
@@ -810,7 +827,6 @@ class AddRelClassesWindow(qtw.QWidget):
         self.add_rel_classes_button.clicked.connect(self.confirm)
         self.warning = QLabel(self)
         self.warning.setGeometry(10, 140, 600, 25)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
         
     def confirm(self): 
         warning = False
@@ -835,6 +851,15 @@ class AddRelClassesWindow(qtw.QWidget):
         if (count2==0 and count1==0):
             warning = True
             self.warning.setText("Classes " + current_class1 + " and " + current_class2 + " are not present in the ontology")
+        if current_rel == "":
+            warning = True
+            self.warning.setText("Relationship name can't be empty")
+        if current_class1 == "":
+            warning = True
+            self.warning.setText("First class name can't be empty")
+        if current_class2 == "":
+            warning = True
+            self.warning.setText("Second class name can't be empty")
 
         if not warning:
             add_classes_rel(tree, current_class1, current_rel, current_class2)
@@ -891,7 +916,6 @@ class AddRelElemWindow(qtw.QWidget):
         self.warning.setGeometry(770, 220, 400, 25)
         self.class1.activated[int].connect(self.class1_choosen)
         self.class2.activated[int].connect(self.class2_choosen)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
         
         self.sc = CanvasElemChoosen(self, "", "")
         self.hlayout = QHBoxLayout()
@@ -972,6 +996,15 @@ class AddRelElemWindow(qtw.QWidget):
         if (count2==0 and count1==0):
             warning = True
             self.warning.setText("Elements " + current_elem1 + " and " + current_elem2 + " are not present in the ontology")
+        if current_rel == "":
+            warning = True
+            self.warning.setText("Relationship name can't be empty")
+        if current_elem1 == "":
+            warning = True
+            self.warning.setText("First element name can't be empty")
+        if current_elem2 == "":
+            warning = True
+            self.warning.setText("Second element name can't be empty")
 
         if not warning:
             add_elements_rel(tree, current_elem1, current_rel, current_elem2)
@@ -983,7 +1016,7 @@ class CreateNeighborhoodWindow(qtw.QWidget):
     submitClicked = qtc.pyqtSignal(str) 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setGeometry(200,200,1250,700)
+        self.setFixedSize(1250, 700)
         self.setWindowTitle("Create a knowledge neighborhood")
         models.series = None
 
@@ -1028,7 +1061,6 @@ class CreateNeighborhoodWindow(qtw.QWidget):
         self.space = QLabel(self)
         self.space.setGeometry(825, 190, 100, 25)
         self.class_name_depth_1.activated[int].connect(self.class_choosen_depth_1)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
         self.series_depth_2 = QLabel(self)
         self.series_depth_2.setText("Create a series of depth 2:")
@@ -1077,7 +1109,6 @@ class CreateNeighborhoodWindow(qtw.QWidget):
         self.create_series_depth_2_button.setGeometry(925, 380, 100, 25)
         self.create_series_depth_2_button.clicked.connect(self.create_depth_2)
         self.class_name_depth_2.activated[int].connect(self.class_choosen_depth_2)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
         
         self.sc = CanvasSeries(self, self.rel_name_1_depth_2.currentText(), "", 0)
         self.hlayout = QHBoxLayout()
@@ -1149,7 +1180,8 @@ class CreateNeighborhoodWindow(qtw.QWidget):
 
 class CanvasSeries(FigureCanvasQTAgg):
     def __init__(self, parent, rel, element, depth):
-        fig, self.ax = plt.subplots(figsize=(7, 7))
+        fig = Figure(figsize=(5, 5))
+        self.ax = fig.add_subplot(111)
         self.ax.get_xaxis().set_visible(False)
         self.ax.get_yaxis().set_visible(False)
         for spine in self.ax.spines.values():
@@ -1159,15 +1191,15 @@ class CanvasSeries(FigureCanvasQTAgg):
         series = models.series
         if series is not None:
             if depth == 1:
-                viz.draw_series_depth_1(series, rel, element)
+                viz.draw_series_depth_1(series, rel, element, self.ax)
             elif depth == 2:
-                viz.draw_series_depth_2(series, rel)
+                viz.draw_series_depth_2(series, rel, self.ax)
         fig.tight_layout()
-        plt.close()
 
 class Canvas(FigureCanvasQTAgg):
     def __init__(self, parent):
-        fig, self.ax = plt.subplots(figsize=(5, 5))
+        fig = Figure(figsize=(5, 5))
+        self.ax = fig.add_subplot(111)
         self.ax.get_xaxis().set_visible(False)
         self.ax.get_yaxis().set_visible(False)
         super(Canvas, self).__init__(fig)
@@ -1176,28 +1208,27 @@ class Canvas(FigureCanvasQTAgg):
         for pre, fill, node in RenderTree(tree):
             k+=1
         if k>1:
-            draw_tree(tree)
+            draw_tree(tree, self.ax)
             fig.tight_layout()
-        plt.close()
 
 class CanvasElem(FigureCanvasQTAgg):
     def __init__(self, parent):
-        fig, self.ax = plt.subplots(figsize=(7, 7))
+        fig = Figure(figsize=(5, 5))
+        self.ax = fig.add_subplot(111)
         self.ax.get_xaxis().set_visible(False)
         self.ax.get_yaxis().set_visible(False)
         super(CanvasElem, self).__init__(fig)
         self.setParent(parent)
-        plt.close()
 
 class CanvasElemChoosen(FigureCanvasQTAgg):
     def __init__(self, parent, current_class_1, current_class_2):
-        fig, self.ax = plt.subplots(figsize=(7, 7))
+        fig = Figure(figsize=(5, 5))
+        self.ax = fig.add_subplot(111)
         self.ax.get_xaxis().set_visible(False)
         self.ax.get_yaxis().set_visible(False)
         super(CanvasElemChoosen, self).__init__(fig)
         self.setParent(parent)
-        draw_class(tree, current_class_1, current_class_2)
-        plt.close()
+        draw_class(tree, current_class_1, current_class_2, self.ax)
 
 class Window(QMainWindow, QDialog):
     #resized = QtCore.pyqtSignal()
@@ -1466,20 +1497,12 @@ class Window(QMainWindow, QDialog):
         if (action.text()=="Exit"):
             QApplication.instance().closeAllWindows()
 
-def anytree_to_treelib1():
-    # moved to models
-    return models.anytree_to_treelib1()
 
-def anytree_to_treelib2():
-    return models.anytree_to_treelib2()
+def draw_tree(tmp_tree, ax):
+    return viz.draw_tree(tmp_tree, ax)
 
-def draw_tree(tmp_tree):
-    """Delegate to :mod:`ontology_app.viz`."""
-    return viz.draw_tree(tmp_tree)
-
-def draw_class(tmp_tree, current_class_1, current_class_2):
-    """Delegate to :mod:`ontology_app.viz`."""
-    return viz.draw_class(tmp_tree, current_class_1, current_class_2)
+def draw_class(tmp_tree, current_class_1, current_class_2, ax):
+    return viz.draw_class(tmp_tree, current_class_1, current_class_2, ax)
 
 def create_ontology_tree(fileName):
     return models.create_ontology_tree(fileName)
@@ -1511,9 +1534,9 @@ def create_series(tree, series, depth, element, rel, rel_2, count):
     # relocated to models
     return models.create_series(tree, series, depth, element, rel, rel_2, count)
 
-def draw_series(series, rel):
+def draw_series(series, rel, ax):
     # relocated to viz
-    return viz.draw_series(series, rel)
+    return viz.draw_series(series, rel, ax)
 
 
 def load_stylesheet(filename):
