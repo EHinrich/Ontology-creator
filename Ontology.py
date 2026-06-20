@@ -1235,7 +1235,10 @@ class Window(QMainWindow, QDialog):
 
     def initUI(self):
         QWidget.__init__(self)
-        self.setWindowTitle("Ontology editor")
+        self.setWindowTitle("Ontology Editor")
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        icon_path = os.path.join(current_dir, 'icon.ico')
+        self.setWindowIcon(QIcon(icon_path))
         tree = {}
         self.tree = QTreeView(self)
         root_model = QStandardItemModel()
@@ -1537,7 +1540,12 @@ def draw_series(series, rel, ax):
 
 
 def load_stylesheet(filename):
-    with open(filename, 'r', encoding='utf-8') as f:
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    css_path = os.path.join(base_path, filename)
+    with open(css_path, 'r', encoding='utf-8') as f:
         return f.read()
 
 def main():
