@@ -14,7 +14,7 @@ python "Ontology Editor.py"
 ```
 
 ## Preview
-[![Смотреть превью программы](https://youtu.be/RndiKsA3ILQ)](https://youtu.be/RndiKsA3ILQ)
+[![Смотреть превью программы](https://img.youtube.com/vi/RndiKsA3ILQ/maxresdefault.jpg)](https://youtu.be/RndiKsA3ILQ)
 
 
 
