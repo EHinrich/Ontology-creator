@@ -1,3 +1,5 @@
+
+
 # Ontology modeling app
 
 ## You can download the app directly from this link:
@@ -10,5 +12,10 @@ You can download an example of ontology from link above as well
 pip install -r requirements.txt
 python "Ontology Editor.py"
 ```
+
+## Preview
+[![Смотреть превью программы](https://youtu.be/RndiKsA3ILQ)](https://youtu.be/RndiKsA3ILQ)
+
+
 
 
