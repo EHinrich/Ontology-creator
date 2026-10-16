@@ -1,6 +1,7 @@
 
 
 # Ontology modeling app
+An application that allows a specialist to create any ontology model in any object field. The application supports creating classes, elements of the classes, relationships and abstract classes that allows to build strong ontology logic. The application provides filter for elements for quick search.
 
 ## You can download the app directly from this link:
 - https://drive.google.com/drive/folders/1AKlqbfUYpCiJTfbM8UAdQpf3yCHHABI0?usp=sharing
